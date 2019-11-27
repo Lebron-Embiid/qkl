@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "会员登录",
+  "usingComponents": {
+    "switchc": "/components/zz-switchc/zz-switchc"
+  }
+}

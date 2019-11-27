@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "推荐会员",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "common-avatar": "/components/commonAvatar"
+  }
+}

@@ -1,0 +1,252 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "启动页",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/guide",
+			"style": {
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/home",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/trade/index",
+			"style": {
+				"navigationBarTitleText": "交易",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/message/index",
+			"style": {
+				"navigationBarTitleText": "讯息",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/member/index",
+			"style": {
+				"navigationBarTitleText": "会员",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/mine/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "会员登录",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/login/register",
+			"style": {
+				"navigationBarTitleText": "创建账号",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/login/forgetPassword",
+			"style": {
+				"navigationBarTitleText": "重置密码",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/mine/personInfo",
+			"style": {
+				"navigationBarTitleText": "个人信息",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/mine/collection",
+			"style": {
+				"navigationBarTitleText": "收款凭证",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/mine/bankCard",
+			"style": {
+				"navigationBarTitleText": "添加银行卡",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/mine/myOrder",
+			"style": {
+				"navigationBarTitleText": "我的订单",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/message/messageDetail",
+			"style": {
+				"navigationBarTitleText": "讯息详情",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/member/recommendMember",
+			"style": {
+				"navigationBarTitleText": "推荐会员",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/mine/wallet",
+			"style": {
+				"navigationBarTitleText": "APP钱包",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/mine/investWallet",
+			"style": {
+				"navigationBarTitleText": "投资钱包",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/mine/dividend",
+			"style": {
+				"navigationBarTitleText": "我的分红",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/member/myMember",
+			"style": {
+				"navigationBarTitleText": "我的会员",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/member/increase",
+			"style": {
+				"navigationBarTitleText": "加额",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/member/withdraw",
+			"style": {
+				"navigationBarTitleText": "提款",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/member/transfer",
+			"style": {
+				"navigationBarTitleText": "转款",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#cccccc",
+		"selectedColor": "#1abc9c",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/member/index",
+				"iconPath": "static/tab_icon1.svg",
+				"selectedIconPath": "static/tab_icon1_on.svg",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/trade/index",
+				"iconPath": "static/tab_icon2.svg",
+				"selectedIconPath": "static/tab_icon2_on.svg",
+				"text": "交易"
+			}, {
+				"pagePath": "pages/message/index",
+				"iconPath": "static/tab_icon3.svg",
+				"selectedIconPath": "static/tab_icon3_on.svg",
+				"text": "讯息"
+			}, {
+				"pagePath": "pages/member/myMember",
+				"iconPath": "static/tab_icon4.svg",
+				"selectedIconPath": "static/tab_icon4_on.svg",
+				"text": "会员"
+			}, {
+				"pagePath": "pages/mine/index",
+				"iconPath": "static/tab_icon5.svg",
+				"selectedIconPath": "static/tab_icon5_on.svg",
+				"text": "我的"
+			}
+		]
+	}
+}

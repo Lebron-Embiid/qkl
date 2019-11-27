@@ -1,0 +1,154 @@
+<template>
+	<view class="login">
+		<view class="login_top">
+			<image src="/static/logo1.png" mode="widthFix"></image>
+			<text>SOLOMON MATRIX</text>
+		</view>
+		<view class="login_box">
+			<form @submit="loginSubmit">
+				<view class="form_item">
+					<view class="icon no"><image src="/static/phone.svg" mode="widthFix"></image></view>
+					<view class="right_box all">
+						<view class="ipt_box">
+							<input type="text" placeholder="手机号码" v-model="phone" />
+							<image :class="[phone!=''?'active':'']" @tap="clearPhone" src="/static/clear.svg" mode="widthFix"></image>
+						</view>
+					</view>
+				</view>
+				<view class="form_item">
+					<view class="icon"><image src="/static/pwd.svg" mode="widthFix"></image></view>
+					<view class="right_box">
+						<view class="ipt_box">
+							<input type="password" placeholder="登录密码" v-model="password" />
+							<image :class="[password!=''?'active':'']" @tap="clearPwd" src="/static/clear.svg" mode="widthFix"></image>
+						</view>
+						<switchc text="可见|***" class="switch_btn" :sid="0" @change="switchchange"></switchc>
+					</view>
+				</view>
+				<view class="forget_txt"><text @tap="toForgetPwd">忘记密码</text></view>
+				<button class="submit_btn" form-type="submit">
+					<image v-if="is_success == true" src="/static/loading.svg" class="loading" mode="widthFix"></image>登录
+				</button>
+				<text class="create_btn" @tap="toCreatePage">创建账号</text>
+			</form>
+		</view>
+	</view>
+</template>
+
+<script>
+    import switchc from '@/components/zz-switchc/zz-switchc.vue'
+	export default{
+		data(){
+			return{
+				phone: '',
+				password: '',
+				is_success: false
+			}
+		},
+		components: {
+			switchc
+		},
+		methods:{
+			switchchange(e) {
+				console.log(e);
+			},
+			clearPhone(){
+				this.phone = '';
+			},
+			clearPwd(){
+				this.password = '';
+			},
+			toCreatePage(){
+				uni.navigateTo({
+					url: '/pages/login/register'
+				})
+			},
+			toForgetPwd(){
+				uni.navigateTo({
+					url: '/pages/login/forgetPassword'
+				})
+			},
+			loginSubmit(){
+				if(this.phone == ''){
+					uni.showToast({
+						title: '请输入登录手机号',
+						icon: 'none'
+					})
+					return;
+				}
+				if(!(/^1[3456789]\d{9}$/.test(this.phone))){
+					uni.showToast({
+						title: '手机号码格式不正确',
+						icon: 'none'
+					})
+					return; 
+				}
+				if(this.password == ''){
+					uni.showToast({
+						title: '请输入登录密码',
+						icon: 'none'
+					})
+					return;
+				}
+				// if(){
+				// 	uni.showToast({
+				// 		title: '账号或密码不正确',
+				// 		icon: 'none'
+				// 	})
+				// 	return;
+				// }
+				this.is_success = true;
+				uni.showToast({
+					title: '登录成功',
+					icon: 'success',
+					duration: 2000
+				})
+				setTimeout(function(){
+					uni.reLaunch({
+						url: '/pages/member/index'
+					})
+				},2000)
+				
+			}
+		}
+	}
+</script>
+
+<style scoped lang="scss">
+	.login_top{
+		background: rgba(0, 153, 153, 1);
+		text-align: center;
+		padding: 100rpx 30rpx 120rpx;
+		box-sizing: border-box;
+		image{
+			display: block;
+			width: 260rpx;
+			height: 260rpx;
+			margin: 0 auto 30rpx;
+		}
+		text{
+			color: #fff;
+			font-weight: 700;
+			font-size: 36rpx;
+		}
+	}
+	.login_box{
+		padding: 120rpx 80rpx 100rpx;
+		box-sizing: border-box;
+		.create_btn{
+			display: block;
+			width: 100%;
+			text-align: center;
+			color: #1ABC9C;
+			font-size: 26rpx;
+		}
+		.forget_txt{
+			text-align: right;
+			margin: 15rpx 0 50rpx;
+			text{
+				color: #1ABC9C;
+				font-size: 24rpx;
+			}
+		}
+	}
+</style>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "讯息详情",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+  }
+}

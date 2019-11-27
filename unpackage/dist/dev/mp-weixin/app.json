@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/index/guide",
+    "pages/index/home",
+    "pages/trade/index",
+    "pages/message/index",
+    "pages/member/index",
+    "pages/mine/index",
+    "pages/login/login",
+    "pages/login/register",
+    "pages/login/forgetPassword",
+    "pages/mine/personInfo",
+    "pages/mine/collection",
+    "pages/mine/bankCard",
+    "pages/mine/myOrder",
+    "pages/message/messageDetail",
+    "pages/member/recommendMember",
+    "pages/mine/wallet"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#cccccc",
+    "selectedColor": "#1abc9c",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/home",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/trade/index",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "交易"
+      },
+      {
+        "pagePath": "pages/message/index",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "讯息"
+      },
+      {
+        "pagePath": "pages/member/index",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "会员"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}
