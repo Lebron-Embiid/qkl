@@ -103,7 +103,36 @@
 				}
 			},
 			loginSubmit(e){
-				console.log(this.items[0].checked);
+				if(this.phone == ''){
+					this.$api.msg("请输入手机号码");
+					return;
+				}
+				if(!(/^1[3456789]\d{9}$/.test(this.phone))){
+					this.$api.msg("手机号码格式不正确");
+					return; 
+				}
+				if(this.email == ''){
+					this.$api.msg("短信验证码不正确");
+					return;
+				}
+				if(this.password.length < 6 || this.password.length > 20){
+					this.$api.msg("密码长度需为6-20位");
+					return;
+				}
+				if(this.trade_pwd == ''){
+					this.$api.msg("请输入交易密码");
+					return;
+				}
+				if(this.items[0].checked == false){
+					this.$api.msg("请阅读并同意用户协议");
+					return;
+				}
+				this.$api.msg("注册成功",1500,false,'success');
+				setTimeout(function(){
+					uni.redirectTo({
+						url: '/pages/login/login'
+					})
+				},1500)
 			}
 		}
 	}
@@ -111,7 +140,7 @@
 
 <style scoped lang="scss">
 	.register_box{
-		padding: 0 80rpx 100rpx;
+		padding: 0 80rpx 20rpx;
 		box-sizing: border-box;
 		.agree_txt{
 			color: #999;
@@ -130,5 +159,8 @@
 	/deep/ uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked{
 		background: #1abc9c;
 		border-color: #1ABC9C;
+	}
+	.submit_btn{
+		margin-bottom: 0;
 	}
 </style>

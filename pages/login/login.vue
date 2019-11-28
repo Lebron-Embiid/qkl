@@ -70,45 +70,28 @@
 			},
 			loginSubmit(){
 				if(this.phone == ''){
-					uni.showToast({
-						title: '请输入登录手机号',
-						icon: 'none'
-					})
+					this.$api.msg("请输入登录手机号");
 					return;
 				}
 				if(!(/^1[3456789]\d{9}$/.test(this.phone))){
-					uni.showToast({
-						title: '手机号码格式不正确',
-						icon: 'none'
-					})
+					this.$api.msg("手机号码格式不正确");
 					return; 
 				}
 				if(this.password == ''){
-					uni.showToast({
-						title: '请输入登录密码',
-						icon: 'none'
-					})
+					this.$api.msg("请输入登录密码");
 					return;
 				}
 				// if(){
-				// 	uni.showToast({
-				// 		title: '账号或密码不正确',
-				// 		icon: 'none'
-				// 	})
+				//	this.$api.msg("账号或密码不正确");
 				// 	return;
 				// }
 				this.is_success = true;
-				uni.showToast({
-					title: '登录成功',
-					icon: 'success',
-					duration: 2000
-				})
+				this.$api.msg("登录成功",1500,false,'success');
 				setTimeout(function(){
 					uni.reLaunch({
 						url: '/pages/member/index'
 					})
-				},2000)
-				
+				},1500)
 			}
 		}
 	}
@@ -133,7 +116,7 @@
 		}
 	}
 	.login_box{
-		padding: 120rpx 80rpx 100rpx;
+		padding: 120rpx 80rpx 20rpx;
 		box-sizing: border-box;
 		.create_btn{
 			display: block;

@@ -30,10 +30,12 @@
 		},
 		methods:{
 			copyLink(){
+				let that = this;
 				uni.setClipboardData({
-				    data: this.link,
+				    data: that.link,
 				    success: function () {
 				        console.log('success');
+						that.$api.msg('复制成功，快去粘贴吧！');
 				    }
 				});
 				uni.getClipboardData({
@@ -64,6 +66,8 @@
 			background: #099;
 			border-radius: 10rpx;
 			margin: 20rpx auto 30rpx;
+			color: #fff;
+			transition: all .5s ease;
 			&:after{
 				border: 0;
 			}

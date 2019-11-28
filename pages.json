@@ -10,6 +10,79 @@
 			}
 		},
 		{
+			"path": "pages/index/shop",
+			"style": {
+				"navigationBarTitleText": "商城",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/detail",
+			"style": {
+				"navigationBarTitleText": "商品详情",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/goodsList",
+			"style": {
+				"navigationBarTitleText": "商品列表",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/confirmation",
+			"style": {
+				"navigationBarTitleText": "确认订单",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/cart",
+			"style": {
+				"navigationBarTitleText": "购物车",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/address",
+			"style": {
+				"navigationBarTitleText": "选择地址",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/edit",
+			"style": {
+				"navigationBarTitleText": "编辑地址",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/ratings",
+			"style": {
+				"navigationBarTitleText": "商品评价",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
 			"path": "pages/index/guide",
 			"style": {
 				"navigationBarTitleText": "",

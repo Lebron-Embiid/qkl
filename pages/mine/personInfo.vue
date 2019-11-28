@@ -181,6 +181,12 @@
 			box-sizing: border-box;
 			border-radius: 6rpx;
 			color: #999;
+			transition: all .5s ease;
+			&:active{
+				background: #099;
+				border-color: #099;
+				color: #fff;
+			}
 		}
 	}
 	.bank_btn{
@@ -190,6 +196,11 @@
 		font-size: 26rpx;
 		border-radius: 10rpx;
 		margin-bottom: 50rpx;
+		color: #fff;
+		transition: all .5s ease;
+		&:active{
+			opacity: .8;
+		}
 		&:after{
 			border: 0;
 		}

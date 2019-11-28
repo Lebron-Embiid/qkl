@@ -208,6 +208,7 @@
 			color: #fff;
 			font-size: 32rpx;
 			border-radius: 50rpx;
+			transition: all .5s ease;
 			&:active{
 				background: #1ABC9C;
 			}
@@ -221,6 +222,10 @@
 			}
 			&.black{
 				background: #666;
+				transition: all .5s ease;
+				&:hover{
+					opacity: .8;
+				}
 			}
 			&:after{
 				border: 0;
@@ -262,5 +267,9 @@
 	.history_btn{
 		background: #666;
 		margin: 0;
+		transition: all .5s ease;
+		&:hover{
+			opacity: .8;
+		}
 	}
 </style>

@@ -5,7 +5,7 @@
 				<image src="/static/logo1.png" mode="widthFix"></image>
 				<text>SOLOMON MATRIX</text>
 			</view>
-			<button type="primary">商城</button>
+			<button type="primary" @tap="toShop">商城</button>
 		</view>
 		<view class="member_info_box">
 			<image src="/static/avatar.png" mode="widthFix" class="avatar_img"></image>
@@ -105,6 +105,11 @@
 						url: '/pages/member/recommendMember'
 					})
 				}
+			},
+			toShop(){
+				uni.navigateTo({
+					url: '/pages/index/shop'
+				})
 			}
 		}
 	}
@@ -141,6 +146,11 @@
 			font-size: 26rpx;
 			line-height: 54rpx;
 			background: #099;
+			color: #fff;
+			transition: all .5s ease;
+			&:active{
+				opacity: .8;
+			}
 			&:after{
 				border: 0;
 			}

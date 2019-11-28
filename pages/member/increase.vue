@@ -66,7 +66,7 @@
 					<view class="look_info_box">
 						<view>户名：XXXXX</view>
 						<view>开户行：XXXXX银行</view>
-						<view>银行账号：4412324354522</view>
+						<view>银行账号：{{bank_account}}</view>
 						<button type="primary" @tap="copyAccount">复制账号</button>
 					</view>
 				</view>
@@ -108,7 +108,8 @@
 				is_pass: 1,		//是否申请成功
 				price: '',
 				password: '',
-				photo: ''
+				photo: '',
+				bank_account: '4412324354522'
 			}
 		},
 		components:{
@@ -159,10 +160,12 @@
 				});
 			},
 			copyAccount(){
+				let that = this;
 				uni.setClipboardData({
-				    data: this.link,
+				    data: that.bank_account,
 				    success: function () {
 				        console.log('success');
+						that.$api.msg('复制成功，快去粘贴吧！');
 				    }
 				});
 				uni.getClipboardData({
@@ -305,7 +308,7 @@
 		}
 	}
 	.increase_after{
-		padding: 100rpx 100rpx 30rpx;
+		padding: 60rpx 100rpx 30rpx;
 		box-sizing: border-box;
 	}
 	.add_upload{
@@ -351,6 +354,11 @@
 			background: #099;
 			font-size: 28rpx;
 			margin: 50rpx auto;
+			color: #fff;
+			transition: all .5s ease;
+			&:active{
+				opacity: .8;
+			}
 			&:after{
 				border: 0;
 			}

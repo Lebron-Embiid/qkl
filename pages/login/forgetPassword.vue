@@ -6,7 +6,7 @@
 			<text>SOLOMON MATRIX</text>
 		</view>
 		<view class="forget_box">
-			<form @submit="loginSubmit" @reset="loginReset">
+			<form @submit="loginSubmit">
 				<view class="form_item">
 					<view class="icon no"><image src="/static/phone.svg" mode="widthFix"></image></view>
 					<view class="right_box all">
@@ -20,7 +20,7 @@
 					<view class="icon no"><image src="/static/email.png" mode="widthFix"></image></view>
 					<view class="right_box">
 						<view class="ipt_box">
-							<input type="text" placeholder="注册邮箱地址" v-model="code" />
+							<input type="text" placeholder="注册邮箱地址" v-model="email" />
 						</view>
 						<view class="yzm" :class="{ yzms: second>0 }" @tap="getcode">{{yanzhengma}}</view>
 					</view>
@@ -61,7 +61,7 @@
 		computed:{
 			yanzhengma(){
 				if(this.second==0){
-					return '获取验证码';
+					return '发送验证码';
 				}else{
 					return this.second+'秒';
 				}
@@ -72,7 +72,19 @@
 				console.log(e);
 			},
 			getcode(){
-				var that = this;
+				let that = this;
+				if(that.phone == ''){
+					that.$api.msg("请先填写手机号码");
+					return;
+				}
+				if(!(/^1[3456789]\d{9}$/.test(that.phone))){
+					that.$api.msg("手机号码格式不正确");
+					return; 
+				}
+				// if(that.phone){
+				// 	that.$api.msg("该手机号未注册");
+				// 	return;
+				// }
 				if(that.second>0){
 					return;
 				} 
@@ -99,7 +111,23 @@
 							},1000)
 						}
 					}
-				});
+				})
+			},
+			loginSubmit(){
+				if(this.email == ''){
+					this.$api.msg("短信验证码不正确");
+					return;
+				}
+				if(this.password.length < 6 || this.password.length > 20){
+					this.$api.msg("密码长度需为6-20位");
+					return;
+				}
+				this.$api.msg("密码重置成功",1500,false,'success');
+				setTimeout(function(){
+					uni.redirectTo({
+						url: '/pages/login/login'
+					})
+				},1500)
 			}
 		}
 	}
@@ -113,7 +141,7 @@
 		width: 65%;
 	}
 	.forget_box{
-		padding: 0 80rpx 100rpx;
+		padding: 0 80rpx 20rpx;
 		box-sizing: border-box;
 		.submit_btn{
 			margin-top: 60rpx;

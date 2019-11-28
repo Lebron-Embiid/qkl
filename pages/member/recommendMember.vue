@@ -32,10 +32,12 @@
 		},
 		methods:{
 			copyLink(){
+				let that = this;
 				uni.setClipboardData({
-				    data: this.link,
+				    data: that.link,
 				    success: function () {
 				        console.log('success');
+						that.$api.msg('复制成功，快去粘贴吧！');
 				    }
 				});
 				uni.getClipboardData({
@@ -58,22 +60,14 @@
 								filePath: ress.tempFilePath,
 								success: function () { 
 									uni.hideLoading();
-									uni.showToast({
-										title: '下载成功',
-										icon: 'none',
-										duration: 1500
-									})
+									that.$api.msg('保存成功');
 								},
 							})
 						}
 					},
 					fail() {
 						uni.hideLoading();
-						uni.showToast({
-							title: '下载失败！',
-							icon: 'none',
-							duration: 1500
-						})
+						that.$api.msg('保存失败');
 					}
 				});
 			}
@@ -99,6 +93,8 @@
 			background: #099;
 			border-radius: 10rpx;
 			margin: 20rpx auto 30rpx;
+			color: #fff;
+			transition: all .5s ease;
 			&:after{
 				border: 0;
 			}

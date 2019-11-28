@@ -38,8 +38,9 @@
 
 <style lang="scss">
 /*每个页面公共css */
+@import "/static/iconfont/font.scss";
 .form_item{
-	padding: 20rpx 0 20rpx 20rpx;
+	padding: 30rpx 0 30rpx 20rpx;
 	box-sizing: border-box;
 	border-bottom: 1px solid rgba(228, 228, 228, 1);
 	display: flex;
@@ -104,6 +105,7 @@
 	border-radius: 50rpx;
 	margin-bottom: 50rpx;
 	position: relative;
+	transition: all .5s ease;
 	.loading{
 		display: block;
 		width: 40rpx;
@@ -113,6 +115,9 @@
 		top: 50%;
 		transform: translate(-50%,-50%);
 		z-index: 1;
+	}
+	&:active{
+		background: #1ABC9C;
 	}
 	&:after{
 		border: 0;

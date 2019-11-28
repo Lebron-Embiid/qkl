@@ -5,7 +5,7 @@
 		<view class="order_nav">
 			<view class="nav_item" :class="[index==current?'active':'']" @tap="changeNav(index)" v-for="(item,index) in orderNavs" :key="index">{{item}}</view>
 		</view>
-		<view class="order_content">
+		<scroll-view scroll-y="true" class="order_content">
 			<view class="order_item" v-for="(item,index) in orderList" :key="index">
 				<view class="oi_top">{{item.status}}</view>
 				<view class="oi_center">
@@ -18,11 +18,11 @@
 				</view>
 				<view class="oi_all">共计{{item.num}}件商品 <text>合计：￥{{parseInt(item.price)*item.num}}</text></view>
 				<view class="oi_bottom">
-					<button type="primary">查看详情</button>
-					<button type="primary" class="pay_btn last">立即支付</button>
+					<button type="primary" @tap="toDetail(index)">查看详情</button>
+					<button type="primary" @tap="toPay(index)" class="pay_btn last">立即支付</button>
 				</view>
 			</view>
-		</view>
+		</scroll-view>
 	</view>
 </template>
 
@@ -47,8 +47,53 @@
 						price: '2980.00',
 						num: 2,
 						all: ''
+					},{
+						id: 1,
+						status: '未付款',
+						src: '',
+						title: '靓变奶茶',
+						price: '2980.00',
+						num: 2,
+						all: ''
+					},{
+						id: 1,
+						status: '未付款',
+						src: '',
+						title: '靓变奶茶',
+						price: '2980.00',
+						num: 2,
+						all: ''
+					},{
+						id: 1,
+						status: '未付款',
+						src: '',
+						title: '靓变奶茶',
+						price: '2980.00',
+						num: 2,
+						all: ''
+					},{
+						id: 1,
+						status: '未付款',
+						src: '',
+						title: '靓变奶茶',
+						price: '2980.00',
+						num: 2,
+						all: ''
+					},{
+						id: 1,
+						status: '未付款',
+						src: '',
+						title: '靓变奶茶',
+						price: '2980.00',
+						num: 2,
+						all: ''
 					}
 				]
+			}
+		},
+		onLoad(opt) {
+			if(opt.index != undefined){
+				this.current = opt.index;
 			}
 		},
 		components:{
@@ -58,6 +103,16 @@
 		methods:{
 			changeNav(idx){
 				this.current = idx;
+			},
+			toDetail(idx){
+				uni.navigateTo({
+					url: '/pages/index/detail?id=' + idx
+				})
+			},
+			toPay(idx){
+				uni.navigateTo({
+					url: '/pages/index/confirmation'
+				})
 			}
 		}
 	}
@@ -81,6 +136,8 @@
 		}
 	}
 	.order_content{
+		// max-height: 880rpx;
+		max-height: 65vh;
 		.order_item{
 			border-bottom: 10rpx solid #f4f4f4;
 			font-size: 28rpx;
@@ -138,9 +195,18 @@
 					border-radius: 30rpx;
 					border: 1px solid #ccc;
 					margin: 0;
+					transition: all .5s ease;
+					&:active{
+						background: #999;
+						color: #fff;
+					}
 					&.pay_btn{
 						color: #f60;
 						border-color: #f60;
+						&:active{
+							background: #f60;
+							color: #fff;
+						}
 					}
 					&.last{
 						margin-left: 30rpx;

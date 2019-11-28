@@ -24,18 +24,20 @@
 					<text>{{item.title}}</text>
 					<image src="/static/down.svg" mode="widthFix"></image>
 				</view>
-				<view class="my_member_content" :class="[item.current==true?'active':'']" :animation="animationData">
-					<view class="my_member_content_item" v-for="(list,idx) in item.list" :key="idx">
-						<image :src="list.avatar" mode="widthFix"></image>
-						<view class="member_content_right">
-							<view>会员ID：{{list.member_id}}</view>
-							<view>昵称：{{list.name}}</view>
-							<view>上级：{{list.superior}}</view>
-							<view>投资总额：{{list.price}}</view>
-							<view>加入时间：{{list.time}}</view>
-							<button type="primary" @tap="transferMoney(index,idx)">转款</button>
+				<view class="my_member_content" :class="[item.current==true?'active':'']">
+					<uni-transition :mode-class="['slide-top','fade']" :show="item.current">
+						<view class="my_member_content_item" v-for="(list,idx) in item.list" :key="idx">
+							<image :src="list.avatar" mode="widthFix"></image>
+							<view class="member_content_right">
+								<view>会员ID：{{list.member_id}}</view>
+								<view>昵称：{{list.name}}</view>
+								<view>上级：{{list.superior}}</view>
+								<view>投资总额：{{list.price}}</view>
+								<view>加入时间：{{list.time}}</view>
+								<button type="primary" @tap="transferMoney(index,idx)">转款</button>
+							</view>
 						</view>
-					</view>
+					</uni-transition>
 				</view>
 			</view>
 		</view>
@@ -60,8 +62,7 @@
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
-	import uniCollapse from "@/components/uni-collapse/uni-collapse.vue"
-	import uniCollapseItem from "@/components/uni-collapse-item/uni-collapse-item.vue"
+	import uniTransition from "@/components/uni-transition/uni-transition.vue"
 	export default{
 		data(){
 			return{
@@ -128,20 +129,12 @@
 			uniNavBar,
 			commonAvatar,
 			uniPopup,
-			uniCollapse,
-			uniCollapseItem
+			uniTransition
 		},
 		onShow() {
 			uni.removeTabBarBadge({
 				index: 3
 			})
-			var animation = uni.createAnimation({
-			  duration: 1000,
-				timingFunction: 'ease',
-			})
-			this.animation = animation;
-			
-			this.animationData = animation.export();
 		},
 		methods:{
 			changeTitle(idx){
@@ -224,14 +217,12 @@
 		.my_member_content{
 			padding: 0 20rpx;
 			box-sizing: border-box;
-			display: none;
-			&.active{
-				display: block;
-			}
+			overflow: hidden;
+			transition: all .5s linear;
 			.my_member_content_item{
+				display: none;
 				padding: 30rpx 0 20rpx;
 				box-sizing: border-box;
-				display: flex;
 				justify-content: flex-start;
 				align-items: center;
 				border-bottom: 1px solid #ccc;
@@ -265,10 +256,20 @@
 						right: 0;
 						top: 0;
 						z-index: 1;
+						color: #fff;
+						transition: all .5s ease;
+						&:active{
+							opacity: .8;
+						}
 						&:after{
 							border: 0;
 						}
 					}
+				}
+			}
+			&.active{
+				.my_member_content_item{
+					display: flex;
 				}
 			}
 		}

@@ -70,7 +70,7 @@
 			border-bottom: 1px solid #ccc;
 		}
 		.bank_item{
-			padding: 20rpx 30rpx;
+			padding: 30rpx;
 			box-sizing: border-box;
 			border-bottom: 1px solid #ccc;
 			display: flex;
@@ -93,6 +93,11 @@
 			font-size: 26rpx;
 			border-radius: 10rpx;
 			margin-top: 50rpx;
+			color: #fff;
+			transition: all .5s ease;
+			&:active{
+				opacity: .8;
+			}
 			&:after{
 				border: 0;
 			}

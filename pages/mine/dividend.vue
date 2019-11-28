@@ -16,40 +16,44 @@
 			<view :class="[current == index?'active':'']" @tap="changeNav(index)" v-for="(item,index) in navs" :key="index">{{item}}</view>
 		</view>
 		<view class="dividend_content" v-if="current == 0">
-			<view class="dividend_top">
-				<view class="dt_left">投资单号</view>
-				<view class="dt_center">投资金额</view>
-				<view class="dt_right">分红收益</view>
-			</view>
-			<view class="dividend_item" v-for="(item,index) in dividendList" :key="index">
-				<view class="dividend_center">
-					<view class="dc_left">{{item.title}}</view>
-					<view class="dc_center">{{item.price}}</view>
-					<view class="dc_right">{{item.income}}</view>
+			<!-- <uni-transition :mode-class="['slide-right','fade']" :show="show"> -->
+				<view class="dividend_top">
+					<view class="dt_left">投资单号</view>
+					<view class="dt_center">投资金额</view>
+					<view class="dt_right">分红收益</view>
 				</view>
-				<view class="dividend_bottom">
-					<view>投资于 {{item.start_time}}</view>
-					<view class="last">结算于 {{item.end_time}}</view>
+				<view class="dividend_item" v-for="(item,index) in dividendList" :key="index">
+					<view class="dividend_center">
+						<view class="dc_left">{{item.title}}</view>
+						<view class="dc_center">{{item.price}}</view>
+						<view class="dc_right">{{item.income}}</view>
+					</view>
+					<view class="dividend_bottom">
+						<view>投资于 {{item.start_time}}</view>
+						<view class="last">结算于 {{item.end_time}}</view>
+					</view>
 				</view>
-			</view>
+			<!-- </uni-transition> -->
 		</view>
 		<view class="dividend_content" v-if="current == 1">
-			<view class="dividend_top">
-				<view class="dt_left">会员</view>
-				<view class="dt_center">层级</view>
-				<view class="dt_right">分红收益</view>
-			</view>
-			<view class="dividend_item" v-for="(item,index) in dividendTeamList" :key="index">
-				<view class="dividend_center" v-for="(list,idx) in item.list" :key="idx">
-					<view class="dc_left">{{list.name}}</view>
-					<view class="dc_center">{{list.level}}</view>
-					<view class="dc_right">{{list.income}}</view>
+			<!-- <uni-transition :mode-class="['slide-left','fade']" :show="show1"> -->
+				<view class="dividend_top">
+					<view class="dt_left">会员</view>
+					<view class="dt_center">层级</view>
+					<view class="dt_right">分红收益</view>
 				</view>
-				<view class="dividend_bottom">
-					<view></view>
-					<view class="last">结算于 {{item.end_time}}</view>
+				<view class="dividend_item" v-for="(item,index) in dividendTeamList" :key="index">
+					<view class="dividend_center" v-for="(list,idx) in item.list" :key="idx">
+						<view class="dc_left">{{list.name}}</view>
+						<view class="dc_center">{{list.level}}</view>
+						<view class="dc_right">{{list.income}}</view>
+					</view>
+					<view class="dividend_bottom">
+						<view></view>
+						<view class="last">结算于 {{item.end_time}}</view>
+					</view>
 				</view>
-			</view>
+			<!-- </uni-transition> -->
 		</view>
 		<uni-popup ref="popup" type="center">
 			<view class="popup_box">
@@ -72,6 +76,7 @@
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import uniTransition from "@/components/uni-transition/uni-transition.vue"
 	export default{
 		data(){
 			return{
@@ -79,6 +84,8 @@
 				dot: true,
 				color: '#333',
 				background: '#fff',
+				show: true,
+				show1: false,
 				navs: ['个人分红','团队分红'],
 				current: 0,
 				dividendList: [
@@ -135,11 +142,19 @@
 		components:{
 			uniNavBar,
 			commonAvatar,
-			uniPopup
+			uniPopup,
+			uniTransition
 		},
 		methods:{
 			changeNav(idx){
 				this.current = idx;
+				if(this.current == 0){
+					this.show = true;
+					this.show1 = false;
+				}else{
+					this.show = false;
+					this.show1 = true;
+				}
 			},
 			openOut(){
 				this.$refs.popup.open();

@@ -65,8 +65,8 @@
 				 * 向本地存储中设置launchFlag的值，即启动标识；
 				 */
 				uni.setStorage({
-						key: 'launchFlag',
-						data: true,
+					key: 'launchFlag',
+					data: true,
 				});
 				uni.navigateTo({
 					url: '/pages/login/login'
