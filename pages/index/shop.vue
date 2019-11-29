@@ -136,7 +136,6 @@
 		.swiper-box {
 			width: 92%;
 			height: 30.7vw;
-	
 			overflow: hidden;
 			border-radius: 15rpx;
 			box-shadow: 0 8rpx 25rpx rgba(0, 0, 0, 0.2);

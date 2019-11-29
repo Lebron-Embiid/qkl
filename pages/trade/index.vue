@@ -101,9 +101,9 @@
 				uni.showModal({
 					title: '确定退出登录?',
 					content: '',
-					success: (res)=>{
-						if (res.confirm) {
-							this.$api.msg('退出成功');
+					success: (res) => {
+						if(res.confirm){
+							this.$api.msg("退出成功");
 							setTimeout(function(){
 								uni.reLaunch({
 									url: '/pages/login/login'

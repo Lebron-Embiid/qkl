@@ -104,7 +104,7 @@
 					}
 				],
 				is_apply: 0,	//是否点击申请按钮
-				is_pass: 1,		//是否申请成功
+				is_pass: 0,		//是否申请成功
 				price: '',
 				password: '',
 				input_type: '',
