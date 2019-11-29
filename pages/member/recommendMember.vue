@@ -1,6 +1,6 @@
 <template>
 	<view class="recommendMember">
-		<uni-nav-bar left-icon="back" leftText="返回" title="推荐会员" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="推荐会员" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="recommend_box">
 			<text class="collect_txt">推荐人邀请码：{{link}}</text>
@@ -20,8 +20,6 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				link: 'YdhkSnm',
 				code_img: '/static/code.png'
 			}
@@ -51,25 +49,32 @@
 				uni.showLoading({
 					title: '保存中'
 				})
-				uni.downloadFile({
-					url: that.code_img,
-					success: (ress) => {
-						if (ress.statusCode === 200) {
-							console.log(ress.tempFilePath);
-							uni.saveImageToPhotosAlbum({
-								filePath: ress.tempFilePath,
-								success: function () { 
-									uni.hideLoading();
-									that.$api.msg('保存成功');
-								},
-							})
-						}
-					},
-					fail() {
+				uni.saveImageToPhotosAlbum({
+					filePath: that.code_img,
+					success: function () { 
 						uni.hideLoading();
-						that.$api.msg('保存失败');
-					}
-				});
+						that.$api.msg('保存成功');
+					},
+				})
+				// uni.downloadFile({
+				// 	url: that.code_img,
+				// 	success: (ress) => {
+				// 		if (ress.statusCode === 200) {
+				// 			console.log(ress.tempFilePath);
+				// 			uni.saveImageToPhotosAlbum({
+				// 				filePath: ress.tempFilePath,
+				// 				success: function () { 
+				// 					uni.hideLoading();
+				// 					that.$api.msg('保存成功');
+				// 				},
+				// 			})
+				// 		}
+				// 	},
+				// 	fail() {
+				// 		uni.hideLoading();
+				// 		that.$api.msg('保存失败');
+				// 	}
+				// });
 			}
 		}
 	}

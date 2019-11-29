@@ -1,6 +1,6 @@
 <template>
 	<view class="forgetPassword">
-		<uni-nav-bar left-icon="back" title="重置密码"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" title="重置密码" :color="color" :backgroundColor="background"></uni-nav-bar>
 		<view class="white_logo_box">
 			<image src="/static/logo1.png" mode="widthFix"></image>
 			<text>SOLOMON MATRIX</text>
@@ -29,7 +29,8 @@
 					<view class="icon"><image src="/static/pwd.svg" mode="widthFix"></image></view>
 					<view class="right_box">
 						<view class="ipt_box">
-							<input type="password" placeholder="请输入新的登录密码" v-model="password" />
+							<input type="password" placeholder="请输入新的登录密码" v-if="input_type == 0" v-model="password" />
+							<input type="text" placeholder="请输入新的登录密码" v-else v-model="password" />
 						</view>
 						<switchc text="可见|***" class="switch_btn" :sid="1" @change="switchchange"></switchc>
 					</view>
@@ -47,10 +48,13 @@
 	export default{
 		data(){
 			return{
+				color: '#999999',
+				background: '#f2f2f2',
 				phone: '',
 				email: '',
 				code:'',
 				password: '',
+				input_type: '',
 				second: 0
 			}
 		},
@@ -70,6 +74,11 @@
 		methods:{
 			switchchange(e) {
 				console.log(e);
+				if(e.value == true){
+					this.input_type = 1;
+				}else{
+					this.input_type = 0;
+				}
 			},
 			getcode(){
 				let that = this;
@@ -114,8 +123,12 @@
 				})
 			},
 			loginSubmit(){
-				if(this.email == ''){
-					this.$api.msg("短信验证码不正确");
+				// if(this.email == ''){
+				// 	this.$api.msg("短信验证码不正确");
+				// 	return;
+				// }
+				if(!(/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email))){
+					this.$api.msg("邮箱格式不正确");
 					return;
 				}
 				if(this.password.length < 6 || this.password.length > 20){

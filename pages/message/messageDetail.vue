@@ -1,6 +1,6 @@
 <template>
 	<view class="messageDetail">
-		<uni-nav-bar left-icon="back" leftText="返回" :title="title" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" :title="title" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<view class="message_detail_box">
 			<image src="" mode=""></image>
 			<view class="content_box">
@@ -18,9 +18,7 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
-				title: '',
+				title: '讯息详情',
 				time: '2019/11/25',
 				content: ''
 			}

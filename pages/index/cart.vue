@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar left-icon="back" leftText="返回" title="购物车" :backgroundColor="background" :color="color"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="购物车"></uni-nav-bar>
 		<!-- 商品列表 -->
 		<view class="goods-list">
 			<view class="tis" v-if="goodsList.length==0">购物车是空的哦~</view>
@@ -66,8 +66,6 @@
 	export default {
 		data() {
 			return {
-				color: '#333',
-				background: '#fff',
 				sumPrice:'0.00',
 				headerPosition:"fixed",
 				headerTop:null,
@@ -76,11 +74,10 @@
 				selectedList:[],
 				isAllselected:false,
 				goodsList:[
-					{id:1,img:'/static/img/goods/p1.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
-					{id:2,img:'/static/img/goods/p2.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
-					{id:3,img:'/static/img/goods/p3.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
-					{id:4,img:'/static/img/goods/p4.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
-					{id:5,img:'/static/img/goods/p5.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false}
+					{id:1,img:'/static/img/p1.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
+					{id:2,img:'/static/img/p2.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
+					{id:3,img:'/static/img/p3.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
+					{id:4,img:'/static/img/p4.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
 				],
 				//控制滑动效果
 				theIndex:null,
@@ -193,7 +190,7 @@
 			toGoods(e){
 				uni.showToast({title: '商品'+e.id,icon:"none"});
 				uni.navigateTo({
-					url: '../../goods/goods' 
+					url: '/pages/index/detail?cid=' + e.id 
 				});
 			},
 			//跳转确认订单页面
@@ -298,8 +295,11 @@
 			discard() {
 				//丢弃
 			}
-			
-			
+		},
+		onPullDownRefresh() {
+			setTimeout(function(){
+				uni.stopPullDownRefresh();
+			},2000)
 		}
 	}
 </script>
@@ -312,7 +312,7 @@
 			width: 35upx;
 			height: 35upx;
 			border-radius: 100%;
-			border: solid 2upx #f06c7a;
+			border: solid 2upx #1abc9c;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -320,7 +320,7 @@
 				width: 25upx;
 				height: 25upx;
 				border-radius: 100%;
-				background-color: #f06c7a;
+				background-color: #1abc9c;
 			}
 		}
 		.text{

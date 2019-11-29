@@ -1,5 +1,10 @@
 <template>
 	<view class="member">
+		<!-- #ifdef APP-PLUS -->  
+		<view class="status_bar">  
+		    <view class="top_view"></view>  
+		</view>  
+		<!-- #endif -->  
 		<view class="member_top">
 			<view>
 				<image src="/static/logo1.png" mode="widthFix"></image>
@@ -79,6 +84,12 @@
 		},
 		methods:{
 			toListLink(idx){
+				if(idx == 3){
+					uni.switchTab({
+						url: this.memberList[idx].url
+					})
+					return;
+				}
 				uni.navigateTo({
 					url: this.memberList[idx].url
 				})

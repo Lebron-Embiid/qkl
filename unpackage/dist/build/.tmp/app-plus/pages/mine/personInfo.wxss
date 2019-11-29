@@ -1,0 +1,145 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.basic_info.data-v-0bd12c0c {
+  padding: 50rpx 30rpx 20rpx;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.basic_info .form_box.data-v-0bd12c0c {
+    padding: 0 30rpx;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    margin-bottom: 50rpx;
+}
+.basic_info .form_box .form_item.last .icon.data-v-0bd12c0c {
+      width: 40rpx;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+}
+.basic_info .form_box .form_item.last .icon image.data-v-0bd12c0c {
+        width: 22rpx;
+        height: 48rpx !important;
+}
+.basic_info .basic_title.data-v-0bd12c0c {
+    color: #999;
+    font-size: 28rpx;
+    padding-bottom: 10rpx;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 30rpx;
+}
+.bank_info.data-v-0bd12c0c {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  border: 1px solid #ccc;
+  border-radius: 10rpx;
+  padding: 20rpx 20rpx 20rpx 30rpx;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-size: 28rpx;
+  margin-bottom: 10rpx;
+  border-top: 0;
+  border-bottom: 0;
+}
+.bank_info .bank_left.data-v-0bd12c0c {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.bank_info .bank_left image.data-v-0bd12c0c {
+      display: block;
+      width: 60rpx;
+      height: 60rpx;
+      margin-right: 30rpx;
+      background: #ccc;
+}
+.bank_info .bank_left .bank_txt .bank_name.data-v-0bd12c0c {
+      margin-bottom: 20rpx;
+}
+.bank_info .del_txt.data-v-0bd12c0c {
+    border: 1px solid #ccc;
+    padding: 5rpx 25rpx;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border-radius: 6rpx;
+    color: #999;
+    -webkit-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease;
+}
+.bank_info .del_txt.data-v-0bd12c0c:active {
+      background: #099;
+      border-color: #099;
+      color: #fff;
+}
+.bank_btn.data-v-0bd12c0c {
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #666;
+  font-size: 26rpx;
+  border-radius: 10rpx;
+  margin-bottom: 50rpx;
+  color: #fff;
+  -webkit-transition: all .5s ease;
+  -o-transition: all .5s ease;
+  transition: all .5s ease;
+}
+.bank_btn.data-v-0bd12c0c:active {
+    opacity: .8;
+}
+.bank_btn.data-v-0bd12c0c:after {
+    border: 0;
+}
+.submit_btn.data-v-0bd12c0c {
+  margin-bottom: 0;
+  width: 80%;
+}
+

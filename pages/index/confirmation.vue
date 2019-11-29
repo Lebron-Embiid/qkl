@@ -1,11 +1,11 @@
 <template>
 	<view>
-		<uni-nav-bar left-icon="back" leftText="返回" title="确认订单" :backgroundColor="background" :color="color"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="确认订单"></uni-nav-bar>
 		
 		<!-- 收货地址 -->
 		<view class="addr" @tap="selectAddress">
 			<view class="icon">
-				<image src="../../static/img/addricon.png" mode=""></image>
+				<image src="../../static/nav_icon2.svg" mode="widthFix"></image>
 			</view>
 			<view class="right">
 				<view class="tel-name">
@@ -105,8 +105,6 @@
 	export default {
 		data() {
 			return {
-				color: '#333',
-				background: '#fff',
 				buylist:[],		//订单列表
 				goodsPrice:0.0,	//商品合计价格
 				sumPrice:0.0,	//用户付款价格

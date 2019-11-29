@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<uni-nav-bar left-icon="back" leftText="返回" title="商品评价" :backgroundColor="background" :color="color"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="商品评价"></uni-nav-bar>
 		
-		<video id="myVideo" class="myVideo" :src="videoSrc" v-show="isPlayVideo" :show-fullscreen-btn="showFullscreenBtn" :direction="videoDirection" :show-play-btn="showPlayBtn" @pause="videoPause" @fullscreenchange="viderFullscreen">
+		<!-- <video id="myVideo" class="myVideo" :src="videoSrc" v-show="isPlayVideo" :show-fullscreen-btn="showFullscreenBtn" :direction="videoDirection" :show-play-btn="showPlayBtn" @pause="videoPause" @fullscreenchange="viderFullscreen">
 			<cover-image class="stopPlayVideoBtn" @click="stopPlayVideo" src="/static/img/close.png"></cover-image>
-		</video>
+		</video> -->
 		<view class="content">
 			<view class="label">
 				<view v-for="(label,index) in labelList" :class="{'on':index==labelIndex}" @tap="loadRatings(index)" :key="label.type">
@@ -35,12 +35,12 @@
 								{{row.first.content}}
 							</view>
 							<view class="img-video">
-								<view class="box" v-for="item in row.first.video" @tap="playVideo(item.path)" :key="item.path">
+								<!-- <view class="box" v-for="item in row.first.video" @tap="playVideo(item.path)" :key="item.path">
 									<image mode="aspectFill" :src="item.img"></image>
 									<view class="playbtn">
 										<view class="icon bofang"></view>
 									</view>
-								</view>
+								</view> -->
 								<view class="box" v-for="item in row.first.img" @tap="showBigImg(item,row.first.img)" :key="item">
 									<image mode="aspectFill" :src="item"></image>
 								</view>
@@ -54,12 +54,12 @@
 								{{row.append.content}}
 							</view>
 							<view class="img-video">
-								<view class="box" v-for="item in row.append.video" @tap="playVideo(item.path)" :key="item.path">
+								<!-- <view class="box" v-for="item in row.append.video" @tap="playVideo(item.path)" :key="item.path">
 									<image mode="aspectFill" :src="item.img"></image>
 									<view class="playbtn">
 										<view class="icon bofang"></view>
 									</view>
-								</view>
+								</view> -->
 								<view class="box" v-for="item in row.append.img" @tap="showBigImg(item,row.append.img)" :key="item">
 									<image mode="aspectFill" :src="item"></image>
 								</view>
@@ -77,15 +77,13 @@
 	export default {
 		data() {
 			return {
-				color: '#333',
-				background: '#fff',
 				labelList:[
 					{name:'全部',number:25,type:'all'},
 					{name:'好评',number:23,type:'good'},
 					{name:'中评',number:1,type:'secondary'},
 					{name:'差评',number:1,type:'poor'},
 					{name:'有图',number:12,type:'img'},
-					{name:'视频',number:2,type:'video'},
+					// {name:'视频',number:2,type:'video'},
 					{name:'追加',number:2,type:'append'}
 				],
 				labelIndex:0,
@@ -218,8 +216,8 @@
 			background-color: #f9f9f9;
 			margin: 10upx 20upx 10upx 0;
 			&.on{
-				border:solid 1upx #f06c7a;
-				color: #f06c7a;
+				border:solid 1upx #1abc9c;
+				color: #1abc9c;
 			}
 		}
 	}
@@ -304,7 +302,7 @@
 					.date{
 						width: 100%;
 						height: 40upx;
-						border-left: 10upx solid #f06c7a;
+						border-left: 10upx solid #1abc9c;
 						padding-left: 10upx;
 						align-items: center;
 						font-size: 32upx;

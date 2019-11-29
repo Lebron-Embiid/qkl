@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "我的分红",
+  "titleNView": false,
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "common-avatar": "/components/commonAvatar",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "uni-transition": "/components/uni-transition/uni-transition"
+  }
+}

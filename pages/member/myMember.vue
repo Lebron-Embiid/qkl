@@ -1,6 +1,6 @@
 <template>
 	<view class="myMember">
-		<uni-nav-bar title="我的会员" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar title="我的会员" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="my_member_box">
 			<view class="my_member_item first">
@@ -68,8 +68,6 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				animationData: {},
 				name: 'Peter',
 				price: '',
@@ -194,7 +192,7 @@
 	}
 	.my_member_list{
 		.my_member_nav{
-			padding: 20rpx 30rpx;
+			padding: 30rpx;
 			box-sizing: border-box;
 			border-bottom: 1px solid #f2f2f2;
 			display: flex;

@@ -19,7 +19,8 @@
 					<view class="icon"><image src="/static/pwd.svg" mode="widthFix"></image></view>
 					<view class="right_box">
 						<view class="ipt_box">
-							<input type="password" placeholder="登录密码" v-model="password" />
+							<input type="password" placeholder="登录密码" v-if="input_type == 0" v-model="password" />
+							<input type="text" placeholder="登录密码" v-else v-model="password" />
 							<image :class="[password!=''?'active':'']" @tap="clearPwd" src="/static/clear.svg" mode="widthFix"></image>
 						</view>
 						<switchc text="可见|***" class="switch_btn" :sid="0" @change="switchchange"></switchc>
@@ -42,6 +43,7 @@
 			return{
 				phone: '',
 				password: '',
+				input_type: '',
 				is_success: false
 			}
 		},
@@ -51,6 +53,11 @@
 		methods:{
 			switchchange(e) {
 				console.log(e);
+				if(e.value == true){
+					this.input_type = 1;
+				}else{
+					this.input_type = 0;
+				}
 			},
 			clearPhone(){
 				this.phone = '';

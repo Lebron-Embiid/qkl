@@ -1,6 +1,6 @@
 <template>
 	<view class="collection">
-		<uni-nav-bar left-icon="back" leftText="返回" title="收款凭证" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="收款凭证" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="collect_box">
 			<text class="collect_txt">{{link}}</text>
@@ -19,8 +19,6 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				link: 'AdDyRahRz5vmvgy0Uik6fjgQfSeB126TTA'
 			}
 		},

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "投资钱包",
+  "titleNView": false,
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "common-avatar": "/components/commonAvatar",
+    "common-wallet": "/components/commonWallet",
+    "uni-popup": "/components/uni-popup/uni-popup"
+  }
+}

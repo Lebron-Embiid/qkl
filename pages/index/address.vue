@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar left-icon="back" leftText="返回" title="选择地址" :backgroundColor="background" :color="color"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="选择地址"></uni-nav-bar>
 		
 		<view class="content">
 			<view class="list">
@@ -42,8 +42,6 @@
 	export default {
 		data() {
 			return {
-				color: '#333',
-				background: '#fff',
 				isSelect:false,
 				addressList:[
 					{id:1,name:"大黑哥",head:"大",tel:"18816881688",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:true},
@@ -160,7 +158,7 @@
 			width: 70%;
 			height: 80upx;
 			border-radius: 80upx;
-			background-color: #f06c7a;
+			background-color: #1abc9c;
 			color: #fff;
 			justify-content: center;
 			align-items: center;
@@ -217,12 +215,10 @@
 						color: #777;
 					}
 					.default{
-
 						font-size: 22upx;
-						
 						background-color: #f06c7a;
 						color: #fff;
-						padding: 0 18upx;
+						padding: 8upx 18upx 5upx;
 						border-radius: 24upx;
 						margin-left: 20upx;
 					}

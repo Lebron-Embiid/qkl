@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar left-icon="back" leftText="返回" title="编辑地址" :backgroundColor="background" :color="color"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="编辑地址"></uni-nav-bar>
 		
 		<view class="content">
 			<view class="row">
@@ -69,8 +69,6 @@
 		},
 		data() {
 			return {
-				color: '#333',
-				background: '#fff',
 				editType:'edit',
 				id:'',
 				name:'',
@@ -206,7 +204,7 @@
 			width: 70%;
 			height: 80upx;
 			border-radius: 80upx;
-			background-color: #f06c7a;
+			background-color: #1abc9c;
 			color: #fff;
 			justify-content: center;
 			align-items: center;

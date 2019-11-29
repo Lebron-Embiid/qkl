@@ -1,6 +1,6 @@
 <template>
 	<view class="mine">
-		<uni-nav-bar title="我的" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar title="我的" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="mine_list">
 			<view class="mine_item" v-for="(item,index) in mineList" @tap="clickLink(index)" :key="index">
@@ -19,8 +19,6 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				mineList: [
 					{
 						icon: '/static/mine_icon1.png',

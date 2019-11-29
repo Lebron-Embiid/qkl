@@ -1,22 +1,22 @@
 <template>
 	<view class="shop">
-		<uni-nav-bar left-icon="back" leftText="返回" title="商城" :backgroundColor="background" :color="color"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="商城"></uni-nav-bar>
 		<!-- 轮播图 -->
 		<view class="swiper">
 			<view class="swiper-box">
-				<swiper circular="true" autoplay="true" @change="swiperChange">
+				<swiper circular="true" indicatorDots="true" indicator-color="rgba(0, 0, 0, .5)" indicator-active-color="rgba(0, 153, 153, .8)" autoplay="true" @change="swiperChange">
 					<swiper-item v-for="swiper in swiperList" :key="swiper.id">
 						<image :src="swiper.img"></image>
 					</swiper-item>
 				</swiper>
-				<view class="indicator">
+				<!-- <view class="indicator">
 					<view
 						class="dots"
 						v-for="(swiper, index) in swiperList"
 						:class="[currentSwiper >= index ? 'on' : '']"
 						:key="index"
 					></view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<!-- 分类列表 -->
@@ -53,7 +53,6 @@
 				</view>
 			</view>
 			<uni-load-more :status="more"></uni-load-more>
-			<!-- <view class="loading-text">{{ loadingText }}</view> -->
 		</view>
 	</view>
 </template>
@@ -64,8 +63,6 @@
 	export default{
 		data(){
 			return{
-				color: '#333',
-				background: '#fff',
 				currentSwiper: 0,
 				// 轮播图片
 				swiperList: [
@@ -75,26 +72,26 @@
 				],	
 				// 分类菜单
 				categoryList: [
-					{ id: 1, name: '办公', img: '/static/img/category/1.png' },
-					{ id: 2, name: '家电', img: '/static/img/category/2.png' },
-					{ id: 3, name: '服饰', img: '/static/img/category/3.png' },
-					{ id: 4, name: '日用', img: '/static/img/category/4.png' },
-					{ id: 5, name: '蔬果', img: '/static/img/category/5.png' },
-					{ id: 6, name: '运动', img: '/static/img/category/6.png' },
-					{ id: 7, name: '书籍', img: '/static/img/category/7.png' },
-					{ id: 8, name: '文具', img: '/static/img/category/8.png' }
+					{ id: 1, name: '入驻商家', img: '/static/img/1.png' },
+					{ id: 2, name: '热门商品', img: '/static/img/2.png' },
+					{ id: 3, name: '最新商品', img: '/static/img/3.png' },
+					{ id: 4, name: '推荐商品', img: '/static/img/4.png' },
+					{ id: 5, name: '全部商品', img: '/static/img/5.png' },
+					{ id: 6, name: '会员中心', img: '/static/img/6.png' },
+					{ id: 7, name: '帮助中心', img: '/static/img/7.png' },
+					{ id: 8, name: '商城介绍', img: '/static/img/8.png' }
 				],
 				productList: [
 					{
 						goods_id: 0,
-						img: '/static/img/goods/p1.jpg',
+						img: '/static/img/p1.jpg',
 						name: '商品名称商品名称商品名称商品名称商品名称',
 						price: '￥168',
 						slogan: '1235人付款'
 					},
 					{
 						goods_id: 1,
-						img: '/static/img/goods/p2.jpg',
+						img: '/static/img/p2.jpg',
 						name: '商品名称商品名称商品名称商品名称商品名称',
 						price: '￥168',
 						slogan: '1235人付款'
@@ -121,9 +118,9 @@
 			},
 			//商品跳转
 			toGoods(e) {
-				console.log(e.goods_id);
+				console.log(e,e.goods_id);
 				uni.navigateTo({
-					url: '/pages/index/detail?cid=' + e.goods_id
+					url: '/pages/index/detail?cid=' + e.goods_id + '&name=' + e.name
 				})
 			}
 		}
@@ -156,32 +153,32 @@
 					}
 				}
 			}
-			.indicator {
-				position: absolute;
-				bottom: 20rpx;
-				left: 20rpx;
-				background-color: rgba(255, 255, 255, 0.4);
-				width: 150rpx;
-				height: 5rpx;
-				border-radius: 3rpx;
-				overflow: hidden;
-				display: flex;
-				.dots {
-					width: 0;
-					background-color: rgba(255, 255, 255, 1);
-					transition: all 0.3s ease-out;
-					&.on {
-						width: (100%/3);
-					}
-				}
-			}
+			// .indicator {
+			// 	position: absolute;
+			// 	bottom: 20rpx;
+			// 	left: 20rpx;
+			// 	background-color: rgba(255, 255, 255, 0.4);
+			// 	width: 150rpx;
+			// 	height: 5rpx;
+			// 	border-radius: 3rpx;
+			// 	overflow: hidden;
+			// 	display: flex;
+			// 	.dots {
+			// 		width: 0;
+			// 		background-color: rgba(255, 255, 255, 1);
+			// 		transition: all 0.3s ease-out;
+			// 		&.on {
+			// 			width: (100%/3);
+			// 		}
+			// 	}
+			// }
 		}
 	}
 	.category-list {
 		width: 92%;
 		margin: 0 4%;
 		padding: 0 0 30rpx 0;
-		border-bottom: solid 2rpx #f6f6f6;
+		// border-bottom: solid 2rpx #f6f6f6;
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
@@ -210,12 +207,12 @@
 		}
 	}
 	.banner {
-		width: 92%;
-		margin: 40rpx 4% 20rpx;
+		// width: 92%;
+		margin: 30rpx 0 20rpx;
 		image {
 			width: 100%;
-			height: 20vw;
-			border-radius: 10vw;
+			height: 250rpx;
+			// border-radius: 10vw;
 			box-shadow: 0 5rpx 25rpx rgba(0, 0, 0, 0.3);
 		}
 	}
@@ -229,6 +226,23 @@
 			color: #f47825;
 			font-size: 32upx;
 			margin-bottom: 20rpx;
+			position: relative;
+			&:before,&:after{
+				content: "";
+				width: 30vw;
+				position: absolute;
+				height: 1px;
+				background: #f47825;
+				top: 50%;
+				transform: translateY(-50%);
+				z-index: 1;
+			}
+			&:before{
+				left: 5%;
+			}
+			&:after{
+				right: 5%;
+			}
 		}
 		.loading-text {
 			width: 100%;
@@ -258,13 +272,15 @@
 				}
 				.name {
 					width: 92%;
-					padding: 10upx 4%;
-					display: -webkit-box;
-					-webkit-box-orient: vertical;
-					-webkit-line-clamp: 2;
-					text-align: justify;
-					overflow: hidden;
+					padding: 0 4%;
 					font-size: 30upx;
+					overflow : hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+					word-wrap: break-word;
+					word-break: break-all;
 				}
 				.info {
 					display: flex;

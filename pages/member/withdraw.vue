@@ -1,6 +1,6 @@
 <template>
 	<view class="withdraw">
-		<uni-nav-bar left-icon="back" leftText="返回" title="提款" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="提款" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="member_info_box">
 			<view class="member_list">
@@ -37,7 +37,8 @@
 				<view class="icon"><image src="/static/pwd.svg" mode="widthFix"></image></view>
 				<view class="right_box">
 					<view class="ipt_box">
-						<input type="password" placeholder="请输入支付密码" v-model="password" />
+						<input type="password" placeholder="请输入支付密码" v-if="input_type == 0" v-model="password" />
+						<input type="text" placeholder="请输入支付密码" v-else v-model="password" />
 					</view>
 					<switchc text="可见|***" class="switch_btn" :sid="0" @change="switchchange"></switchc>
 				</view>
@@ -57,8 +58,6 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				memberList: [
 					{
 						icon: '/static/member_icon1.png',
@@ -74,7 +73,8 @@
 				],
 				is_apply: 0,	//是否点击申请按钮
 				price: '',
-				password: ''
+				password: '',
+				input_type: ''
 			}
 		},
 		components:{
@@ -93,8 +93,13 @@
 					url: '/pages/mine/bankCard'
 				})
 			},
-			switchchange(){
+			switchchange(e){
 				console.log(e);
+				if(e.value == true){
+					this.input_type = 1;
+				}else{
+					this.input_type = 0;
+				}
 			},
 			applyConfirm(){
 				this.is_apply = 1;
@@ -208,7 +213,7 @@
 			color: #fff;
 			font-size: 32rpx;
 			border-radius: 50rpx;
-			transition: all .5s ease;
+			// transition: all .5s ease;
 			&:active{
 				background: #1ABC9C;
 			}

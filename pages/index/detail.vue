@@ -1,22 +1,22 @@
 <template>
 	<view>
 		<view class="status" :style="{ opacity: afterHeaderOpacity }"></view>
-		<view class="header">
+		<!-- <view class="header"> -->
 			<!-- 头部-默认显示 -->
-			<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
+			<!-- <view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
 				<view class="back"><view class="icon xiangqian" @tap="back" v-if="showBack"></view></view> 
 				<view class="middle"></view>
 				<view class="icon-btn"></view>
-			</view>
+			</view> -->
 			<!-- 头部-滚动渐变显示 -->
-			<view class="after" :style="{ opacity: afterHeaderOpacity, zIndex: afterHeaderzIndex }">
+			<!-- <view class="after" :style="{ opacity: afterHeaderOpacity, zIndex: afterHeaderzIndex }">
 				<view class="back" ><view class="icon xiangqian" @tap="back" v-if="showBack"></view></view>
 				<view class="middle">
 					<view v-for="(anchor,index) in anchorlist" :class="[selectAnchor==index ?'on':'']" :key="index" @tap="toAnchor(index)">{{anchor.name}}</view>
 				</view>
 				<view class="icon-btn"></view>
-			</view>
-		</view>
+			</view> -->
+		<!-- </view> -->
 		<!-- 底部菜单 -->
 		<view class="footer">
 			<view class="icons">
@@ -91,7 +91,7 @@
 			<view class="mask"></view>
 			<view class="layer" @tap.stop="discard">
 				<view class="content">
-					<view class="title">选择规格：</view>
+					<view class="title">选择规格</view>
 					<view class="sp">
 						<view v-for="(item,index) in goodsData.spec" :class="[index==selectSpec?'on':'']" @tap="setSelectSpec(index)" :key="index">{{item}}</view>
 					</view>
@@ -139,17 +139,17 @@
 			<view class="row" @tap="showSpec(false)">
 				<view class="text">选择</view>
 				<view class="content">
-					<view>选择规格：</view>
-					<view class="sp">
+					<view>选择规格</view>
+					<!-- <view class="sp">
 						<view v-for="(item,index) in goodsData.spec" :key="index" :class="[index==selectSpec?'on':'']">{{item}}</view>
-					</view>
+					</view> -->
 					
 				</view>
 				<view class="arrow"><view class="icon xiangyou"></view></view>
 			</view>
 		</view>
 		<!-- 评价 -->
-		<view class="info-box comments" id="comments">
+		<!-- <view class="info-box comments" id="comments">
 			<view class="row">
 				<view class="text">商品评价({{goodsData.comment.number}})</view>
 				<view class="arrow" @tap="toRatings">
@@ -168,7 +168,7 @@
 					{{goodsData.comment.content}}
 				</view>
 			</view>
-		</view>
+		</view> -->
 		<!-- 详情 -->
 		<view class="description">
 			<view class="title">———— 商品详情 ————</view>
@@ -230,6 +230,11 @@ export default {
 		};
 	},
 	onLoad(option) {
+		if(option.name != undefined){
+			uni.setNavigationBarTitle({
+				title: option.name
+			});
+		}
 		// #ifdef MP
 		//小程序隐藏返回按钮
 		this.showBack = false;
@@ -238,27 +243,24 @@ export default {
 		console.log(option.cid); //打印出上个页面传递的参数。
 	},
 	onReady(){
-		this.calcAnchor();//计算锚点高度，页面数据是ajax加载时，请把此行放在数据渲染完成事件中执行以保证高度计算正确
+		// this.calcAnchor();//计算锚点高度，页面数据是ajax加载时，请把此行放在数据渲染完成事件中执行以保证高度计算正确
 	},
-	onPageScroll(e) {
-		//锚点切换
-		this.selectAnchor = e.scrollTop>=this.anchorlist[2].top?2:e.scrollTop>=this.anchorlist[1].top?1:0;
-		//导航栏渐变
-		let tmpY = 375;
-		e.scrollTop = e.scrollTop > tmpY ? 375 : e.scrollTop;
-		this.afterHeaderOpacity = e.scrollTop * (1 / tmpY);
-		this.beforeHeaderOpacity = 1 - this.afterHeaderOpacity;
-		//切换层级
-		this.beforeHeaderzIndex = e.scrollTop > 0 ? 10 : 11;
-		this.afterHeaderzIndex = e.scrollTop > 0 ? 11 : 10;
-	},
+	// onPageScroll(e) {
+	// 	//锚点切换
+	// 	this.selectAnchor = e.scrollTop>=this.anchorlist[2].top?2:e.scrollTop>=this.anchorlist[1].top?1:0;
+	// 	//导航栏渐变
+	// 	let tmpY = 375;
+	// 	e.scrollTop = e.scrollTop > tmpY ? 375 : e.scrollTop;
+	// 	this.afterHeaderOpacity = e.scrollTop * (1 / tmpY);
+	// 	this.beforeHeaderOpacity = 1 - this.afterHeaderOpacity;
+	// 	//切换层级
+	// 	this.beforeHeaderzIndex = e.scrollTop > 0 ? 10 : 11;
+	// 	this.afterHeaderzIndex = e.scrollTop > 0 ? 11 : 10;
+	// },
 	//上拉加载，需要自己在page.json文件中配置"onReachBottomDistance"
-	onReachBottom() {
-		uni.showToast({ title: '触发上拉加载' });
-	},
-	mounted () {
-		
-	},
+	// onReachBottom() {
+	// 	uni.showToast({ title: '触发上拉加载' });
+	// },
 	methods: {
 		//轮播图指示器
 		swiperChange(event) {
@@ -305,7 +307,7 @@ export default {
 		//跳转确认订单页面
 		toConfirmation(){
 			let tmpList=[];
-			let goods = {id:this.goodsData.id,img:'../../static/img/goods/p1.jpg',name:this.goodsData.name,spec:'规格:'+this.goodsData.spec[this.selectSpec],price:this.goodsData.price,number:this.goodsData.number};
+			let goods = {id:this.goodsData.id,img:'../../static/img/p1.jpg',name:this.goodsData.name,spec:'规格:'+this.goodsData.spec[this.selectSpec],price:this.goodsData.price,number:this.goodsData.number};
 			tmpList.push(goods);
 			uni.setStorage({
 				key:'buylist',
@@ -337,30 +339,30 @@ export default {
 			this.goodsData.number++;
 		},
 		//跳转锚点
-		toAnchor(index){
-			this.selectAnchor = index;
-			uni.pageScrollTo({scrollTop: this.anchorlist[index].top,duration: 200});
-		},
+		// toAnchor(index){
+		// 	this.selectAnchor = index;
+		// 	uni.pageScrollTo({scrollTop: this.anchorlist[index].top,duration: 200});
+		// },
 		//计算锚点高度
-		calcAnchor(){
-			this.anchorlist=[
-				{name:'主图',top:0},
-				{name:'评价',top:0},
-				{name:'详情',top:0}
-			]
-			let commentsView = uni.createSelectorQuery().select("#comments");
-			commentsView.boundingClientRect((data) => {
-				let statusbarHeight = 0;
-				//APP内还要计算状态栏高度
-				// #ifdef APP-PLUS
-					statusbarHeight = plus.navigator.getStatusbarHeight()
-				// #endif
-				let headerHeight = uni.upx2px(100);
-				this.anchorlist[1].top = data.top - headerHeight - statusbarHeight;
-				this.anchorlist[2].top = data.bottom - headerHeight - statusbarHeight;
+		// calcAnchor(){
+		// 	this.anchorlist=[
+		// 		{name:'主图',top:0},
+		// 		{name:'评价',top:0},
+		// 		{name:'详情',top:0}
+		// 	]
+		// 	let commentsView = uni.createSelectorQuery().select("#comments");
+		// 	commentsView.boundingClientRect((data) => {
+		// 		let statusbarHeight = 0;
+		// 		//APP内还要计算状态栏高度
+		// 		// #ifdef APP-PLUS
+		// 			statusbarHeight = plus.navigator.getStatusbarHeight()
+		// 		// #endif
+		// 		let headerHeight = uni.upx2px(100);
+		// 		this.anchorlist[1].top = data.top - headerHeight - statusbarHeight;
+		// 		this.anchorlist[2].top = data.bottom - headerHeight - statusbarHeight;
 				
-			}).exec();
-		},
+		// 	}).exec();
+		// },
 		//返回上一页
 		back() {
 			uni.navigateBack();
@@ -739,7 +741,7 @@ page {
 		height: 80rpx;
 		margin-left: -4%;
 		.box {
-			width: 80rpx;
+			width: 90rpx;
 			height: 80rpx;
 			display: flex;
 			justify-content: center;

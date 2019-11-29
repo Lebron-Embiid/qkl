@@ -1,6 +1,6 @@
 <template>
 	<view class="message">
-		<uni-nav-bar title="讯息" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar title="讯息" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<view class="message_box">
 			<view class="message_item" v-for="(item,index) in messageList" :key="index">
 				<view class="message_top">{{item.title}}</view>
@@ -18,8 +18,6 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				messageList: [
 					{
 						title: '讯息标题1',

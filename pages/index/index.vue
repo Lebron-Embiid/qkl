@@ -26,7 +26,7 @@
 					console.log(value);
 				    if (value) {
 				        if (value == true) {
-				            uni.navigateTo({
+				            uni.redirectTo({
 				                url: '/pages/login/login'
 				            });
 				        } else {
@@ -58,7 +58,7 @@
 					uni.redirectTo({ url: '/pages/index/guide' }); 
 				}
 				return;
-				uni.switchTab({
+				uni.redirectTo({
 				    url: '/pages/login/login'
 				});
 			}

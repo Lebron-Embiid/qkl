@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "提款",
+  "titleNView": false,
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "common-avatar": "/components/commonAvatar",
+    "switchc": "/components/zz-switchc/zz-switchc"
+  }
+}

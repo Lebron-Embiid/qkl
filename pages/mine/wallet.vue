@@ -1,6 +1,6 @@
 <template>
 	<view class="wallet">
-		<uni-nav-bar left-icon="back" leftText="返回" title="APP钱包" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="APP钱包" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="common_top_black">
 			<view class="common_price">$ <text>1600000</text></view>
@@ -37,8 +37,6 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				walletNavs: [{title:'转入',name:'first'},{title:'转出',name:'active'},{title:'提现',name:''}],
 				investList: [
 					{

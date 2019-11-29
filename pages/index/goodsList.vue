@@ -1,17 +1,17 @@
 <template>
 	<view>
-		<uni-nav-bar left-icon="back" leftText="返回" :title="title" :backgroundColor="background" :color="color"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" :title="title"></uni-nav-bar>
 		
-		<view class="header" :style="{position:headerPosition,top:headerTop}">
+		<view class="header">
 			<view class="target" v-for="(target,index) in orderbyList" @tap="select(index)" :key="index" :class="[target.selected?'on':'']">
 				{{target.text}}
 				<view v-if="target.orderbyicon" class="icon" :class="target.orderbyicon[target.orderby]"></view>
 			</view>
 		</view> 
 		<!-- 占位 -->
-		<view class="place"></view>
+		<!-- <view class="place"></view> -->
 		<!-- 商品列表 -->
-		<view class="goods-list">
+		<scroll-view scroll-y="true" class="goods-list">
 			<view class="product-list">
 				<view class="product" v-for="(goods) in goodsList" :key="goods.goods_id" @tap="toGoods(goods)">
 					<image mode="widthFix" :src="goods.img"></image>
@@ -22,32 +22,31 @@
 					</view>
 				</view>
 			</view>
-			<view class="loading-text">{{loadingText}}</view>
-		</view>
+			<uni-load-more :status="more"></uni-load-more>
+		</scroll-view>
 	</view>
 </template>
 
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	export default {
 		data() {
 			return {
 				title: '商品列表',
-				color: '#333',
-				background: '#fff',
 				goodsList:[
-					{ goods_id: 0, img: '/static/img/goods/p1.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 1, img: '/static/img/goods/p2.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 2, img: '/static/img/goods/p3.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 3, img: '/static/img/goods/p4.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 4, img: '/static/img/goods/p5.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 5, img: '/static/img/goods/p6.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 6, img: '/static/img/goods/p7.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 7, img: '/static/img/goods/p8.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 8, img: '/static/img/goods/p9.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 9, img: '/static/img/goods/p10.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' }
+					{ goods_id: 0, img: '/static/img/p1.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
+					{ goods_id: 1, img: '/static/img/p2.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
+					{ goods_id: 2, img: '/static/img/p3.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
+					{ goods_id: 3, img: '/static/img/p4.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
+					{ goods_id: 4, img: '/static/img/p1.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
+					{ goods_id: 5, img: '/static/img/p2.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
+					{ goods_id: 6, img: '/static/img/p7.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
+					{ goods_id: 7, img: '/static/img/p8.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
+					{ goods_id: 8, img: '/static/img/p9.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
+					{ goods_id: 9, img: '/static/img/p10.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' }
 				],
-				loadingText:"正在加载...",
+				more: 'loading',
 				headerTop:"44px",
 				headerPosition:"fixed",
 				orderbyList:[
@@ -59,7 +58,8 @@
 			};
 		},
 		components:{
-			uniNavBar
+			uniNavBar,
+			uniLoadMore
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 			console.log(option.cid); //打印出上个页面传递的参数。
@@ -99,13 +99,13 @@
 		},
 		//上拉加载，需要自己在page.json文件中配置"onReachBottomDistance"
 		onReachBottom(){
-			uni.showToast({title: '触发上拉加载'});
+			// uni.showToast({title: '触发上拉加载'});
 			let len = this.goodsList.length;
 			if(len>=40){
-				this.loadingText="到底了";
+				this.more = 'noMore';
 				return false;
 			}else{
-				this.loadingText="正在加载...";
+				this.more = 'loading';
 			}
 			let end_goods_id = this.goodsList[len-1].goods_id;
 			for(let i=1;i<=10;i++){
@@ -130,7 +130,7 @@
 			toGoods(e){
 				uni.showToast({title: '商品'+e.goods_id,icon:"none"});
 				uni.navigateTo({
-					url: '/pages/index/detail?cid=' + e.goods_id 
+					url: '/pages/index/detail?cid=' + e.goods_id + '&name=' + e.name
 				});
 			},
 			//排序类型
@@ -169,11 +169,12 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
-		position: fixed;
-		top: 44px;
+		// position: fixed;
+		// top: 44px;
 		z-index: 10;
 		background-color: #fff;
 		border-bottom: solid 1rpx #eee;
+		margin-bottom: 30rpx;
 		.target{
 			width: 20%;
 			height: 80rpx;
@@ -184,7 +185,7 @@
 			color: #aaa;
 			&.on{
 				color: #555;
-				border-bottom: 4rpx solid #f06c7a;
+				border-bottom: 4rpx solid #1abc9c;
 				font-weight: 600;
 				font-size: 30rpx;
 			}
@@ -197,6 +198,7 @@
 
 	}
 .goods-list{
+	height: 85vh;
 		.loading-text{
 			width: 100%;
 			display: flex;
@@ -225,13 +227,15 @@
 				}
 				.name{
 					width: 92%;
-					padding: 10rpx 4%;
-					display: -webkit-box;
-					-webkit-box-orient: vertical;
-					-webkit-line-clamp: 2;
-					text-align: justify;
-					overflow: hidden;
+					padding: 0 4%;
 					font-size: 30rpx;
+					overflow : hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+					word-wrap: break-word;
+					word-break: break-all;
 				}
 				.info{
 					display: flex;

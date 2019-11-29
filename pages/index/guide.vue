@@ -5,7 +5,8 @@
 		:indicator-dots="indicator" 
 		indicator-color="rgba(204, 204, 204, 1)"
 		indicator-active-color="rgba(204, 204, 204, .5)"
-		:duration="duration">
+		:duration="duration"
+		@change="changeSwiper">
 			<swiper-item v-for="(item,index) in guideList" :key="index">
 				<view class="swiper-item">
 					<view class="guide_title">{{item.title}}</view>
@@ -17,6 +18,14 @@
 				<!-- <view class="jump-over" @tap="launchFlag()">{{jumpover}}</view> -->
 			</swiper-item>
 		</swiper>
+		<view class="indicator">
+			<view
+				class="dots"
+				v-for="(swiper, idx) in guideList"
+				:class="[currentSwiper == idx ? 'on' : '']"
+				:key="idx"
+			></view>
+		</view>
 	</view>
 </template>
 
@@ -26,10 +35,11 @@
 			return {
 				background: ['color1', 'color2', 'color3'],
 				autoplay: false,
-				indicator: true,
+				indicator: false,
 				duration: 500,
 				jumpover: '跳过',
 				experience: '立即体验',
+				currentSwiper: 0,
 				guideList: [
 					{
 						title: '引导页标题文案',
@@ -68,9 +78,12 @@
 					key: 'launchFlag',
 					data: true,
 				});
-				uni.navigateTo({
+				uni.reLaunch({
 					url: '/pages/login/login'
 				});
+			},
+			changeSwiper(e){
+				this.currentSwiper = e.detail.current;
 			}
 		}
 	}
@@ -93,7 +106,7 @@
 		height: 100%;
 		text-align: center;
 		position: relative;
-		padding: 15vh 0 0;
+		padding: 20vh 0 0;
 		image{
 			display: block;
 			width: 190rpx;
@@ -136,9 +149,6 @@
 			}
 		}
 	}
-	/deep/ uni-swiper .uni-swiper-dots-horizontal{
-		bottom: 10vh;
-	}
 	
 	.jump-over,.experience{
 		position: absolute;
@@ -159,5 +169,29 @@
 		right: 50%;
 		margin-right: -105rpx;
 		bottom: 0;
+	}
+	
+	.indicator {
+		position: fixed;
+		bottom: 10vh;
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: rgba(255, 255, 255, 0.4);
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		.dots {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background-color: rgba(204, 204, 204, 1);
+			margin-right: 8px;
+			&:last-child{
+				margin-right: 0;
+			}
+			&.on {
+				background: rgba(204, 204, 204, .5);
+			}
+		}
 	}
 </style>

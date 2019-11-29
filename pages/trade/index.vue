@@ -1,20 +1,24 @@
 <template>
 	<view class="trade">
-		<uni-nav-bar title="交易订单" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar title="交易订单" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="order_nav_box">
 			<view class="order_nav_top">全部订单<text @tap="lookMore">查看全部订单</text></view>
 			<view class="order_nav_list">
 				<view class="order_nav_item" @tap="toOrderPage(index)" v-for="(item,index) in orderNavs" :key="index">
-					<image :src="item.icon" mode="widthFix"></image>
+					<view class="icon_box"><image :src="item.icon" mode="widthFix"></image><text v-if="item.new_txt != 0">{{item.new_txt}}</text></view>
 					<view>{{item.title}}</view>
 				</view>
 			</view>
 		</view>
 		<view class="nav_list_box">
-			<view class="nav_list_item" @tap="toTapNav(index)" :class="[index==5?'border':'']" v-for="(item,index) in navList" :key="index">
+			<view class="nav_list_item" @tap="toTapNav(index)" v-for="(item,index) in navList" :key="index">
 				<view><image :src="item.icon" mode="widthFix"></image>{{item.title}}</view>
 				<text>{{item.text}}</text>
+			</view>
+			<view class="nav_list_item border" @tap="logout">
+				<view><image src="/static/nav_icon5.svg" mode="widthFix"></image>注销登录</view>
+				<text></text>
 			</view>
 		</view>
 	</view>
@@ -28,21 +32,23 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				orderNavs: [
 					{
 						icon: '/static/order_icon1.svg',
-						title: '待付款'
+						title: '待付款',
+						new_txt: 99
 					},{
 						icon: '/static/order_icon2.svg',
-						title: '待发货'
+						title: '待发货',
+						new_txt: 0
 					},{
 						icon: '/static/order_icon3.svg',
-						title: '待收货'
+						title: '待收货',
+						new_txt: 1
 					},{
 						icon: '/static/order_icon4.svg',
-						title: '已完成'
+						title: '已完成',
+						new_txt: 50
 					}
 				],
 				navList: [
@@ -50,12 +56,12 @@
 						icon: '/static/nav_icon1.svg',
 						title: '商城收益',
 						text: '',
-						url: ''
+						url: '/pages/index/shop'
 					},{
 						icon: '/static/nav_icon2.svg',
 						title: '收货地址',
 						text: '添加/修改',
-						url: '/pages/index/edit'
+						url: '/pages/index/address'
 					},{
 						icon: '/static/nav_icon3.svg',
 						title: '我的订单',
@@ -70,11 +76,6 @@
 						icon: '/static/nav_icon4.svg',
 						title: '认证中心',
 						text: '前往认证',
-						url: ''
-					},{
-						icon: '/static/nav_icon5.svg',
-						title: '注销登录',
-						text: '',
 						url: ''
 					}
 				]
@@ -92,21 +93,24 @@
 				})
 			},
 			toTapNav(idx){
-				if(idx == 5){
-					uni.showModal({
-						title: '确定退出登录？',
-						cancelText: '取消',
-						confirmText: '确定',
-						success:function(res){
-							if(res.confirm == true){
-								
-							}
-						}
-					})
-					return;
-				}
 				uni.navigateTo({
 					url: this.navList[idx].url
+				})
+			},
+			logout(){
+				uni.showModal({
+					title: '确定退出登录?',
+					content: '',
+					success: (res)=>{
+						if (res.confirm) {
+							this.$api.msg('退出成功');
+							setTimeout(function(){
+								uni.reLaunch({
+									url: '/pages/login/login'
+								})
+							},1500)
+						}
+					}
 				})
 			},
 			lookMore(){
@@ -156,11 +160,28 @@
 				&:active{
 					background: #f9f9f9;
 				}
-				image{
-					display: block;
-					width: 60rpx;
-					height: 60rpx;
-					margin: 0 auto 10rpx;
+				.icon_box{
+					position: relative;
+					text{
+						display: block;
+						width: 35rpx;
+						height: 35rpx;
+						line-height: 35rpx;
+						border-radius: 50%;
+						background: #f00;
+						color: #fff;
+						font-size: 24rpx;
+						position: absolute;
+						right: 20rpx;
+						top: 0;
+						z-index: 1;
+					}
+					image{
+						display: block;
+						width: 60rpx;
+						height: 60rpx;
+						margin: 0 auto 10rpx;
+					}
 				}
 			}
 		}

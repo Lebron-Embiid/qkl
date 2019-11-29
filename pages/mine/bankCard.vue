@@ -1,6 +1,6 @@
 <template>
 	<view class="bankCard">
-		<uni-nav-bar left-icon="back" leftText="返回" title="添加银行卡" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="添加银行卡" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="bankCard_box">
 			<!-- <view class="bank_title">*请绑定持卡人本人的银行卡，姓名一经填写不可修改!</view> -->
@@ -37,8 +37,6 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				array: ['中国工商银行', '中国农业银行', '中国建设银行'],
 				bank_type: '请选择开户银行',
 				card_name: '',

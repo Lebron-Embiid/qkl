@@ -17,7 +17,7 @@
         props: {
 			value: {
 				type: Boolean,
-				default: true
+				default: false
 			},
 			//背景颜色
 			bgcolor: {
@@ -88,9 +88,10 @@
         position: relative;
         width: 120rpx !important;
         height: 48rpx;
+		line-height: 48rpx;
 		border: 1px solid #C0C0C0;
         outline: 0;
-		font-size: 12rpx;
+		font-size: 24rpx;
         border-radius: 32rpx;
         box-sizing: border-box;
         transition: background-color 0.1s, border 0.1s;

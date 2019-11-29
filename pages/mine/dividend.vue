@@ -1,6 +1,6 @@
 <template>
 	<view class="dividend">
-		<uni-nav-bar left-icon="back" leftText="返回" title="我的分红" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="我的分红" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="dividend_box">
 			<view class="dividend_left">
@@ -82,8 +82,6 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				show: true,
 				show1: false,
 				navs: ['个人分红','团队分红'],

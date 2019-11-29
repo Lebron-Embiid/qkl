@@ -10,11 +10,11 @@
 			let that = this;
 			console.log('App Show')
 			uni.setTabBarBadge({
-			  index: 1,
-			  text: '10',
-			  success: function(){
+				index: 1,
+				text: '10',
+				success: function(){
 				  
-			  }
+				}
 			})
 			uni.showTabBarRedDot({
 				index: 2,
@@ -39,6 +39,29 @@
 <style lang="scss">
 /*每个页面公共css */
 @import "/static/iconfont/font.scss";
+page,body{
+	background: #fff;
+}
+uni-modal .uni-modal__btn_primary{
+	color: #1ABC9C !important;
+}
+// 多选按钮样式修改  --  注册页面
+// uni-checkbox .uni-checkbox-input{
+// 	transform: scale(.7);
+// 	border-radius: 50%;
+// 	margin-bottom: 6rpx;
+// }
+// uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked{
+// 	background: #1abc9c;
+// 	border-color: #1ABC9C;
+// }
+
+.status_bar {  
+    height: var(--status-bar-height);  
+    width: 100%;
+    background-color: #ffffff;
+}
+
 .form_item{
 	padding: 30rpx 0 30rpx 20rpx;
 	box-sizing: border-box;

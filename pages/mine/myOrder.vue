@@ -1,6 +1,6 @@
 <template>
 	<view class="myOrder">
-		<uni-nav-bar left-icon="back" leftText="返回" title="我的订单" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="我的订单" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="order_nav">
 			<view class="nav_item" :class="[index==current?'active':'']" @tap="changeNav(index)" v-for="(item,index) in orderNavs" :key="index">{{item}}</view>
@@ -34,8 +34,6 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				orderNavs: ["全部订单","待付款","待发货","待收货","已完成"],
 				current: 0,
 				orderList: [
@@ -137,7 +135,7 @@
 	}
 	.order_content{
 		// max-height: 880rpx;
-		max-height: 65vh;
+		max-height: 70vh;
 		.order_item{
 			border-bottom: 10rpx solid #f4f4f4;
 			font-size: 28rpx;

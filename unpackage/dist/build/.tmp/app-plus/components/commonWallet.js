@@ -1,0 +1,10 @@
+(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["components/commonWallet"],{"1c4d":function(t,n,e){"use strict";var o=e("3bbd"),u=e.n(o);u.a},"35d6":function(t,n,e){"use strict";(function(t){Object.defineProperty(n,"__esModule",{value:!0}),n.default=void 0;var o=function(){return e.e("components/uni-popup/uni-popup").then(e.bind(null,"10aa"))},u={name:"commonWallet",data:function(){return{current:0,price:"",pay_pwd:"",placeholder:"请输入转入金额"}},props:{isApp:{type:Boolean,default:!1},list:{type:Array,default:[]}},components:{uniPopup:o},methods:{changeNav:function(n){this.current=n,this.$refs.popup.open(),console.log(t(this.current,this.isApp," at components\\commonWallet.vue:88")),0==this.current&&(this.placeholder="请输入转入金额"),1==this.current&&(this.placeholder="请输入转出金额"),2==this.current&&0==this.isApp&&(this.placeholder="请输入投资金额"),2==this.current&&1==this.isApp&&(this.placeholder="请输入申请提现金额")},cancelPopup:function(){this.$refs.popup.close()},okPopup:function(){this.$refs.popup.close()}}};n.default=u}).call(this,e("0de9")["default"])},"3bbd":function(t,n,e){},"5da5":function(t,n,e){"use strict";e.r(n);var o=e("35d6"),u=e.n(o);for(var r in o)"default"!==r&&function(t){e.d(n,t,function(){return o[t]})}(r);n["default"]=u.a},6536:function(t,n,e){"use strict";e.r(n);var o=e("71a8"),u=e("5da5");for(var r in u)"default"!==r&&function(t){e.d(n,t,function(){return u[t]})}(r);e("1c4d");var c=e("2877"),a=Object(c["a"])(u["default"],o["a"],o["b"],!1,null,"42d47a98",null);n["default"]=a.exports},"71a8":function(t,n,e){"use strict";var o=function(){var t=this,n=t.$createElement;t._self._c},u=[];e.d(n,"a",function(){return o}),e.d(n,"b",function(){return u})}}]);
+;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
+    'components/commonWallet-create-component',
+    {
+        'components/commonWallet-create-component':(function(module, exports, __webpack_require__){
+            __webpack_require__('6e42')['createComponent'](__webpack_require__("6536"))
+        })
+    },
+    [['components/commonWallet-create-component']]
+]);                

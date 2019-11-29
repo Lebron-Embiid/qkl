@@ -88,7 +88,7 @@
 			},
 			color: {
 				type: String,
-				default: "#999999"
+				default: "#333333"
 			},
 			txtColor: {
 				type: String,
@@ -96,7 +96,7 @@
 			},
 			backgroundColor: {
 				type: String,
-				default: "#f2f2f2"
+				default: "#ffffff"
 			},
 			statusBar: {
 				type: [Boolean, String],
@@ -249,7 +249,7 @@
 
 	.uni-navbar--fixed {
 		position: fixed;
-		z-index: 998;
+		z-index: 990;
 	}
 
 	.uni-navbar--shadow {

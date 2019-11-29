@@ -23,7 +23,9 @@
 			"style": {
 				"navigationBarTitleText": "商品详情",
 				"app-plus": {
-					"titleNView": false
+					"titleNView": {
+						"type": "transparent"
+					}
 				}
 			}
 		},
@@ -295,29 +297,29 @@
 		"list": [
 			{
 				"pagePath": "pages/member/index",
-				"iconPath": "static/tab_icon1.svg",
-				"selectedIconPath": "static/tab_icon1_on.svg",
+				"iconPath": "static/tab_icon1.png",
+				"selectedIconPath": "static/tab_icon1_on.png",
 				"text": "首页"
 			},
 			{
 				"pagePath": "pages/trade/index",
-				"iconPath": "static/tab_icon2.svg",
-				"selectedIconPath": "static/tab_icon2_on.svg",
+				"iconPath": "static/tab_icon2.png",
+				"selectedIconPath": "static/tab_icon2_on.png",
 				"text": "交易"
 			}, {
 				"pagePath": "pages/message/index",
-				"iconPath": "static/tab_icon3.svg",
-				"selectedIconPath": "static/tab_icon3_on.svg",
+				"iconPath": "static/tab_icon3.png",
+				"selectedIconPath": "static/tab_icon3_on.png",
 				"text": "讯息"
 			}, {
 				"pagePath": "pages/member/myMember",
-				"iconPath": "static/tab_icon4.svg",
-				"selectedIconPath": "static/tab_icon4_on.svg",
+				"iconPath": "static/tab_icon4.png",
+				"selectedIconPath": "static/tab_icon4_on.png",
 				"text": "会员"
 			}, {
 				"pagePath": "pages/mine/index",
-				"iconPath": "static/tab_icon5.svg",
-				"selectedIconPath": "static/tab_icon5_on.svg",
+				"iconPath": "static/tab_icon5.png",
+				"selectedIconPath": "static/tab_icon5_on.png",
 				"text": "我的"
 			}
 		]

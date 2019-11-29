@@ -1,6 +1,6 @@
 <template>
 	<view class="personInfo">
-		<uni-nav-bar left-icon="back" leftText="返回" title="个人信息" :backgroundColor="background" :color="color" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="个人信息" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="basic_info">
 			<view class="basic_title">基本资料</view>
@@ -25,18 +25,20 @@
 					<view class="icon"><image src="/static/pwd.svg" mode="widthFix"></image></view>
 					<view class="right_box">
 						<view class="ipt_box">
-							<input type="password" placeholder="设置登录密码" v-model="password" />
+							<input type="password" placeholder="设置登录密码" v-if="input_type1 == 0" v-model="password" />
+							<input type="text" placeholder="设置登录密码" v-else v-model="password" />
 						</view>
-						<switchc text="可见|***" class="switch_btn" :sid="1" @change="switchchange"></switchc>
+						<switchc text="可见|***" class="switch_btn" :sid="0" @change="switchchange"></switchc>
 					</view>
 				</view>
 				<view class="form_item">
 					<view class="icon"><image src="/static/pwd.svg" mode="widthFix"></image></view>
 					<view class="right_box">
 						<view class="ipt_box">
-							<input type="password" placeholder="设置交易密码" v-model="trade_pwd" />
+							<input type="password" placeholder="设置交易密码" v-if="input_type2 == 0" v-model="trade_pwd" />
+							<input type="text" placeholder="设置交易密码" v-else v-model="trade_pwd" />
 						</view>
-						<switchc text="可见|***" class="switch_btn" :sid="1" @change="switchchange"></switchc>
+						<switchc text="可见|***" class="switch_btn" :sid="1" @change="switchchange1"></switchc>
 					</view>
 				</view>
 				<view class="form_item">
@@ -59,7 +61,7 @@
 					<view class="icon no"><image src="/static/ship.png" mode="widthFix"></image></view>
 					<view class="right_box">
 						<view class="ipt_box">
-							<input type="text" placeholder="请输入收货地址" v-model="name" />
+							<input type="text" placeholder="请输入收货地址" v-model="address" />
 						</view>
 					</view>
 				</view>
@@ -76,7 +78,7 @@
 				<view class="del_txt">删除</view>
 			</view>
 			<button type="primary" class="bank_btn" @tap="addBankCard">添加银行卡</button>
-			<button class="submit_btn" form-type="submit">确认</button>
+			<button class="submit_btn" @tap="submitForm" form-type="submit">确认</button>
 		</view>
 	</view>
 </template>
@@ -90,15 +92,16 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				color: '#333',
-				background: '#fff',
 				
 				name: '',
 				phone: '',
 				password: '',
 				trade_pwd: '',
+				input_type1: '',
+				input_type2: '',
 				invite_code: '',
-				email: ''
+				email: '',
+				address: ''
 			}
 		},
 		components:{
@@ -107,10 +110,40 @@
 			switchc
 		},
 		methods:{
+			switchchange(e) {
+				console.log(e);
+				if(e.value == true){
+					this.input_type1 = 1;
+				}else{
+					this.input_type1 = 0;
+				}
+			},
+			switchchange1(e) {
+				console.log(e);
+				if(e.value == true){
+					this.input_type2 = 1;
+				}else{
+					this.input_type2 = 0;
+				}
+			},
 			addBankCard(){
 				uni.navigateTo({
 					url: '/pages/mine/bankCard'
 				})
+			},
+			submitForm(){
+				// if(this.phone == ''){
+				// 	this.$api.msg("请输入登录手机号");
+				// 	return;
+				// }
+				// if(!(/^1[3456789]\d{9}$/.test(this.phone))){
+				// 	this.$api.msg("手机号码格式不正确");
+				// 	return; 
+				// }
+				// if(!(/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email))){
+				// 	this.$api.msg("邮箱格式不正确");
+				// 	return;
+				// }
 			}
 		}
 	}
