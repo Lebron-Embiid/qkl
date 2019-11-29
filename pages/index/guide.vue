@@ -4,7 +4,7 @@
 		:autoplay="autoplay" 
 		:indicator-dots="indicator" 
 		indicator-color="rgba(204, 204, 204, 1)"
-		indicator-active-color="rgba(204, 204, 204, .5)"
+		indicator-active-color="rgba(230, 230, 230, 1)"
 		:duration="duration"
 		@change="changeSwiper">
 			<swiper-item v-for="(item,index) in guideList" :key="index">
