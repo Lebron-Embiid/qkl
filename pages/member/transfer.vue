@@ -20,8 +20,8 @@
 		<view class="increase_before" v-if="is_apply == 1">
 			<image src="/static/success.svg" mode="widthFix"></image>
 			<view class="ib_title">操作成功</view>
-			<view class="ib_info">您已成功转款 <text>10000</text> 到{{name}}钱包中</view>
-			<button type="primary" class="black">历史转款</button>
+			<view class="ib_info">您已成功转款 <text>{{send_price}}</text> 到{{name}}钱包中</view>
+			<button type="primary" class="black" @tap="toHistory">历史转款</button>
 		</view>
 		<view class="increase_after" v-if="is_apply == 0">
 			<view class="form_item">
@@ -51,7 +51,7 @@
 				</view>
 			</view>
 			<button class="submit_btn" form-type="submit" @tap="applyConfirm">提交确认</button>
-			<button class="submit_btn history_btn">历史转款</button>
+			<button class="submit_btn history_btn" @tap="toHistory">历史转款</button>
 		</view>
 	</view>
 </template>
@@ -81,6 +81,7 @@
 				is_apply: 0,	//是否点击申请按钮
 				name: 'Peter',
 				id_link: '',
+				send_price: 10000,
 				price: '',
 				password: '',
 				input_type: ''
@@ -119,6 +120,11 @@
 				        console.log('条码类型：' + res.scanType);
 				        console.log('条码内容：' + res.result);
 				    }
+				})
+			},
+			toHistory(){
+				uni.navigateTo({
+					url: '/pages/member/historyList?type=1'
 				})
 			}
 		}

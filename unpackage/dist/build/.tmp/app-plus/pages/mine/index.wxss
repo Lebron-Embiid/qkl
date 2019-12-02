@@ -24,7 +24,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.mine_list.data-v-1b1dc7c5 {
+.mine_list.data-v-08d90781 {
   padding: 50rpx;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -40,15 +40,15 @@
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
 }
-.mine_list .mine_item.data-v-1b1dc7c5 {
+.mine_list .mine_item.data-v-08d90781 {
     width: 134rpx;
     margin: 0 50rpx 50rpx 0;
     text-align: center;
 }
-.mine_list .mine_item.data-v-1b1dc7c5:nth-child(3n) {
+.mine_list .mine_item.data-v-08d90781:nth-child(3n) {
       margin-right: 0;
 }
-.mine_list .mine_item .mine_img.data-v-1b1dc7c5 {
+.mine_list .mine_item .mine_img.data-v-08d90781 {
       display: block;
       width: 134rpx;
       height: 134rpx;
@@ -67,24 +67,24 @@
           -ms-flex-align: center;
               align-items: center;
 }
-.mine_list .mine_item .mine_img image.data-v-1b1dc7c5 {
+.mine_list .mine_item .mine_img image.data-v-08d90781 {
         display: block;
         width: 78rpx;
         height: 78rpx;
 }
-.mine_list .mine_item:first-child .other_img image.data-v-1b1dc7c5 {
+.mine_list .mine_item:first-child .other_img image.data-v-08d90781 {
       width: 96rpx;
       height: 98rpx;
 }
-.mine_list .mine_item:nth-child(3) .other_img image.data-v-1b1dc7c5 {
+.mine_list .mine_item:nth-child(3) .other_img image.data-v-08d90781 {
       width: 80rpx;
       height: 70rpx;
 }
-.mine_list .mine_item:nth-child(6) .other_img image.data-v-1b1dc7c5 {
+.mine_list .mine_item:nth-child(6) .other_img image.data-v-08d90781 {
       width: 94rpx;
       height: 82rpx;
 }
-.mine_list .mine_item text.data-v-1b1dc7c5 {
+.mine_list .mine_item text.data-v-08d90781 {
       color: #666;
       font-size: 28rpx;
 }

@@ -24,7 +24,7 @@
 				<text>开户支行</text>
 				<input type="text" placeholder="输入开户支行" v-model="card_bank">
 			</view>
-			<button type="primary">添加</button>
+			<button type="primary" @tap="addCard">添加</button>
 		</view>
 	</view>
 </template>
@@ -52,6 +52,9 @@
 			bindPickerChange: function(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.bank_type = this.array[e.target.value];
+			},
+			addCard(){
+				
 			}
 		}
 	}

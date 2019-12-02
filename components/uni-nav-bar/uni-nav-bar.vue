@@ -13,14 +13,14 @@
 					 v-if="leftText.length">
 						<text :style="{ color: txtColor, fontSize: '13px' }">{{ leftText }}</text>
 					</view>
-					<slot name="left" />
+					<slot name="left"></slot>
 				</view>
 				<view class="uni-navbar__header-container uni-navbar__content_view">
 					<view class="uni-navbar__header-container-inner uni-navbar__content_view" v-if="title.length">
 						<text class="uni-nav-bar-text" :style="{color: color }">{{ title }}</text>
 					</view>
 					<!-- 标题插槽 -->
-					<slot />
+					<slot></slot>
 				</view>
 				<view :class="title.length ? 'uni-navbar__header-btns-right' : ''" @tap="onClickRight" class="uni-navbar__header-btns uni-navbar__content_view">
 					<view class="uni-navbar__content_view" v-if="rightIcon.length">
@@ -31,7 +31,7 @@
 					<view class="uni-navbar-btn-text uni-navbar__content_view" v-if="rightText.length && !rightIcon.length">
 						<text class="uni-nav-bar-right-text">{{ rightText }}</text>
 					</view>
-					<slot name="right" />
+					<slot name="right"></slot>
 				</view>
 			</view>
 		</view>

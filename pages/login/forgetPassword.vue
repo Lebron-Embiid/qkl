@@ -2,8 +2,8 @@
 	<view class="forgetPassword">
 		<uni-nav-bar left-icon="back" title="重置密码" :color="color" :backgroundColor="background"></uni-nav-bar>
 		<view class="white_logo_box">
-			<image src="/static/logo1.png" mode="widthFix"></image>
-			<text>SOLOMON MATRIX</text>
+			<image :src="logoSrc" mode="widthFix"></image>
+			<text>{{app_name}}</text>
 		</view>
 		<view class="forget_box">
 			<form @submit="loginSubmit">
@@ -50,6 +50,8 @@
 			return{
 				color: '#999999',
 				background: '#f2f2f2',
+				logoSrc: '/static/logo1.png',
+				app_name: 'SOLOMON MATRIX',
 				phone: '',
 				email: '',
 				code:'',

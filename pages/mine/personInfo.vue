@@ -68,11 +68,11 @@
 			</view>
 			<view class="basic_title">银行账户</view>
 			<view class="bank_info">
-				<view class="bank_left">
-					<image src="" mode=""></image>
+				<view class="bank_left" v-for="(item,index) in bankList" :key="index">
+					<image :src="item.imageUrl" mode="widthFix"></image>
 					<view class="bank_txt">
-						<view class="bank_name">中国工商银行</view>
-						<text>622228219821821313421</text>
+						<view class="bank_name">{{item.bank_name}}</view>
+						<text>{{item.bank_card}}</text>
 					</view>
 				</view>
 				<view class="del_txt">删除</view>
@@ -101,7 +101,14 @@
 				input_type2: '',
 				invite_code: '',
 				email: '',
-				address: ''
+				address: '',
+				bankList: [
+					{
+						imageUrl: '',
+						bank_name: '中国工商银行',
+						bank_card: '622228219821821313421'
+					}
+				]
 			}
 		},
 		components:{

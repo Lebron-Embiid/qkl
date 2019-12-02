@@ -24,10 +24,10 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.data-v-e82ae850 .mine_top {
+.data-v-9ef7f8ba .mine_top {
   padding-bottom: 0;
 }
-.common_top_black.data-v-e82ae850 {
+.common_top_black.data-v-9ef7f8ba {
   background: #000;
   color: #ccc;
   font-size: 28rpx;
@@ -35,14 +35,14 @@
   text-align: center;
   position: relative;
 }
-.common_top_black .common_price.data-v-e82ae850 {
+.common_top_black .common_price.data-v-9ef7f8ba {
     color: #fff;
 }
-.common_top_black .common_price text.data-v-e82ae850 {
+.common_top_black .common_price text.data-v-9ef7f8ba {
       color: #ccc;
       margin-left: 10rpx;
 }
-.common_top_black .add_btn.data-v-e82ae850 {
+.common_top_black .add_btn.data-v-9ef7f8ba {
     display: block;
     width: 180rpx;
     height: 45rpx;
@@ -56,7 +56,7 @@
     right: 30rpx;
     top: 0;
 }
-.wallet_box.data-v-e82ae850 {
+.wallet_box.data-v-9ef7f8ba {
   padding: 0 10rpx 30rpx;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -76,7 +76,7 @@
       -ms-flex-align: start;
           align-items: flex-start;
 }
-.wallet_box .wallet_txt.data-v-e82ae850 {
+.wallet_box .wallet_txt.data-v-9ef7f8ba {
     width: 32%;
     height: 138rpx;
     display: -webkit-box;
@@ -94,17 +94,17 @@
     background: #999;
     border-radius: 10rpx;
 }
-.wallet_box .wallet_txt.first.data-v-e82ae850 {
+.wallet_box .wallet_txt.first.data-v-9ef7f8ba {
       background: #666;
 }
-.wallet_box .wallet_txt.active.data-v-e82ae850 {
+.wallet_box .wallet_txt.active.data-v-9ef7f8ba {
       background: #333;
 }
-.all_price text.data-v-e82ae850 {
+.all_price text.data-v-9ef7f8ba {
   color: #fff;
   font-weight: bold;
 }
-.invest_box .invest_item .invest_bottom.data-v-e82ae850 {
+.invest_box .invest_item .invest_bottom.data-v-9ef7f8ba {
   padding: 25rpx 20rpx 25rpx 40rpx;
 }
 

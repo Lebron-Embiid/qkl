@@ -24,10 +24,10 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.data-v-3d452bb9 .mine_top {
+.data-v-cedc525a .mine_top {
   padding-bottom: 0;
 }
-.common_top_black.data-v-3d452bb9 {
+.common_top_black.data-v-cedc525a {
   background: #000;
   color: #ccc;
   font-size: 28rpx;
@@ -35,14 +35,14 @@
   text-align: center;
   position: relative;
 }
-.common_top_black .common_price.data-v-3d452bb9 {
+.common_top_black .common_price.data-v-cedc525a {
     color: #fff;
 }
-.common_top_black .common_price text.data-v-3d452bb9 {
+.common_top_black .common_price text.data-v-cedc525a {
       color: #ccc;
       margin-left: 10rpx;
 }
-.common_top_black .add_btn.data-v-3d452bb9 {
+.common_top_black .add_btn.data-v-cedc525a {
     display: block;
     width: 180rpx;
     height: 45rpx;
@@ -56,7 +56,7 @@
     right: 30rpx;
     top: 0;
 }
-.all_price text.data-v-3d452bb9 {
+.all_price text.data-v-cedc525a {
   color: #fff;
   font-weight: bold;
 }

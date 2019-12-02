@@ -72,12 +72,13 @@
 						title: '购物车',
 						text: '',
 						url: '/pages/index/cart'
-					},{
-						icon: '/static/nav_icon4.svg',
-						title: '认证中心',
-						text: '前往认证',
-						url: ''
 					}
+					// ,{
+					// 	icon: '/static/nav_icon4.svg',
+					// 	title: '认证中心',
+					// 	text: '前往认证',
+					// 	url: ''
+					// }
 				]
 			}
 		},
@@ -98,12 +99,13 @@
 				})
 			},
 			logout(){
+				let that = this;
 				uni.showModal({
-					title: '确定退出登录?',
-					content: '',
-					success: (res) => {
+					title: '提示',
+					content: '确定退出登录？',
+					success:function(res){
 						if(res.confirm){
-							this.$api.msg("退出成功");
+							that.$api.msg("退出成功");
 							setTimeout(function(){
 								uni.reLaunch({
 									url: '/pages/login/login'
@@ -202,7 +204,8 @@
 			}
 			&.border{
 				border-top: 20rpx solid #f4f4f4;
-				border-bottom: 20rpx solid #f4f4f4;
+				border-bottom: 0;
+				// border-bottom: 20rpx solid #f4f4f4;
 			}
 			view{
 				display: flex;

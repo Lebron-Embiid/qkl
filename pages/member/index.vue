@@ -7,8 +7,8 @@
 		<!-- #endif -->  
 		<view class="member_top">
 			<view>
-				<image src="/static/logo1.png" mode="widthFix"></image>
-				<text>SOLOMON MATRIX</text>
+				<image :src="logoSrc" mode="widthFix"></image>
+				<text>{{app_name}}</text>
 			</view>
 			<button type="primary" @tap="toShop">商城</button>
 		</view>
@@ -27,7 +27,7 @@
 		</view>
 		<view class="ad_box">
 			<view class="ad_title">平台公告：</view>
-			<view class="ad_content">欢迎使用 <text>SOLOMON MATRIX</text> ，平台将在近期推出全新理财产品，敬请期待！谢谢。</view>
+			<view class="ad_content">欢迎使用 <text>{{app_name}}</text> ，平台将在近期推出全新理财产品，敬请期待！谢谢。</view>
 		</view>
 		<view class="other_box">
 			<view class="other_item" v-for="(item,index) in otherList" @tap="toOtherLink(index)" :key="index">
@@ -42,6 +42,8 @@
 	export default{
 		data(){
 			return{
+				logoSrc: '/static/logo1.png',
+				app_name: 'SOLOMON MATRIX',
 				memberList: [
 					{
 						icon: '/static/member_icon1.png',
@@ -81,6 +83,12 @@
 					}
 				]
 			}
+		},
+		onLoad() {
+			
+		},
+		onShow() {
+			
 		},
 		methods:{
 			toListLink(idx){
@@ -131,7 +139,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: flex-end;
-		padding: 10rpx 20rpx 20rpx 30rpx;
+		padding: 10rpx 20rpx 10rpx 30rpx;
 		box-sizing: border-box;
 		view{
 			display: flex;
@@ -139,8 +147,8 @@
 			align-items: flex-end;
 			image{
 				display: block;
-				width: 108rpx;
-				height: 108rpx;
+				width: 70rpx;
+				height: 70rpx;
 				margin-right: 20rpx;
 			}
 			text{

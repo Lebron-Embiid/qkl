@@ -22,7 +22,7 @@
 			<view class="ib_title">等待处理</view>
 			<view class="ib_info">已提交申请，等待系统处理</view>
 			<button type="primary" class="again_btn" @tap="againWithdraw">再次提款</button>
-			<button type="primary" class="black">历史提款</button>
+			<button type="primary" class="black" @tap="toHistory">历史提款</button>
 		</view>
 		<view class="increase_after" v-if="is_apply == 0">
 			<view class="form_item">
@@ -44,7 +44,7 @@
 				</view>
 			</view>
 			<button class="submit_btn" form-type="submit" @tap="applyConfirm">申请确认</button>
-			<button class="submit_btn history_btn">历史提款</button>
+			<button class="submit_btn history_btn" @tap="toHistory">历史提款</button>
 		</view>
 	</view>
 </template>
@@ -106,6 +106,11 @@
 			},
 			againWithdraw(){
 				this.is_apply = 0;
+			},
+			toHistory(){
+				uni.navigateTo({
+					url: '/pages/member/historyList?type=0'
+				})
 			}
 		}
 	}

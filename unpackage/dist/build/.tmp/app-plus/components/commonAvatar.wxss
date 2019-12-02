@@ -24,7 +24,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.mine_top.data-v-e0c8594a {
+.mine_top.data-v-01fe8d10 {
   position: relative;
   padding: 50rpx 0 20rpx;
   background: #000;
@@ -34,23 +34,23 @@
   color: #ccc;
   font-size: 24rpx;
 }
-.mine_top .avatar_img.data-v-e0c8594a {
+.mine_top .avatar_img.data-v-01fe8d10 {
     display: block;
     width: 138rpx;
     height: 138rpx;
     margin: 0 auto 20rpx;
 }
-.mine_top .bg.data-v-e0c8594a {
+.mine_top .bg.data-v-01fe8d10 {
     position: absolute;
     display: block;
     width: 94rpx;
     height: 100% !important;
     top: 0;
 }
-.mine_top .left_bg.data-v-e0c8594a {
+.mine_top .left_bg.data-v-01fe8d10 {
     left: 0;
 }
-.mine_top .right_bg.data-v-e0c8594a {
+.mine_top .right_bg.data-v-01fe8d10 {
     right: 0;
 }
 

@@ -24,41 +24,41 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.login_top.data-v-8816db34 {
+.login_top.data-v-e9ea1aa0 {
   background: #009999;
   text-align: center;
   padding: 100rpx 30rpx 120rpx;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.login_top image.data-v-8816db34 {
+.login_top image.data-v-e9ea1aa0 {
     display: block;
     width: 260rpx;
     height: 260rpx;
     margin: 0 auto 30rpx;
 }
-.login_top text.data-v-8816db34 {
+.login_top text.data-v-e9ea1aa0 {
     color: #fff;
     font-weight: 700;
     font-size: 36rpx;
 }
-.login_box.data-v-8816db34 {
+.login_box.data-v-e9ea1aa0 {
   padding: 120rpx 80rpx 20rpx;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.login_box .create_btn.data-v-8816db34 {
+.login_box .create_btn.data-v-e9ea1aa0 {
     display: block;
     width: 100%;
     text-align: center;
     color: #1ABC9C;
     font-size: 26rpx;
 }
-.login_box .forget_txt.data-v-8816db34 {
+.login_box .forget_txt.data-v-e9ea1aa0 {
     text-align: right;
     margin: 15rpx 0 50rpx;
 }
-.login_box .forget_txt text.data-v-8816db34 {
+.login_box .forget_txt text.data-v-e9ea1aa0 {
       color: #1ABC9C;
       font-size: 24rpx;
 }

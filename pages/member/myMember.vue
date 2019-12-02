@@ -7,14 +7,14 @@
 				<image src="/static/member_icon4.png" mode="widthFix"></image>
 				<view class="right_area">
 					<view class="member_txt">会员人数：</view>
-					<view class="member_money">2000</view>
+					<view class="member_money">{{person_num}}</view>
 				</view>
 			</view>
 			<view class="my_member_item" @tap="toDividend">
 				<image src="/static/member_icon3.png" mode="widthFix"></image>
 				<view class="right_area">
 					<view class="member_txt">团队分红：</view>
-					<view class="member_money">$ 800000</view>
+					<view class="member_money">$ {{dividend}}</view>
 				</view>
 			</view>
 		</view>
@@ -68,8 +68,10 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				animationData: {},
+				
 				name: 'Peter',
+				person_num: 2000,
+				dividend: 800000,
 				price: '',
 				pay_pwd: '',
 				memberList: [

@@ -30,7 +30,8 @@
     "pages/member/myMember",
     "pages/member/increase",
     "pages/member/withdraw",
-    "pages/member/transfer"
+    "pages/member/transfer",
+    "pages/member/historyList"
   ],
   "window": {
     "navigationBarTextStyle": "black",

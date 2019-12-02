@@ -1,8 +1,8 @@
 <template>
 	<view class="commonAvatar">
 		<view class="mine_top">
-			<image src="/static/avatar.png" class="avatar_img" mode="widthFix"></image>
-			<text>Mr.Maker</text>
+			<image :src="avatar" class="avatar_img" mode="widthFix"></image>
+			<text>{{name}}</text>
 			<image src="/static/left_bg.png" class="bg left_bg" mode="widthFix"></image>
 			<image src="/static/right_bg.png" class="bg right_bg" mode="widthFix"></image>
 		</view>
@@ -14,8 +14,12 @@
 		name: 'commonAvatar',
 		data(){
 			return{
-				
+				avatar: '/static/avatar.png',
+				name: 'Mr.Maker'
 			}
+		},
+		onLoad() {
+			
 		}
 	}
 </script>

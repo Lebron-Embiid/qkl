@@ -24,18 +24,18 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.basic_info.data-v-0bd12c0c {
+.basic_info.data-v-6078e30f {
   padding: 50rpx 30rpx 20rpx;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.basic_info .form_box.data-v-0bd12c0c {
+.basic_info .form_box.data-v-6078e30f {
     padding: 0 30rpx;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     margin-bottom: 50rpx;
 }
-.basic_info .form_box .form_item.last .icon.data-v-0bd12c0c {
+.basic_info .form_box .form_item.last .icon.data-v-6078e30f {
       width: 40rpx;
       display: -webkit-box;
       display: -webkit-flex;
@@ -46,18 +46,18 @@
           -ms-flex-pack: center;
               justify-content: center;
 }
-.basic_info .form_box .form_item.last .icon image.data-v-0bd12c0c {
+.basic_info .form_box .form_item.last .icon image.data-v-6078e30f {
         width: 22rpx;
         height: 48rpx !important;
 }
-.basic_info .basic_title.data-v-0bd12c0c {
+.basic_info .basic_title.data-v-6078e30f {
     color: #999;
     font-size: 28rpx;
     padding-bottom: 10rpx;
     border-bottom: 1px solid #ccc;
     margin-bottom: 30rpx;
 }
-.bank_info.data-v-0bd12c0c {
+.bank_info.data-v-6078e30f {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -80,7 +80,7 @@
   border-top: 0;
   border-bottom: 0;
 }
-.bank_info .bank_left.data-v-0bd12c0c {
+.bank_info .bank_left.data-v-6078e30f {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -94,17 +94,17 @@
         -ms-flex-align: center;
             align-items: center;
 }
-.bank_info .bank_left image.data-v-0bd12c0c {
+.bank_info .bank_left image.data-v-6078e30f {
       display: block;
       width: 60rpx;
       height: 60rpx;
       margin-right: 30rpx;
       background: #ccc;
 }
-.bank_info .bank_left .bank_txt .bank_name.data-v-0bd12c0c {
+.bank_info .bank_left .bank_txt .bank_name.data-v-6078e30f {
       margin-bottom: 20rpx;
 }
-.bank_info .del_txt.data-v-0bd12c0c {
+.bank_info .del_txt.data-v-6078e30f {
     border: 1px solid #ccc;
     padding: 5rpx 25rpx;
     -webkit-box-sizing: border-box;
@@ -115,12 +115,12 @@
     -o-transition: all .5s ease;
     transition: all .5s ease;
 }
-.bank_info .del_txt.data-v-0bd12c0c:active {
+.bank_info .del_txt.data-v-6078e30f:active {
       background: #099;
       border-color: #099;
       color: #fff;
 }
-.bank_btn.data-v-0bd12c0c {
+.bank_btn.data-v-6078e30f {
   height: 80rpx;
   line-height: 80rpx;
   background: #666;
@@ -132,13 +132,13 @@
   -o-transition: all .5s ease;
   transition: all .5s ease;
 }
-.bank_btn.data-v-0bd12c0c:active {
+.bank_btn.data-v-6078e30f:active {
     opacity: .8;
 }
-.bank_btn.data-v-0bd12c0c:after {
+.bank_btn.data-v-6078e30f:after {
     border: 0;
 }
-.submit_btn.data-v-0bd12c0c {
+.submit_btn.data-v-6078e30f {
   margin-bottom: 0;
   width: 80%;
 }

@@ -301,6 +301,7 @@
 			color: #fff;
 			font-size: 32rpx;
 			border-radius: 50rpx;
+			transition: background .5s ease;
 			&:active{
 				background: #1ABC9C;
 			}

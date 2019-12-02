@@ -3,7 +3,7 @@
 		<uni-nav-bar left-icon="back" leftText="返回" title="APP钱包" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="common_top_black">
-			<view class="common_price">$ <text>1600000</text></view>
+			<view class="common_price">$ <text>{{over_money}}</text></view>
 			<view class="add_btn" @tap="toIncrease">加额</view>
 		</view>
 		<common-wallet :list="walletNavs" :isApp="true"></common-wallet>
@@ -37,6 +37,7 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				over_money: 1600000,
 				walletNavs: [{title:'转入',name:'first'},{title:'转出',name:'active'},{title:'提现',name:''}],
 				investList: [
 					{

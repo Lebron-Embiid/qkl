@@ -1,8 +1,8 @@
 <template>
 	<view class="login">
 		<view class="login_top">
-			<image src="/static/logo1.png" mode="widthFix"></image>
-			<text>SOLOMON MATRIX</text>
+			<image :src="logoSrc" mode="widthFix"></image>
+			<text>{{app_name}}</text>
 		</view>
 		<view class="login_box">
 			<form @submit="loginSubmit">
@@ -41,6 +41,8 @@
 	export default{
 		data(){
 			return{
+				logoSrc: '/static/logo1.png',
+				app_name: 'SOLOMON MATRIX',
 				phone: '',
 				password: '',
 				input_type: '',
@@ -94,6 +96,10 @@
 				// }
 				this.is_success = true;
 				this.$api.msg("登录成功",1500,false,'success');
+				
+				// uni.setStorageSync('token',data.token);
+				// uni.setStorageSync('sessionkey',data.sessionkey);
+				
 				setTimeout(function(){
 					uni.reLaunch({
 						url: '/pages/member/index'

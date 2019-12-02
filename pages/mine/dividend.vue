@@ -7,7 +7,7 @@
 				<image src="/static/member_icon3.png" mode="widthFix"></image>
 				<view class="right_area">
 					<view class="member_txt">分红总额：</view>
-					<view class="member_money">$ 800000</view>
+					<view class="member_money">$ {{dividend}}</view>
 				</view>
 			</view>
 			<view class="dividend_right" @tap="openOut">转出</view>
@@ -84,6 +84,8 @@
 				dot: true,
 				show: true,
 				show1: false,
+				avatar: '',
+				dividend: 800000,
 				navs: ['个人分红','团队分红'],
 				current: 0,
 				dividendList: [

@@ -3,10 +3,10 @@
 		<uni-nav-bar left-icon="back" leftText="返回" title="投资钱包" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar></common-avatar>
 		<view class="common_top_black">
-			<view class="common_price">$ <text>1600000</text></view>
+			<view class="common_price">$ <text>{{over_money}}</text></view>
 		</view>
 		<common-wallet :list="walletNavs"></common-wallet>
-		<view class="common_top_black all_price">当前投资总额：<text>120000</text></view>
+		<view class="common_top_black all_price">当前投资总额：<text>{{invest_money}}</text></view>
 		<view class="invest_box">
 			<view class="invest_top">
 				<view class="it_left">投资单号</view>
@@ -53,6 +53,8 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				over_money: 1600000,
+				invest_money: 120000,
 				pay_pwd: '',
 				walletNavs: [{title:'转入',name:'first'},{title:'转出',name:'active'},{title:'投资',name:''}],
 				investList: [

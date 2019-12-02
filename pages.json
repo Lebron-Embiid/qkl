@@ -281,6 +281,15 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			"path": "pages/member/historyList",
+			"style": {
+				"navigationBarTitleText": "历史提款",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {

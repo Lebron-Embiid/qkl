@@ -24,26 +24,26 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.message_detail_box.data-v-2a42133e {
+.message_detail_box.data-v-3a10b986 {
   padding: 20rpx 30rpx;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.message_detail_box image.data-v-2a42133e {
+.message_detail_box image.data-v-3a10b986 {
     display: block;
     width: 100%;
     height: 360rpx;
     margin-bottom: 20rpx;
     background: #ccc;
 }
-.message_detail_box .content_box.data-v-2a42133e {
+.message_detail_box .content_box.data-v-3a10b986 {
     padding: 20rpx 30rpx;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     color: #666;
     font-size: 26rpx;
 }
-.message_detail_box .content_box .message_title.data-v-2a42133e {
+.message_detail_box .content_box .message_title.data-v-3a10b986 {
       color: #999;
       margin-bottom: 10rpx;
 }

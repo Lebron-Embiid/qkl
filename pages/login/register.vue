@@ -2,8 +2,8 @@
 	<view class="register">
 		<uni-nav-bar left-icon="back" backgroundColor="#fff" :border="false"></uni-nav-bar>
 		<view class="white_logo_box">
-			<image src="/static/logo1.png" mode="widthFix"></image>
-			<text>SOLOMON MATRIX</text>
+			<image :src="logoSrc" mode="widthFix"></image>
+			<text>{{app_name}}</text>
 		</view>
 		<view class="register_box">
 			<form @submit="loginSubmit">
@@ -76,6 +76,8 @@
 	export default {
 	    data(){
 			return{
+				logoSrc: '/static/logo1.png',
+				app_name: 'SOLOMON MATRIX',
 				phone: '',
 				password: '',
 				trade_pwd: '',

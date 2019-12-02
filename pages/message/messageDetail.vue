@@ -31,8 +31,10 @@
 		},
 		onLoad(opt) {
 			console.log(opt);
-			this.title = opt.title;
-			this.content = opt.content;
+			if(opt.title!=undefined){
+				this.title = opt.title;
+				this.content = opt.content;
+			}
 		}
 	}
 </script>
