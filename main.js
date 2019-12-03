@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+import api from '@/common/vmeitime-http/'
 
 Vue.config.productionTip = false
 
@@ -17,7 +18,7 @@ const msg = (title, duration=1500, mask=false, icon='none')=>{
 		icon
 	});
 }
-
+Vue.prototype.$http = api;
 Vue.prototype.$api = {msg};
 
 const app = new Vue({

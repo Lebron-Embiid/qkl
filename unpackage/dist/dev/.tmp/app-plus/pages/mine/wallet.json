@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "APP钱包",
+  "titleNView": false,
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "common-avatar": "/components/commonAvatar",
+    "common-wallet": "/components/commonWallet"
+  }
+}

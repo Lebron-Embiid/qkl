@@ -81,10 +81,10 @@
 			},
 			loginSubmit(){
 				console.log(getApp().globalData.is_login);
-				model.checkLogin({
+				this.$http.checkLogin({
 					account: this.phone,
 					password: this.password
-				},(data)=>{
+				}).then((data)=>{
 					console.log(data.data);
 					this.$api.msg(data.data.message);
 					if(data.data.status == 1){
@@ -98,7 +98,28 @@
 							})
 						},1500)
 					}
+				}).catch((err)=>{
+					console.log('request fail', err);
 				})
+				
+				// model.checkLogin({
+				// 	account: this.phone,
+				// 	password: this.password
+				// },(data)=>{
+				// 	console.log(data.data);
+				// 	this.$api.msg(data.data.message);
+				// 	if(data.data.status == 1){
+				// 		this.is_success = true;
+				// 		getApp().globalData.is_login = true;
+				// 		// uni.setStorageSync('token',data.token);
+				// 		// uni.setStorageSync('sessionkey',data.sessionkey);
+				// 		setTimeout(function(){
+				// 			uni.reLaunch({
+				// 				url: '/pages/member/index'
+				// 			})
+				// 		},1500)
+				// 	}
+				// })
 				// if(this.phone == ''){
 				// 	this.$api.msg("请输入登录手机号");
 				// 	return;

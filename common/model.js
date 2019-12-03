@@ -43,8 +43,6 @@ class Model extends HTTP{
     this.request(params)
   }
   
- 
-  
 	// 不需要参数
 	//获取国际区号
   getAreaCode(success){
@@ -66,7 +64,7 @@ class Model extends HTTP{
     this.request(params)
   }
   // 传参页数
-  getCollectshop(pageNo,success){ //查看收藏店铺
+  getCollectshop(pageNo,success){
       let data={pageNo:pageNo,pageSize:10}
     	  let params = {
     		method:"POST",
@@ -85,10 +83,10 @@ class Model extends HTTP{
 // 	this.Swiperlist=data
 // })
 
-// model.formRegister({
+// model.getAreaCode({
 	
 // },(data)=>{
-// 	this.Swiperlist=data
+	
 // })
 
 export {Model}

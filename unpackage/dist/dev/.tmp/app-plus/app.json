@@ -1,0 +1,89 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/index/shop",
+    "pages/index/detail",
+    "pages/index/goodsList",
+    "pages/index/confirmation",
+    "pages/index/cart",
+    "pages/index/address",
+    "pages/index/edit",
+    "pages/index/ratings",
+    "pages/index/guide",
+    "pages/index/home",
+    "pages/trade/index",
+    "pages/message/index",
+    "pages/member/index",
+    "pages/mine/index",
+    "pages/login/login",
+    "pages/login/register",
+    "pages/login/forgetPassword",
+    "pages/mine/personInfo",
+    "pages/mine/collection",
+    "pages/mine/bankCard",
+    "pages/mine/myOrder",
+    "pages/message/messageDetail",
+    "pages/member/recommendMember",
+    "pages/mine/wallet",
+    "pages/mine/investWallet",
+    "pages/mine/dividend",
+    "pages/member/myMember",
+    "pages/member/increase",
+    "pages/member/withdraw",
+    "pages/member/transfer",
+    "pages/member/historyList"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#cccccc",
+    "selectedColor": "#1abc9c",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/member/index",
+        "iconPath": "static/tab_icon1.png",
+        "selectedIconPath": "static/tab_icon1_on.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/trade/index",
+        "iconPath": "static/tab_icon2.png",
+        "selectedIconPath": "static/tab_icon2_on.png",
+        "text": "交易"
+      },
+      {
+        "pagePath": "pages/message/index",
+        "iconPath": "static/tab_icon3.png",
+        "selectedIconPath": "static/tab_icon3_on.png",
+        "text": "讯息"
+      },
+      {
+        "pagePath": "pages/member/myMember",
+        "iconPath": "static/tab_icon4.png",
+        "selectedIconPath": "static/tab_icon4_on.png",
+        "text": "会员"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "iconPath": "static/tab_icon5.png",
+        "selectedIconPath": "static/tab_icon5_on.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "nvueCompiler": "uni-app",
+  "renderer": "auto",
+  "splashscreen": {
+    "alwaysShowBeforeRender": true,
+    "autoclose": false
+  },
+  "appname": "区块链",
+  "compilerVersion": "2.4.2",
+  "usingComponents": {}
+}

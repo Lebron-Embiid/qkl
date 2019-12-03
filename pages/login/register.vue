@@ -14,7 +14,7 @@
 							<!-- <input type="text" class="inter_ipt" placeholder="国际号" disabled v-model="internation_number"> -->
 							<picker @change="bindPickerChange" :range="country" :value="index" class="inter_ipt">
 								<!-- <text>{{internation_number}}</text> -->
-								<input type="text" placeholder="国际号" disabled v-model="areaCode[index]">
+								<input type="text" placeholder="区号" disabled v-model="areaCode[index]">
 							</picker>
 							<input type="text" placeholder="输入手机号码" v-model="phone" />
 							<!-- <image :class="[phone!=''?'active':'']" @tap="clearPhone" src="/static/clear.svg" mode="widthFix"></image> -->
@@ -166,10 +166,10 @@
 					return;
 				}
 				
-				if(this.internation_number == ''){
-					this.$api.msg('请输入国际号');
-					return;
-				}
+				// if(this.internation_number == ''){
+				// 	this.$api.msg('请输入区号');
+				// 	return;
+				// }
 				
 				let all_phone = this.internation_number+this.phone;
 				// console.log(all_phone);
@@ -180,14 +180,15 @@
 						console.log(util.phoneList[i][0]);
 					}
 				}
-				model.formRegister({
+				
+				this.$http.formRegister({
 					account: this.phone,
 					login_pwd: this.password,
 					safety_pwd: this.trade_pwd,
 					pid: this.invite_code,
 					email: this.email,
 					area_code: this.internation_number
-				},(data)=>{
+				}).then((data)=>{
 					this.$api.msg(data.data.message);
 					if(data.data.status == 1){
 						setTimeout(function(){
@@ -196,7 +197,27 @@
 							})
 						},1500)
 					}
+				}).catch((err)=>{
+					console.log('request fail', err);
 				})
+				
+				// model.formRegister({
+				// 	account: this.phone,
+				// 	login_pwd: this.password,
+				// 	safety_pwd: this.trade_pwd,
+				// 	pid: this.invite_code,
+				// 	email: this.email,
+				// 	area_code: this.internation_number
+				// },(data)=>{
+				// 	this.$api.msg(data.data.message);
+				// 	if(data.data.status == 1){
+				// 		setTimeout(function(){
+				// 			uni.redirectTo({
+				// 				url: '/pages/login/login'
+				// 			})
+				// 		},1500)
+				// 	}
+				// })
 				// if(this.phone == ''){
 				// 	this.$api.msg("请输入手机号码");
 				// 	return;
