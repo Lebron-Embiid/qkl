@@ -110,13 +110,14 @@
 			switchc
 		},
 		onShow() {
-			model.getAreaCode((res)=>{
-				console.log(res.data);
+			this.$http.getAreaCode().then((res)=>{
 				for(let i in res.data){
 					this.country.push(res.data[i].country);
 					this.areaCode.push(res.data[i].code);
 				}
 				console.log(this.country,this.areaCode);
+			}).catch((err)=>{
+				console.log('request fail', err);
 			})
 		},
 		methods:{
@@ -146,78 +147,54 @@
 				}else{
 					this.is_agree = false;
 				}
-				// console.log(e);
-				// let items = this.items,
-				// 	values = e.detail.value;
-				// for (var i = 0, lenI = items.length; i < lenI; ++i) {
-				// 	const item = items[i]
-				// 	if(values.includes(item.value)){
-				// 		this.$set(item,'checked',true)
-				// 	}else{
-				// 		this.$set(item,'checked',false)
-				// 	}
-				// }
 			},
 			loginSubmit(e){
-				console.log(util.phoneList);
-				
-				if(this.is_agree == false){
-					this.$api.msg("请阅读并同意用户协议");
-					return;
-				}
-				
-				// if(this.internation_number == ''){
-				// 	this.$api.msg('请输入区号');
-				// 	return;
-				// }
-				
-				let all_phone = this.internation_number+this.phone;
-				// console.log(all_phone);
-				for(let i in util.phoneList){
-					let reg = new RegExp(util.phoneList[i][1]);
-					// console.log(reg);
-					if((reg.test(all_phone))){
-						console.log(util.phoneList[i][0]);
+				// console.log(util.phoneList);
+				this.$Debounce.canDoFunction({
+					key: "register",
+					time: 1500,
+					success:()=>{
+						if(this.is_agree == false){
+							this.$api.msg("请阅读并同意用户协议");
+							return;
+						}
+						
+						// if(this.internation_number == ''){
+						// 	this.$api.msg('请输入区号');
+						// 	return;
+						// }
+						
+						let all_phone = this.internation_number+this.phone;
+						// console.log(all_phone);
+						for(let i in util.phoneList){
+							let reg = new RegExp(util.phoneList[i][1]);
+							// console.log(reg);
+							if((reg.test(all_phone))){
+								console.log(util.phoneList[i][0]);
+							}
+						}
+						
+						this.$http.formRegister({
+							account: this.phone,
+							login_pwd: this.password,
+							safety_pwd: this.trade_pwd,
+							pid: this.invite_code,
+							email: this.email,
+							area_code: this.internation_number
+						}).then((data)=>{
+							this.$api.msg(data.data.message);
+							if(data.data.status == 1){
+								setTimeout(function(){
+									uni.redirectTo({
+										url: '/pages/login/login'
+									})
+								},1500)
+							}
+						}).catch((err)=>{
+							console.log('request fail', err);
+						})
 					}
-				}
-				
-				this.$http.formRegister({
-					account: this.phone,
-					login_pwd: this.password,
-					safety_pwd: this.trade_pwd,
-					pid: this.invite_code,
-					email: this.email,
-					area_code: this.internation_number
-				}).then((data)=>{
-					this.$api.msg(data.data.message);
-					if(data.data.status == 1){
-						setTimeout(function(){
-							uni.redirectTo({
-								url: '/pages/login/login'
-							})
-						},1500)
-					}
-				}).catch((err)=>{
-					console.log('request fail', err);
 				})
-				
-				// model.formRegister({
-				// 	account: this.phone,
-				// 	login_pwd: this.password,
-				// 	safety_pwd: this.trade_pwd,
-				// 	pid: this.invite_code,
-				// 	email: this.email,
-				// 	area_code: this.internation_number
-				// },(data)=>{
-				// 	this.$api.msg(data.data.message);
-				// 	if(data.data.status == 1){
-				// 		setTimeout(function(){
-				// 			uni.redirectTo({
-				// 				url: '/pages/login/login'
-				// 			})
-				// 		},1500)
-				// 	}
-				// })
 				// if(this.phone == ''){
 				// 	this.$api.msg("请输入手机号码");
 				// 	return;

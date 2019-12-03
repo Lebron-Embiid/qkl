@@ -93,96 +93,72 @@
 				}
 			},
 			getcode(){
-				let that = this;
-				// if(that.phone == ''){
-				// 	that.$api.msg("请先填写手机号码");
-				// 	return;
-				// }
-				// if(!(/^1[3456789]\d{9}$/.test(that.phone))){
-				// 	that.$api.msg("手机号码格式不正确");
-				// 	return; 
-				// }
-				// if(that.phone){
-				// 	that.$api.msg("该手机号未注册");
-				// 	return;
-				// }
-				if(that.second>0){
-					return;
-				}
-				this.$http.sendEmailCode({
-					mobile: that.phone,
-					email: that.email
-				}).then((data)=>{
-					console.log(data);
-					that.$api.msg(data.data.message);
-					if(data.data.status == 1){
-						that.second = 60;
-						timer = setInterval(function(){
-							that.second--;
-							if(that.second==0){
-								clearInterval(timer)
+				this.$Debounce.canDoFunction({
+				    key: "getcode",
+				    time: 1500,
+				    success:()=>{
+						let that = this;
+						// if(that.phone == ''){
+						// 	that.$api.msg("请先填写手机号码");
+						// 	return;
+						// }
+						// if(!(/^1[3456789]\d{9}$/.test(that.phone))){
+						// 	that.$api.msg("手机号码格式不正确");
+						// 	return; 
+						// }
+						// if(that.phone){
+						// 	that.$api.msg("该手机号未注册");
+						// 	return;
+						// }
+						if(that.second>0){
+							return;
+						}
+						that.$http.sendEmailCode({
+							mobile: that.phone,
+							email: that.email
+						}).then((data)=>{
+							console.log(data);
+							that.$api.msg(data.data.message);
+							if(data.data.status == 1){
+								that.second = 60;
+								timer = setInterval(function(){
+									that.second--;
+									if(that.second==0){
+										clearInterval(timer)
+									}
+								},1000)
 							}
-						},1000)
-					}
-				}).catch((err)=>{
-					console.log('request fail', err);
+						}).catch((err)=>{
+							console.log('request fail', err);
+						})
+				    }
 				})
-				
-				// model.sendEmailCode({
-				// 	mobile: that.phone,
-				// 	email: that.email
-				// },(data)=>{
-				// 	console.log(data);
-				// 	that.$api.msg(data.data.message);
-				// 	// {
-				// 	// 	that.second = 0;
-				// 	// }else
-				// 	if(data.data.status == 1){
-				// 		that.second = 60;
-				// 		timer = setInterval(function(){
-				// 			that.second--;
-				// 			if(that.second==0){
-				// 				clearInterval(timer)
-				// 			}
-				// 		},1000)
-				// 	}
-				// })
 			},
 			loginSubmit(){
-				this.$http.forgetPassword({
-					mobile: this.phone,
-					email: this.email,
-					password: this.password,
-					code: this.code
-				}).then((data)=>{
-					this.$api.msg(data.data.message);
-					if(data.data.status == 1){
-						setTimeout(function(){
-							uni.navigateBack({
-								delta: 1
-							})
-						},1500)
+				this.$Debounce.canDoFunction({
+					key: "forget",
+					time: 1500,
+					success:()=>{
+						this.$http.forgetPassword({
+							mobile: this.phone,
+							email: this.email,
+							password: this.password,
+							code: this.code
+						}).then((data)=>{
+							this.$api.msg(data.data.message);
+							if(data.data.status == 1){
+								setTimeout(function(){
+									uni.navigateBack({
+										delta: 1
+									})
+								},1500)
+							}
+						}).catch((err)=>{
+							console.log('request fail', err);
+						})
 					}
-				}).catch((err)=>{
-					console.log('request fail', err);
 				})
 				
-				// model.forgetPassword({
-				// 	mobile: this.phone,
-				// 	email: this.email,
-				// 	password: this.password,
-				// 	code: this.code
-				// },(data)=>{
-				// 	// console.log(data.data);
-				// 	this.$api.msg(data.data.message);
-				// 	if(data.data.status == 1){
-				// 		setTimeout(function(){
-				// 			uni.navigateBack({
-				// 				delta: 1
-				// 			})
-				// 		},1500)
-				// 	}
-				// })
 				// if(this.email == ''){
 				// 	this.$api.msg("短信验证码不正确");
 				// 	return;

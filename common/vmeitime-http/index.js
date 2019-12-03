@@ -63,7 +63,7 @@ export const sendEmailCode = (data) => {
         data
     })
 }
-// 获取国际号
+// 获取国际区号
 export const getAreaCode = (data) => {
     return http.request({
         url: 'Home/Login/areaCode',
@@ -72,6 +72,7 @@ export const getAreaCode = (data) => {
     })
 }
 
+
 // this.$http.formRegister({
 					
 // }).then((data)=>{
@@ -79,6 +80,18 @@ export const getAreaCode = (data) => {
 // }).catch((err)=>{
 // 	console.log('request fail', err);
 // })
+
+// 防重复点击
+// this.$Debounce.canDoFunction({
+// 	key: "getcode",
+// 	time: 1500,
+// 	success:()=>{
+		
+// 	}
+// })
+
+// 来解除事件锁定
+// this.$Debounce.releaseKey("getcode");
 
 // 默认全部导出  import api from '@/common/vmeitime-http/'
 export default {

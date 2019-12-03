@@ -80,46 +80,34 @@
 				})
 			},
 			loginSubmit(){
-				console.log(getApp().globalData.is_login);
-				this.$http.checkLogin({
-					account: this.phone,
-					password: this.password
-				}).then((data)=>{
-					console.log(data.data);
-					this.$api.msg(data.data.message);
-					if(data.data.status == 1){
-						this.is_success = true;
-						getApp().globalData.is_login = true;
-						// uni.setStorageSync('token',data.token);
-						// uni.setStorageSync('sessionkey',data.sessionkey);
-						setTimeout(function(){
-							uni.reLaunch({
-								url: '/pages/member/index'
-							})
-						},1500)
-					}
-				}).catch((err)=>{
-					console.log('request fail', err);
+				this.$Debounce.canDoFunction({
+				    key:"loginSubmit",//基于此值判断是否可以操作，如两个方法传入了同样的key，则会混淆，建议传入调用此事件的方法名，简单好梳理
+				    time:1500,//如果传入time字段，则为定时器后，自动解除锁定状态，单位（毫秒）
+				    success:()=>{//成功中调用应该操作的方法，被锁定状态不会执行此代码块内的方法
+						console.log(getApp().globalData.is_login);
+						this.$http.checkLogin({
+							account: this.phone,
+							password: this.password
+						}).then((data)=>{
+							// console.log(data.data);
+							this.$api.msg(data.data.message);
+							if(data.data.status == 1){
+								this.is_success = true;
+								getApp().globalData.is_login = true;
+								// uni.setStorageSync('token',data.token);
+								// uni.setStorageSync('sessionkey',data.sessionkey);
+								setTimeout(function(){
+									uni.reLaunch({
+										url: '/pages/member/index'
+									})
+								},1500)
+							}
+						}).catch((err)=>{
+							console.log('request fail', err);
+						})
+				    }
 				})
 				
-				// model.checkLogin({
-				// 	account: this.phone,
-				// 	password: this.password
-				// },(data)=>{
-				// 	console.log(data.data);
-				// 	this.$api.msg(data.data.message);
-				// 	if(data.data.status == 1){
-				// 		this.is_success = true;
-				// 		getApp().globalData.is_login = true;
-				// 		// uni.setStorageSync('token',data.token);
-				// 		// uni.setStorageSync('sessionkey',data.sessionkey);
-				// 		setTimeout(function(){
-				// 			uni.reLaunch({
-				// 				url: '/pages/member/index'
-				// 			})
-				// 		},1500)
-				// 	}
-				// })
 				// if(this.phone == ''){
 				// 	this.$api.msg("请输入登录手机号");
 				// 	return;
