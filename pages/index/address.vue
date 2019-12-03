@@ -39,6 +39,8 @@
 </template>
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
+	import {Model} from '@/common/model.js'
+	let model = new Model()
 	export default {
 		data() {
 			return {

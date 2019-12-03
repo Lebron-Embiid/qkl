@@ -77,6 +77,8 @@
 	import commonAvatar from "@/components/commonAvatar.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import uniTransition from "@/components/uni-transition/uni-transition.vue"
+	import {Model} from '@/common/model.js'
+	let model = new Model()
 	export default{
 		data(){
 			return{

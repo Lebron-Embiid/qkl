@@ -23,26 +23,8 @@ class HTTP {
 		// #ifdef MP
 		// 'appkey':config.appkey
 		// #endif
-       
       },
-      success: function (res) {
-        // 判断以2（2xx)开头的状态码为正确
-        // 异常不要返回到回调中，就在request中处理，记录日志并showToast一个统一的错误即可
-       // var code = res.statusCode.toString();
-	  // console.log(JSON.stringify(res)+"ppp")
-	   var res=res.data;
-        var startChar = res.resultCode;
-		
-        if (startChar == 1) {
-          params.success && params.success(res.data);
-        } else {
-			uni.showToast({
-				title:res.message,
-				icon:'none'
-			})
-          params.error && params.error(res);
-        }
-      },
+      success: params.success,
       fail: function (err) {
         params.fail && params.fail(err)
       }

@@ -77,7 +77,7 @@
 				</view>
 				<view class="del_txt">删除</view>
 			</view>
-			<button type="primary" class="bank_btn" @tap="addBankCard">添加银行卡</button>
+			<button type="primary" class="bank_btn" @tap="addBankCard">银行账号</button>
 			<button class="submit_btn" @tap="submitForm" form-type="submit">确认</button>
 		</view>
 	</view>
@@ -87,6 +87,8 @@
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
     import switchc from '@/components/zz-switchc/zz-switchc.vue'
+	import {Model} from '@/common/model.js'
+	let model = new Model()
 	export default{
 		data(){
 			return{

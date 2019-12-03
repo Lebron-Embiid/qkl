@@ -106,12 +106,12 @@
     "mp-toutiao" : {
         "usingComponents" : true
     },
-	"h5" : {
-		"title" : "qkl",
-		"domain" : "http://xm.longbasz.com/",
-		"router" : {
-			"mode" : "hash",
-			"base" : "/mod/mlxy_h5/"
-		}
-	}
+    "h5" : {
+        "title" : "qkl",
+        "domain" : "http://xm.longbasz.com/",
+        "router" : {
+            "mode" : "hash",
+            "base" : "/mod/mlxy_h5/"
+        }
+    }
 }

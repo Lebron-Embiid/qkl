@@ -85,6 +85,8 @@
 	import commonAvatar from "@/components/commonAvatar.vue"
     import switchc from '@/components/zz-switchc/zz-switchc.vue'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import {Model} from '@/common/model.js'
+	let model = new Model()
 	export default{
 		data(){
 			return{

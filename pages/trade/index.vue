@@ -27,6 +27,8 @@
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
+	import {Model} from '@/common/model.js'
+	let model = new Model()
 	export default{
 		data(){
 			return{
@@ -72,13 +74,12 @@
 						title: '购物车',
 						text: '',
 						url: '/pages/index/cart'
+					},{
+						icon: '/static/nav_icon4.svg',
+						title: '认证中心',
+						text: '前往认证',
+						url: ''
 					}
-					// ,{
-					// 	icon: '/static/nav_icon4.svg',
-					// 	title: '认证中心',
-					// 	text: '前往认证',
-					// 	url: ''
-					// }
 				]
 			}
 		},
@@ -106,6 +107,8 @@
 					success:function(res){
 						if(res.confirm){
 							that.$api.msg("退出成功");
+							uni.removeStorageSync('token');
+							uni.removeStorageSync('sessionkey');
 							setTimeout(function(){
 								uni.reLaunch({
 									url: '/pages/login/login'
@@ -190,6 +193,7 @@
 	}
 	.nav_list_box{
 		background: #fff;
+		margin-bottom: 20rpx;
 		.nav_list_item{
 			display: flex;
 			justify-content: space-between;

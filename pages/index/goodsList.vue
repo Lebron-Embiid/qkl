@@ -30,6 +30,8 @@
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	import {Model} from '@/common/model.js'
+	let model = new Model()
 	export default {
 		data() {
 			return {

@@ -38,6 +38,8 @@
 
 <script>
     import switchc from '@/components/zz-switchc/zz-switchc.vue'
+	import {Model} from '@/common/model.js'
+	let model = new Model()
 	export default{
 		data(){
 			return{
@@ -78,33 +80,43 @@
 				})
 			},
 			loginSubmit(){
-				if(this.phone == ''){
-					this.$api.msg("请输入登录手机号");
-					return;
-				}
-				if(!(/^1[3456789]\d{9}$/.test(this.phone))){
-					this.$api.msg("手机号码格式不正确");
-					return; 
-				}
-				if(this.password == ''){
-					this.$api.msg("请输入登录密码");
-					return;
-				}
+				console.log(getApp().globalData.is_login);
+				model.checkLogin({
+					account: this.phone,
+					password: this.password
+				},(data)=>{
+					console.log(data.data);
+					this.$api.msg(data.data.message);
+					if(data.data.status == 1){
+						this.is_success = true;
+						getApp().globalData.is_login = true;
+						// uni.setStorageSync('token',data.token);
+						// uni.setStorageSync('sessionkey',data.sessionkey);
+						setTimeout(function(){
+							uni.reLaunch({
+								url: '/pages/member/index'
+							})
+						},1500)
+					}
+				})
+				// if(this.phone == ''){
+				// 	this.$api.msg("请输入登录手机号");
+				// 	return;
+				// }
+				// if(!(/^1[3456789]\d{9}$/.test(this.phone))){
+				// 	this.$api.msg("手机号码格式不正确");
+				// 	return; 
+				// }
+				// if(this.password == ''){
+				// 	this.$api.msg("请输入登录密码");
+				// 	return;
+				// }
 				// if(){
 				//	this.$api.msg("账号或密码不正确");
 				// 	return;
 				// }
-				this.is_success = true;
-				this.$api.msg("登录成功",1500,false,'success');
 				
-				// uni.setStorageSync('token',data.token);
-				// uni.setStorageSync('sessionkey',data.sessionkey);
-				
-				setTimeout(function(){
-					uni.reLaunch({
-						url: '/pages/member/index'
-					})
-				},1500)
+				// this.$api.msg("登录成功",1500,false,'success');
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 <script>
 	export default {
 		globalData:{
-			
+			is_login: false
 		},
 		onLaunch: function() {
 			console.log('App Launch')
@@ -43,6 +43,9 @@ page,body{
 	background: #fff;
 }
 uni-modal .uni-modal__btn_primary{
+	color: #1ABC9C !important;
+}
+.uni-picker-container .uni-picker-action.uni-picker-action-confirm{
 	color: #1ABC9C !important;
 }
 // 多选按钮样式修改  --  注册页面

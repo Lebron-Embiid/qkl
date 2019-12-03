@@ -2,11 +2,55 @@ import { HTTP } from './http.js'
 
 
 class Model extends HTTP{
-	// 不需要参数
-  getSwiper(success){
+  // 注册
+  formRegister(data,success){ 
+	  let params = {
+		method:"POST",
+		data: data,
+		url:"/Login/register", 
+		success:success
+	  }
+    this.request(params)
+  }
+  // 找回密码
+  forgetPassword(data,success){ 
   	  let params = {
   		method:"POST",
-  		url:"/app/banner/getList?position=index", 
+  		data: data,
+  		url:"/Login/setpsw", 
+  		success:success
+  	  }
+    this.request(params)
+  }
+  // 登录
+  checkLogin(data,success){ 
+  	  let params = {
+  		method:"POST",
+  		data: data,
+  		url:"/Login/checkLogin", 
+  		success:success
+  	  }
+    this.request(params)
+  }
+  // 发送邮箱验证码
+  sendEmailCode(data,success){ 
+  	  let params = {
+  		method:"POST",
+  		data: data,
+  		url:"/Home/Login/sendEmailCode",
+  		success:success
+  	  }
+    this.request(params)
+  }
+  
+ 
+  
+	// 不需要参数
+	//获取国际区号
+  getAreaCode(success){
+  	  let params = {
+  		method:"POST",
+  		url:"/Home/Login/areaCode", 
   		success:success
   	  }
     this.request(params)
@@ -17,16 +61,6 @@ class Model extends HTTP{
 		method:"POST",
 		data: {type: 1},
 		url:"/app/firsttypeinfo/getList", 
-		success:success
-	  }
-    this.request(params)
-  }
-  // 自定义参数
-  getByNeedFirst(data,success){ 
-	  let params = {
-		method:"POST",
-		data: data,
-		url:"/app/secondtypeinfo/getListByNeedFirst", 
 		success:success
 	  }
     this.request(params)
@@ -48,6 +82,12 @@ class Model extends HTTP{
 // let model = new Model()
 
 // model.getSwiper((data)=>{
+// 	this.Swiperlist=data
+// })
+
+// model.formRegister({
+	
+// },(data)=>{
 // 	this.Swiperlist=data
 // })
 

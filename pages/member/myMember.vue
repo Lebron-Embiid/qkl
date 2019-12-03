@@ -18,7 +18,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="my_member_list">
+		<!-- <view class="my_member_list">
 			<view class="my_member_list_item" v-for="(item,index) in memberList" :key="index">
 				<view class="my_member_nav" :class="[item.current==true?'active':'']" @tap="changeTitle(index)">
 					<text>{{item.title}}</text>
@@ -38,6 +38,29 @@
 							</view>
 						</view>
 					</uni-transition>
+				</view>
+			</view>
+		</view> -->
+		<view class="my_member_box_tree">
+			<view class="tree" v-for="(one,index) in treeList" :key="index">
+				<view class="leaf-node first" @tap="transferMoney(index)">
+					<image :src="one.avatar" mode="widthFix"></image>
+					<view>昵称：{{one.name}}</view>
+					<text>投资总额：{{one.price}}</text>
+				</view>
+				<view class="tree" v-for="(two,idx) in one.twoList" :key="idx">
+					<view class="leaf-node middle" @tap="transferMoney(index,idx)">
+						<image :src="two.avatar" mode="widthFix"></image>
+						<view>昵称：{{two.name}}</view>
+						<text>投资总额：{{two.price}}</text>
+					</view>
+					<view class="tree" v-for="(three,ix) in two.threeList" :key="ix">
+						<view class="leaf-node last" @tap="transferMoney(index,idx,ix)">
+							<image :src="three.avatar" mode="widthFix"></image>
+							<view>昵称：{{three.name}}</view>
+							<text>投资：{{three.price}}</text>
+						</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -63,6 +86,8 @@
 	import commonAvatar from "@/components/commonAvatar.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import uniTransition from "@/components/uni-transition/uni-transition.vue"
+	import {Model} from '@/common/model.js'
+	let model = new Model()
 	export default{
 		data(){
 			return{
@@ -122,6 +147,75 @@
 							}
 						]
 					}
+				],
+				treeList: [
+					{
+						id: 1,
+						avatar: '/static/avatar.jpg',
+						member_id: 'SLM00001',
+						name: 'Peter1',
+						superior: 'Nick',
+						price: 30000,
+						time: '2019/11/23  09：00',
+						twoList: [
+							{
+								id: 2,
+								avatar: '/static/avatar.jpg',
+								member_id: 'SLM00001',
+								name: 'Peter2',
+								superior: 'Nick',
+								price: 30000,
+								time: '2019/11/23  09：00',
+								threeList: [
+									{
+										id: 4,
+										avatar: '/static/avatar.jpg',
+										member_id: 'SLM00001',
+										name: 'Peter3',
+										superior: 'Nick',
+										price: 30000,
+										time: '2019/11/23  09：00'
+									},{
+										id: 5,
+										avatar: '/static/avatar.jpg',
+										member_id: 'SLM00001',
+										name: 'Peter3',
+										superior: 'Nick',
+										price: 30000,
+										time: '2019/11/23  09：00'
+									}
+								]
+							},
+							{
+								id: 3,
+								avatar: '/static/avatar.jpg',
+								member_id: 'SLM00001',
+								name: 'Peter2',
+								superior: 'Nick',
+								price: 30000,
+								time: '2019/11/23  09：00',
+								threeList: [
+									{
+										id: 6,
+										avatar: '/static/avatar.jpg',
+										member_id: 'SLM00001',
+										name: 'Peter3',
+										superior: 'Nick',
+										price: 30000,
+										time: '2019/11/23  09：00'
+									},{
+										id: 7,
+										avatar: '/static/avatar.jpg',
+										member_id: 'SLM00001',
+										name: 'Peter3',
+										superior: 'Nick',
+										price: 30000,
+										time: '2019/11/23  09：00'
+									}
+								]
+							}
+						]
+					}
 				]
 			}
 		},
@@ -140,9 +234,23 @@
 			changeTitle(idx){
 				this.memberList[idx].current = !this.memberList[idx].current;
 			},
-			transferMoney(index,idx){
-				this.name = this.memberList[index].list[idx].name;
+			transferMoney(index,idx,ix){
+				// this.name = this.memberList[index].list[idx].name;
+				console.log(index,idx,ix);
 				this.$refs.popup.open();
+				if(idx == undefined && ix == undefined){
+					console.log(this.treeList[index].name);
+					this.name = this.treeList[index].name;
+					return;
+				}
+				if(ix == undefined){
+					this.name = this.treeList[index].twoList[idx].name;
+					return;
+				}
+				if(idx != undefined && ix != undefined){
+					this.name = this.treeList[index].twoList[idx].threeList[ix].name;
+					return;
+				}
 			},
 			cancelPopup(){
 				this.$refs.popup.close();
@@ -160,6 +268,79 @@
 </script>
 
 <style scoped lang="scss">
+	.my_member_box_tree{
+		padding: 50rpx 0;
+		.tree {
+		  display: flex;
+		  flex-wrap: wrap;
+		  view {
+			width: 100%;
+			text-align: center;
+		  }
+		  .tree {
+			width: 50%;
+		  }
+		  .leaf-node{
+			  color: #333;
+			  font-size: 26rpx;
+			  margin-bottom: 90rpx;
+			  image{
+				  display: block;
+				  width: 80rpx;
+				  height: 80rpx;
+				  border-radius: 50%;
+				  margin: 0 auto 10rpx;
+			  }
+			  text{
+				  color: #999;
+				  position: relative;
+			  }
+			  &.middle{
+				  margin-bottom: 120rpx;
+			  }
+			  &.first,&.middle{
+				  text{
+					  display: inline-block;
+					  &:before,&:after{
+						  content: "";
+						  display: block;
+						  position: absolute;
+						  width: 80rpx;
+						  height: 1px;
+						  background: #999;
+					  }
+					  &:before{
+						  transform: rotate(140deg);
+						  left: -50rpx;
+						  top: 80rpx;
+					  }
+					  &:after{
+						  transform: rotate(-140deg);
+						  right: -50rpx;
+						  top: 80rpx;
+					  }
+				  }
+			  }
+			  &.middle{
+				  text{
+					  &:before{
+						  transform: rotate(105deg);
+						  left: -20rpx;
+						  top: 90rpx;
+					  }
+					  &:after{
+						  transform: rotate(-105deg);
+						  right: -20rpx;
+						  top: 90rpx;
+					  }
+				  }
+			  }
+			  &.last{
+				  margin-bottom: 0;
+			  }
+		  }
+		}
+	}
 	.my_member_box{
 		display: flex;
 		justify-content: space-between;

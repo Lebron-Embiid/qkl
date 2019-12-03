@@ -30,6 +30,8 @@
 </template>
 
 <script>
+	import {Model} from '@/common/model.js'
+	let model = new Model()
 	export default {
 		data() {
 			return {

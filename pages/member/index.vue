@@ -39,6 +39,8 @@
 </template>
 
 <script>
+	import {Model} from '@/common/model.js'
+	let model = new Model()
 	export default{
 		data(){
 			return{
@@ -85,7 +87,7 @@
 			}
 		},
 		onLoad() {
-			
+			console.log(getApp().globalData.is_login);
 		},
 		onShow() {
 			

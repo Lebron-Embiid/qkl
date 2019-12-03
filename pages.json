@@ -186,7 +186,7 @@
 		{
 			"path": "pages/mine/bankCard",
 			"style": {
-				"navigationBarTitleText": "添加银行卡",
+				"navigationBarTitleText": "银行账号",
 				"app-plus": {
 					"titleNView": false
 				}
