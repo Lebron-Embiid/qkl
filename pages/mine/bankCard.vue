@@ -11,7 +11,7 @@
 			<view class="bank_item">
 				<text>开户银行</text>
 				<view class="">
-					<picker @change="bindPickerChange" :range="array">
+					<picker @change="bindPickerChange" range-key="banq_genre" :range="array">
 						<view class="uni-input">{{bank_type}}</view>
 					</picker>
 				</view>
@@ -39,9 +39,10 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				array: ['中国工商银行', '中国农业银行', '中国建设银行'],
+				array: [],
 				bank_type: '请选择开户银行',
 				card_name: '',
+				bank_id: '',
 				card_number: '',
 				card_bank: ''
 			}
@@ -50,13 +51,41 @@
 			uniNavBar,
 			commonAvatar
 		},
+		onLoad() {
+			this.$http.getBank().then((data)=>{
+				console.log(data.data);
+				this.array = data.data;
+			})
+		},
 		methods:{
-			bindPickerChange: function(e) {
+			bindPickerChange(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
-				this.bank_type = this.array[e.target.value];
+				this.bank_type = this.array[e.target.value].banq_genre;
+				this.bank_id = this.array[e.target.value].q_id;
 			},
 			addCard(){
-				
+				this.$Debounce.canDoFunction({
+					key: "addBank",
+					time: 1500,
+					success:()=>{
+						this.$http.addBank({
+							real_name: this.card_name,
+							bank_id: this.bank_id,
+							bank_account: this.card_number,
+							open_card: this.card_bank,
+							is_default: 0
+						}).then((data)=>{
+							this.$api.msg(data.data.message);
+							if(data.data.status == 1){
+								this.card_name = '';
+								this.bank_id = '';
+								this.bank_type = '请选择开户银行';
+								this.card_number = '',
+								this.card_bank = ''
+							}
+						})
+					}
+				})
 			}
 		}
 	}

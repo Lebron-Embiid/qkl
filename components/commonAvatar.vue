@@ -5,21 +5,103 @@
 			<text>{{name}}</text>
 			<image src="/static/left_bg.png" class="bg left_bg" mode="widthFix"></image>
 			<image src="/static/right_bg.png" class="bg right_bg" mode="widthFix"></image>
+			<view v-if="has_edit_avatar" class="avatar_btn" @tap="changeAvatar">修改头像</view>
 		</view>
+		<uni-popup class="uni-popup" ref="popup_avatar" type="center">
+			<view class="popup_avatar_box">
+				<radio-group @change="radioChange">
+					<label v-for="(item,index) in sex" :key="index">
+						<radio :value="item.value" color="#1ABC9C" :checked="item.checked" /> {{item.name}}
+					</label>
+				</radio-group>
+				<view class="avatar_select" v-for="(item,index) in avatarList" :key="index" v-if="current == index">
+					<view class="img" :class="[current==index && select==idx?'active':'']" v-for="(img,idx) in item" :key="idx" @tap="selectAvatar(index,idx)">
+						<image class="icon" :src="img" mode="widthFix"></image>
+						<image class="selected" :class="[current==index && select==idx?'active':'']" src="/static/select.svg" mode="widthFix"></image>
+					</view>
+				</view>
+				<!-- <view class="avatar_select" v-else>
+					<view class="img" v-for="(item,index) in avatar_famale" @tap="selectAvatar(index)" :key="index">
+						<image class="icon" :src="item" mode="widthFix"></image>
+						<image class="selected" src="/static/select.svg" mode="widthFix"></image>
+					</view>
+				</view> -->
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default{
 		name: 'commonAvatar',
 		data(){
 			return{
 				avatar: '/static/avatar.png',
-				name: 'Mr.Maker'
+				name: 'Mr.Maker',
+				sex: [
+					{
+						name: '男',
+						value: 'male',
+						checked: true
+					},{
+						name: '女',
+						value: 'famale'
+					}
+				],
+				current: 0,
+				avatarList: [
+					[
+						'/static/avatar/avatar_m1.svg',
+						'/static/avatar/avatar_m2.svg',
+						'/static/avatar/avatar_m3.svg',
+						'/static/avatar/avatar_m4.svg',
+						'/static/avatar/avatar_m3.svg',
+						'/static/avatar/avatar_m4.svg'
+					],[
+						'/static/avatar/avatar_w1.svg',
+						'/static/avatar/avatar_w2.svg',
+						'/static/avatar/avatar_w3.svg',
+						'/static/avatar/avatar_w4.svg',
+						'/static/avatar/avatar_m3.svg',
+						'/static/avatar/avatar_m4.svg'
+					]
+				],
+				select: null
+			}
+		},
+		components:{
+			uniPopup
+		},
+		props:{
+			has_edit_avatar: {
+				type: Boolean,
+				default: false
 			}
 		},
 		onLoad() {
 			
+		},
+		methods:{
+			changeAvatar(){
+				this.$refs.popup_avatar.open();
+			},
+			radioChange(evt) {
+				for (let i = 0; i < this.sex.length; i++) {
+					if (this.sex[i].value === evt.target.value) {
+						this.current = i;
+						break;
+					}
+				}
+				console.log(this.current);
+				if(this.select != null){
+					this.avatar = this.avatarList[this.current][this.select];					
+				}
+			},
+			selectAvatar(index,idx){
+				this.select = idx;
+				this.avatar = this.avatarList[index][idx];
+			}
 		}
 	}
 </script>
@@ -35,8 +117,8 @@
 		font-size: 24rpx;
 		.avatar_img{
 			display: block;
-			width: 138rpx;
-			height: 138rpx;
+			width: 138rpx !important;
+			height: 138rpx !important;
 			margin: 0 auto 20rpx;
 		}
 		.bg{
@@ -51,6 +133,79 @@
 		}
 		.right_bg{
 			right: 0;
+		}
+		.avatar_btn{
+			margin: 20rpx auto 10rpx;
+			background: #1ABC9C;
+			color: #fff;
+			border-radius: 8rpx;
+			width: 140rpx;
+			height: 50rpx;
+			line-height: 50rpx;
+		}
+	}
+	.popup_avatar_box{
+		background: #fff;
+		padding: 30rpx 30rpx 50rpx;
+		width: 90%;
+		margin: 0 auto;
+		box-sizing: border-box;
+		radio-group{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			label{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 30%;
+				font-size: 28rpx;
+				radio{
+					transform: scale(.7);
+					margin-top: 5rpx;
+				}
+			}
+		}
+		.avatar_select{
+			display: flex;
+			justify-content: flex-start;
+			align-items: flex-start;
+			flex-wrap: wrap;
+			margin-top: 50rpx;
+			.img{
+				width: 124rpx;
+				height: 124rpx;
+				border: 2rpx solid #ccc;
+				box-sizing: border-box;
+				border-radius: 50%;
+				margin-right: 30rpx;
+				margin-bottom: 30rpx;
+				position: relative;
+				&.active{
+					border-color: #1ABC9C;
+				}
+				&:nth-child(4n){
+					margin-right: 0;
+				}
+				.selected{
+					display: none;
+					width: 30rpx;
+					height: 30rpx;
+					position: absolute !important;
+					left: 50%;
+					bottom: -18rpx;
+					transform: translateX(-50%);
+					&.active{
+						display: block;
+					}
+				}
+				.icon{
+					display: block;
+					width: 120rpx !important;
+					height: 120rpx !important;
+					border-radius: 50%;
+				}
+			}
 		}
 	}
 </style>

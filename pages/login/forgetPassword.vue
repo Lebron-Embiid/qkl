@@ -98,18 +98,6 @@
 				    time: 1500,
 				    success:()=>{
 						let that = this;
-						// if(that.phone == ''){
-						// 	that.$api.msg("请先填写手机号码");
-						// 	return;
-						// }
-						// if(!(/^1[3456789]\d{9}$/.test(that.phone))){
-						// 	that.$api.msg("手机号码格式不正确");
-						// 	return; 
-						// }
-						// if(that.phone){
-						// 	that.$api.msg("该手机号未注册");
-						// 	return;
-						// }
 						if(that.second>0){
 							return;
 						}
@@ -129,7 +117,8 @@
 								},1000)
 							}
 						}).catch((err)=>{
-							console.log('request fail', err);
+							// console.log('request fail', err);
+							this.$api.msg(err);
 						})
 				    }
 				})
@@ -154,11 +143,24 @@
 								},1500)
 							}
 						}).catch((err)=>{
-							console.log('request fail', err);
+							// console.log('request fail', err);
+							// this.$api.msg(err);
 						})
 					}
 				})
 				
+				// if(that.phone == ''){
+				// 	that.$api.msg("请先填写手机号码");
+				// 	return;
+				// }
+				// if(!(/^1[3456789]\d{9}$/.test(that.phone))){
+				// 	that.$api.msg("手机号码格式不正确");
+				// 	return; 
+				// }
+				// if(that.phone){
+				// 	that.$api.msg("该手机号未注册");
+				// 	return;
+				// }
 				// if(this.email == ''){
 				// 	this.$api.msg("短信验证码不正确");
 				// 	return;

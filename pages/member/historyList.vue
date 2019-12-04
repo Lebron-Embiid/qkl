@@ -80,25 +80,25 @@
 					}
 				],
 				investList: [
-					{
-						name: 'SLM20191125A001',
-						price: '20000',
-						time: '2019/11/25  09：00',
-						status: '申请中',
-						is_status: 1
-					},{
-						name: 'SLM20191125A001',
-						price: '20000',
-						time: '2019/11/25  09：00',
-						status: '已完成',
-						is_status: 2
-					},{
-						name: 'SLM20191125A001',
-						price: '10000',
-						time: '2019/11/25  09：00',
-						status: '已取消',
-						is_status: 0
-					}
+					// {
+					// 	name: 'SLM20191125A001',
+					// 	price: '20000',
+					// 	time: '2019/11/25  09：00',
+					// 	status: '申请中',
+					// 	is_status: 1
+					// },{
+					// 	name: 'SLM20191125A001',
+					// 	price: '20000',
+					// 	time: '2019/11/25  09：00',
+					// 	status: '已完成',
+					// 	is_status: 2
+					// },{
+					// 	name: 'SLM20191125A001',
+					// 	price: '10000',
+					// 	time: '2019/11/25  09：00',
+					// 	status: '已取消',
+					// 	is_status: 0
+					// }
 				]
 			}
 		},
@@ -114,6 +114,9 @@
 				uni.setNavigationBarTitle({
 					title: "历史提款"
 				});
+				this.$http.getCashList().then((data)=>{
+					this.investList = data.data;
+				})
 			}else{
 				this.title = '历史转款';
 				uni.setNavigationBarTitle({
@@ -168,7 +171,7 @@
 		.member_list{
 			display: flex;
 			justify-content: space-between;
-			align-items: flex-start;
+			align-items: stretch;
 			flex-wrap: wrap;
 			.member_item{
 				width: 50%;

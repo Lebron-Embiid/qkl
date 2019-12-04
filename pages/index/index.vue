@@ -23,7 +23,15 @@
 				 */
 				try {
 				    const value = uni.getStorageSync('launchFlag');
-					console.log(value);
+					console.log('launchFlag:'+value);
+					let token = uni.getStorageSync('token');
+					console.log('token:'+token);
+					if(token != ''){
+						uni.switchTab({
+							url: '/pages/member/index'
+						})
+						return;
+					}
 				    if (value) {
 				        if (value == true) {
 				            uni.redirectTo({

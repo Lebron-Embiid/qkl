@@ -115,3 +115,19 @@
         }
     }
 }
+// ,
+// "devServer" : {
+// 	"port" : 8080, //端口号
+// 	"disableHostCheck" : true,
+// 	"proxy" : {
+// 		"/api" : {
+// 			"target" : "http://192.168.2.127/www.qkl.com", //目标接口域名
+// 			"changeOrigin" : true,  //是否跨域
+// 			"secure" : false ,// 设置支持https协议的代理
+// 			"pathRewrite" : {
+// 				"^/api" : "" //匹配请求路径里面有 /api 替换成 https://testapi.kemiandan.com
+// 			}
+// 		}
+// 	}
+// }
+

@@ -108,7 +108,8 @@
 						if(res.confirm){
 							that.$api.msg("退出成功");
 							uni.removeStorageSync('token');
-							uni.removeStorageSync('sessionkey');
+							// uni.clearStorageSync();
+							// uni.removeStorageSync('sessionkey');
 							setTimeout(function(){
 								uni.reLaunch({
 									url: '/pages/login/login'

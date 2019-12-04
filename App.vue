@@ -29,6 +29,25 @@
 					
 				}
 			})
+			if(uni.getStorageSync('token') == ''){
+				that.$api.msg('请登录');
+				setTimeout(function(){
+					uni.reLaunch({
+						url: '/pages/login/login'
+					})
+				},1500)
+			}
+			that.$http.getBank().then((data)=>{
+				if(data.data.status == 40001){
+					this.$api.msg('请登录');
+					setTimeout(function(){
+						uni.reLaunch({
+							url: '/pages/login/login'
+						})
+					},1500)
+					return;
+				}
+			})
 		},
 		onHide: function() {
 			console.log('App Hide')

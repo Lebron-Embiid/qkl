@@ -87,9 +87,11 @@
 			}
 		},
 		onLoad() {
-			console.log(getApp().globalData.is_login);
+			
 		},
 		onShow() {
+			console.log(getApp().globalData.is_login);
+			console.log(uni.getStorageSync('token'));
 			
 		},
 		methods:{
@@ -197,7 +199,7 @@
 		.member_list{
 			display: flex;
 			justify-content: space-between;
-			align-items: flex-start;
+			align-items: stretch;
 			flex-wrap: wrap;
 			.member_item{
 				width: 50%;

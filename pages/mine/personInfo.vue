@@ -1,7 +1,7 @@
 <template>
 	<view class="personInfo">
 		<uni-nav-bar left-icon="back" leftText="返回" title="个人信息" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :has_edit_avatar="true"></common-avatar>
 		<view class="basic_info">
 			<view class="basic_title">基本资料</view>
 			<view class="form_box">
@@ -67,15 +67,15 @@
 				</view>
 			</view>
 			<view class="basic_title">银行账户</view>
-			<view class="bank_info">
-				<view class="bank_left" v-for="(item,index) in bankList" :key="index">
-					<image :src="item.imageUrl" mode="widthFix"></image>
+			<view class="bank_info" v-for="(item,index) in bankList" :key="index">
+				<view class="bank_left">
+					<image :src="url+item.banq_img" mode="widthFix"></image>
 					<view class="bank_txt">
-						<view class="bank_name">{{item.bank_name}}</view>
-						<text>{{item.bank_card}}</text>
+						<view class="bank_name">{{item.banq_genre}}</view>
+						<text>{{item.card_number}}</text>
 					</view>
 				</view>
-				<view class="del_txt">删除</view>
+				<view class="del_txt" @tap="deleteBank(item.id)">删除</view>
 			</view>
 			<button type="primary" class="bank_btn" @tap="addBankCard">银行账号</button>
 			<button class="submit_btn" @tap="submitForm" form-type="submit">确认</button>
@@ -94,7 +94,7 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				
+				url: '',
 				name: '',
 				phone: '',
 				password: '',
@@ -105,11 +105,12 @@
 				email: '',
 				address: '',
 				bankList: [
-					{
-						imageUrl: '',
-						bank_name: '中国工商银行',
-						bank_card: '622228219821821313421'
-					}
+					// {
+					// 	id: 1,
+					// 	imageUrl: '',
+					// 	bank_name: '中国工商银行',
+					// 	bank_card: '622228219821821313421'
+					// }
 				]
 			}
 		},
@@ -117,6 +118,27 @@
 			uniNavBar,
 			commonAvatar,
 			switchc
+		},
+		onShow() {
+			this.url = this.$http.url;
+			console.log(this.url);
+			this.$http.userBankList({
+				limit: 10
+			}).then((data)=>{
+				if(data.data.status == 40001){
+					uni.removeStorageSync('token');
+					this.$api.msg('请登录');
+					setTimeout(function(){
+						uni.reLaunch({
+							url: '/pages/login/login'
+						})
+					},1500)
+					return;
+				}
+				this.bankList = data.data;
+			}).catch((err)=>{
+				
+			})
 		},
 		methods:{
 			switchchange(e) {
@@ -139,6 +161,26 @@
 				uni.navigateTo({
 					url: '/pages/mine/bankCard'
 				})
+			},
+			deleteBank(id){
+				let that = this;
+				uni.showModal({
+					title: '提示',
+					content: '确定删除该银行卡？',
+					success:function(res){
+						if(res.confirm){
+							that.$http.delBank({
+								id: id
+							}).then((data)=>{
+								that.$api.msg(data.data.message);
+								that.$http.userBankList().then((data)=>{
+									that.bankList = data.data;
+								})
+							})
+						}
+					}
+				})
+				
 			},
 			submitForm(){
 				// if(this.phone == ''){
@@ -193,13 +235,15 @@
 		justify-content: space-between;
 		align-items: flex-start;
 		border: 1px solid #ccc;
-		border-radius: 10rpx;
+		border-radius: 5rpx;
 		padding: 20rpx 20rpx 20rpx 30rpx;
 		box-sizing: border-box;
 		font-size: 28rpx;
 		margin-bottom: 10rpx;
 		border-top: 0;
-		border-bottom: 0;
+		&:last-of-type{
+			border-bottom: 0;
+		}
 		.bank_left{
 			display: flex;
 			justify-content: flex-start;
@@ -209,7 +253,7 @@
 				width: 60rpx;
 				height: 60rpx;
 				margin-right: 30rpx;
-				background: #ccc;
+				// background: #ccc;
 			}
 			.bank_txt{
 				.bank_name{

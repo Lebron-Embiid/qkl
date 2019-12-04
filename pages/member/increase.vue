@@ -106,7 +106,7 @@
 					}
 				],
 				is_apply: 0,	//是否点击申请按钮
-				is_pass: 0,		//是否申请成功
+				is_pass: 1,		//是否申请成功
 				price: '',
 				password: '',
 				input_type: '',
@@ -145,24 +145,30 @@
 				    sourceType: ['album'], //从相册选择
 				    success: function (res) {
 				        console.log(JSON.stringify(res.tempFilePaths));
-						that.photo = res.tempFilePaths[0];
-						// uni.uploadFile({
-						// 	url: '', //图片接口
-						// 	filePath: res.tempFilePaths[0],
-						// 	name: 'image',
-						// 	success: (uploadFileRes) => {
-						// 		var data = JSON.parse(uploadFileRes.data);
-						// 		if(data.code == 0){
-						// 			var url = data.data.url;
-						// 			that.photo = url;
-						// 		}else{
-						// 			uni.showToast({
-						// 				title:data.msg,
-						// 				icon:'none',
-						// 			});
-						// 		}
+						// that.photo = res.tempFilePaths[0];
+						// that.$http.uploadFiles().then((data)=>{
+						// 	that.$api.msg(data.data.message);
+						// 	if(data.data.status == 1){
+								
 						// 	}
-						// });
+						// })
+						uni.uploadFile({
+							url: that.$http.url+'Recharge/uploadFiles', //图片接口
+							filePath: res.tempFilePaths[0],
+							name: 'file',
+							success: (uploadFileRes) => {
+								var data = JSON.parse(uploadFileRes.data);
+								if(data.code == 0){
+									var url = data.data.url;
+									that.photo = url;
+								}else{
+									uni.showToast({
+										title:data.msg,
+										icon:'none',
+									});
+								}
+							}
+						});
 				    }
 				});
 			},
@@ -182,7 +188,18 @@
 				});
 			},
 			applyConfirm(){
-				this.is_apply = 1;
+				this.$http.addRecharge({
+					money: this.price,
+					files: this.photo,
+					sec_password: this.password
+				}).then((data)=>{
+					this.$api.msg(data.data.message);
+					if(data.data.status == 1){
+						this.is_apply = 1;
+					}
+				}).catch((err)=>{
+					
+				})
 			},
 			lookAccount(){
 				this.$refs.popup.open();
@@ -218,7 +235,7 @@
 		.member_list{
 			display: flex;
 			justify-content: space-between;
-			align-items: flex-start;
+			align-items: stretch;
 			flex-wrap: wrap;
 			.member_item{
 				width: 50%;
@@ -327,7 +344,6 @@
 			border: 1px solid #d7dde4;
 			box-sizing: border-box;
 			width: 200rpx;
-			height: 200rpx;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -344,7 +360,7 @@
 		}
 	}
 	.submit_btn{
-		margin-top: 20rpx;
+		margin-top: 40rpx;
 	}
 	
 	.look_info_box{

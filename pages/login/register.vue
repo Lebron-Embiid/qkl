@@ -117,7 +117,8 @@
 				}
 				console.log(this.country,this.areaCode);
 			}).catch((err)=>{
-				console.log('request fail', err);
+				// console.log('request fail', err);
+				// this.$api.msg(err);
 			})
 		},
 		methods:{
@@ -159,11 +160,6 @@
 							return;
 						}
 						
-						// if(this.internation_number == ''){
-						// 	this.$api.msg('请输入区号');
-						// 	return;
-						// }
-						
 						let all_phone = this.internation_number+this.phone;
 						// console.log(all_phone);
 						for(let i in util.phoneList){
@@ -191,10 +187,16 @@
 								},1500)
 							}
 						}).catch((err)=>{
-							console.log('request fail', err);
+							// console.log('request fail', err);
+							// this.$api.msg(err);
 						})
 					}
 				})
+						
+				// if(this.internation_number == ''){
+				// 	this.$api.msg('请输入区号');
+				// 	return;
+				// }
 				// if(this.phone == ''){
 				// 	this.$api.msg("请输入手机号码");
 				// 	return;

@@ -40,7 +40,7 @@
 					
 					<block v-if="current == 0">
 						<view class="over_price">当前APP钱包余额</view>
-						<view class="over_price_val">$ 600000</view>
+						<view class="over_price_val">$ {{over_money}}</view>
 					</block>
 					
 					<input type="text" v-model="price" :placeholder="placeholder" />
@@ -62,6 +62,7 @@
 		data(){
 			return{
 				current: 0,
+				over_money: 600000,
 				price: '',
 				pay_pwd: '',
 				placeholder: "请输入转入金额"
@@ -75,7 +76,7 @@
 			},
 			list:{
 				type: Array,
-				default: []
+				default: () => []
 			}
 		},
 		components:{

@@ -26,6 +26,11 @@
 		</view>
 		<view class="increase_after" v-if="is_apply == 0">
 			<view class="form_item">
+				<picker @change="bindPickerChange" range-key="banq_genre" :range="bankList">
+					<view class="uni-input">{{bank_type}}</view>
+				</picker>
+			</view>
+			<view class="form_item">
 				<view class="icon no"><image src="/static/add.png" mode="widthFix"></image></view>
 				<view class="right_box all">
 					<view class="ipt_box">
@@ -76,7 +81,10 @@
 				is_apply: 0,	//是否点击申请按钮
 				price: '',
 				password: '',
-				input_type: ''
+				input_type: '',
+				bank_type: '请选择开户银行',
+				bank_id: '',
+				bankList: []
 			}
 		},
 		components:{
@@ -84,7 +92,19 @@
 			commonAvatar,
 			switchc
 		},
+		onShow() {
+			this.$http.userBankList().then((data)=>{
+				this.bankList = data.data;
+				console.log(this.bankList);
+			})
+		},
 		methods:{
+			bindPickerChange(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value);
+				this.bank_type = this.bankList[e.target.value].banq_genre;
+				this.bank_id = this.bankList[e.target.value].id;
+				console.log(this.bank_id);
+			},
 			toListLink(idx){
 				uni.navigateTo({
 					url: this.memberList[idx].url
@@ -104,7 +124,20 @@
 				}
 			},
 			applyConfirm(){
-				this.is_apply = 1;
+				if(this.price == ''){
+					this.$api.msg('请输入提款金额');
+					return;
+				}
+				this.$http.applyCash({
+					card_id: this.bank_id,
+					money: this.price,
+					sec_password: this.password
+				}).then((data)=>{
+					this.$api.msg(data.data.message);
+					if(data.data.status == 1){
+						this.is_apply = 1;
+					}
+				})
 			},
 			againWithdraw(){
 				this.is_apply = 0;
@@ -119,6 +152,12 @@
 </script>
 
 <style scoped lang="scss">
+	.form_item{
+		picker{
+			color: #999;
+			font-size: 28rpx;
+		}
+	}
 	.member_info_box{
 		background: #000;
 		padding: 0 10rpx 10rpx;
@@ -139,7 +178,7 @@
 		.member_list{
 			display: flex;
 			justify-content: space-between;
-			align-items: flex-start;
+			align-items: stretch;
 			flex-wrap: wrap;
 			.member_item{
 				width: 50%;

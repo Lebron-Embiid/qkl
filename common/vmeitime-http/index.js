@@ -5,7 +5,7 @@ import http from './interface'
  * 如果项目很大可以将 url 独立成文件，接口分成不同的模块
  * 
  */
-
+export const url = http.config.baseUrl
 // 单独导出(测试接口) import {test} from '@/common/vmeitime-http/'
 export const test = (data) => {
 	/* http.config.baseUrl = "http://localhost:8080/api/"
@@ -72,13 +72,103 @@ export const getAreaCode = (data) => {
     })
 }
 
+// 充值列表
+export const userRecharge = (data) => {
+    return http.request({
+        url: 'Recharge/index',
+        method: 'POST', 
+        data
+    })
+}
+// 上传充值凭证
+export const uploadFiles = (data) => {
+    return http.request({
+        url: 'Recharge/uploadFiles',
+        method: 'POST', 
+        data
+    })
+}
+// 提交充值申请
+export const addRecharge = (data) => {
+    return http.request({
+        url: 'Recharge/add',
+        method: 'POST', 
+        data
+    })
+}
+
+
+// 所有开户银行
+export const getBank = (data) => {
+    return http.request({
+        url: 'Growth/bankList',
+        method: 'POST', 
+        data
+    })
+}
+// 添加银行卡
+export const addBank = (data) => {
+    return http.request({
+        url: 'Growth/addBank',
+        method: 'POST', 
+        data
+    })
+}
+// 删除银行卡
+export const delBank = (data) => {
+    return http.request({
+        url: 'Growth/cardInfos',
+        method: 'POST', 
+        data
+    })
+}
+// 用户银行卡列表
+export const userBankList = (data) => {
+    return http.request({
+        url: 'Growth/userBankList',
+        method: 'POST', 
+        data
+    })
+}
+
+
+// 申请提现
+export const applyCash = (data) => {
+    return http.request({
+        url: 'Cash/apply',
+        method: 'POST', 
+        data
+    })
+}
+// 提现申请记录
+export const getCashList = (data) => {
+    return http.request({
+        url: 'Cash/cashList',
+        method: 'POST', 
+        data
+    })
+}
+
+
+// if(data.data.status == 40001){
+// 	this.$api.msg('请登录');
+// 	setTimeout(function(){
+// 		uni.reLaunch({
+// 			url: '/pages/login/login'
+// 		})
+// 	},1500)
+// }
+
 
 // this.$http.formRegister({
 					
 // }).then((data)=>{
-	
+	// this.$api.msg(data.data.message);
+	// if(data.data.status == 1){
+		
+	// }
 // }).catch((err)=>{
-// 	console.log('request fail', err);
+	
 // })
 
 // 防重复点击
@@ -95,10 +185,20 @@ export const getAreaCode = (data) => {
 
 // 默认全部导出  import api from '@/common/vmeitime-http/'
 export default {
+	url,
 	test,
     checkLogin,
 	formRegister,
 	forgetPassword,
 	sendEmailCode,
-	getAreaCode
+	getAreaCode,
+	userRecharge,
+	uploadFiles,
+	addRecharge,
+	getBank,
+	addBank,
+	delBank,
+	userBankList,
+	applyCash,
+	getCashList
 }

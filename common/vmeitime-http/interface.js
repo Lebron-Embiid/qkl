@@ -36,9 +36,9 @@ export default {
 		// 本地地址
 		baseUrl: "http://192.168.2.127/www.qkl.com/",
 		header: {
-			'Content-Type':'application/json;charset=UTF-8',
-			'Content-Type':'application/x-www-form-urlencoded',
-			'token':uni.getStorageSync('token')||null
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'AUTHORIZATION': uni.getStorageSync('token')
 		},  
 		data: {},
 		method: "GET",
@@ -79,6 +79,7 @@ export default {
 				if (process.env.NODE_ENV === 'development') {
 					if (statusCode === 200) {
 						// console.log("【" + _config.requestId + "】 结果：" + JSON.stringify(response.data))
+						// console.log(response);
 					}
 				}
 				if (this.interceptor.response) {

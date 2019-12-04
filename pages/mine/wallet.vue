@@ -72,6 +72,14 @@
 					url: '/pages/member/increase'
 				})
 			}
+		},
+		onLoad(opt) {
+			this.$http.userRecharge().then((data)=>{
+				console.log(data);
+			}).catch((err)=>{
+				// console.log('request fail', err);
+				// this.$api.msg(err);
+			})
 		}
 	}
 </script>
