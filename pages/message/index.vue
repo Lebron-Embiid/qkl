@@ -4,8 +4,13 @@
 		<view class="message_box">
 			<view class="message_item" v-for="(item,index) in messageList" :key="index">
 				<view class="message_top">{{item.title}}</view>
-				<view class="message_center">{{item.content}}</view>
-				<view class="message_bottom"><text @tap="toDetail(index,item.title,item.content)">查看详情</text></view>
+				<view class="message_center">
+					{{item.desc}}
+					<!-- <block v-if="item.content!=''">
+						<u-parse :content="item.content"></u-parse>
+					</block> -->
+				</view>
+				<view class="message_bottom"><text @tap="toDetail(item.id)">查看详情</text></view>
 			</view>
 		</view>
 	</view>
@@ -13,6 +18,7 @@
 
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
+	import uParse from '@/components/u-parse/u-parse.vue'
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default{
@@ -20,36 +26,63 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				messageList: [
-					{
-						title: '讯息标题1',
-						content: '这是一个用纯文本的简单卡片。但卡片可以包含自己的页头，页脚，列表视图，图像，和里面的任何元素。'
-					},{
-						title: '讯息标题1',
-						content: '这是一个用纯文本的简单卡片。但卡片可以包含自己的页头，页脚，列表视图，图像，和里面的任何元素。'
-					},{
-						title: '讯息标题1',
-						content: '这是一个用纯文本的简单卡片。但卡片可以包含自己的页头，页脚，列表视图，图像，和里面的任何元素。'
-					},{
-						title: '讯息标题1',
-						content: '这是一个用纯文本的简单卡片。但卡片可以包含自己的页头，页脚，列表视图，图像，和里面的任何元素。'
-					}
-				]
+				messageList: []
 			}
 		},
 		components:{
-			uniNavBar
+			uniNavBar,
+			uParse
 		},
 		methods:{
-			toDetail(idx,title,content){
+			toDetail(id){
 				uni.navigateTo({
-					url: '/pages/message/messageDetail?id=' + idx+'&title='+ title+'&content='+ content
+					url: '/pages/message/messageDetail?id=' + id
 				})
 			}
 		},
+		onLoad() {
+			console.log(uni.getStorageSync('token'));
+			this.$http.getNewsList().then((data)=>{
+				this.messageList = data.data;
+				if(data.data.status == 40001){
+					this.$api.msg(data.data.message);
+					setTimeout(()=>{
+						uni.reLaunch({
+							url: '/pages/login/login'
+						})
+					},1500)
+				}
+			})
+		},
 		onShow() {
+			if(uni.getStorageSync('token') == ''){
+				this.$api.msg('请登录');
+				setTimeout(()=>{
+					uni.reLaunch({
+						url: '/pages/login/login'
+					})
+				},1500)
+			}else{
+				this.$http.getNewsList().then((data)=>{
+					this.messageList = data.data;
+					if(data.data.status == 40001){
+						this.$api.msg(data.data.message);
+						setTimeout(()=>{
+							uni.reLaunch({
+								url: '/pages/login/login'
+							})
+						},1500)
+					}
+				})
+			}
 			uni.hideTabBarRedDot({
 				index: 2
+			})
+		},
+		onPullDownRefresh() {
+			this.$http.getNewsList().then((data)=>{
+				this.messageList = data.data;
+				uni.stopPullDownRefresh();
 			})
 		}
 	}
@@ -75,6 +108,13 @@
 				padding: 30rpx;
 				box-sizing: border-box;
 				border-bottom: 1px solid #f2f2f2;
+				overflow : hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				word-wrap: break-word;
+				word-break: break-all;
 			}
 			.message_bottom{
 				padding: 20rpx 30rpx;

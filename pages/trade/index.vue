@@ -1,7 +1,7 @@
 <template>
 	<view class="trade">
 		<uni-nav-bar title="交易订单" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="order_nav_box">
 			<view class="order_nav_top">全部订单<text @tap="lookMore">查看全部订单</text></view>
 			<view class="order_nav_list">
@@ -34,6 +34,8 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				name: '',
+				avatar: '/static/avatar.png',
 				orderNavs: [
 					{
 						icon: '/static/order_icon1.svg',
@@ -125,7 +127,30 @@
 				})
 			}
 		},
+		onLoad() {
+			
+		},
 		onShow() {
+			if(uni.getStorageSync('token') == ''){
+				this.$api.msg('请登录');
+				setTimeout(()=>{
+					uni.reLaunch({
+						url: '/pages/login/login'
+					})
+				},1500)
+			}else{
+				this.$http.getUserInfo().then((data)=>{
+					this.name = data.data.username;
+					if(data.data.status == 40001){
+						this.$api.msg(data.data.message);
+						setTimeout(()=>{
+							uni.reLaunch({
+								url: '/pages/login/login'
+							})
+						},1500)
+					}
+				})
+			}
 			uni.removeTabBarBadge({
 				index: 1
 			})

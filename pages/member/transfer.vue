@@ -1,7 +1,7 @@
 <template>
 	<view class="transfer">
 		<uni-nav-bar left-icon="back" leftText="返回" title="转款" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="member_info_box">
 			<view class="member_list">
 				<view class="member_item" @tap="toListLink(index)" v-for="(item,index) in memberList" :key="index">
@@ -20,7 +20,7 @@
 		<view class="increase_before" v-if="is_apply == 1">
 			<image src="/static/success.svg" mode="widthFix"></image>
 			<view class="ib_title">操作成功</view>
-			<view class="ib_info">您已成功转款 <text>{{send_price}}</text> 到{{name}}钱包中</view>
+			<view class="ib_info">您已成功转款 <text>{{price}}</text> 到{{transfer_name}}钱包中</view>
 			<button type="primary" class="black" @tap="toHistory">历史转款</button>
 		</view>
 		<view class="increase_after" v-if="is_apply == 0">
@@ -67,6 +67,8 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				name: '',
+				avatar: '/static/avatar.png',
 				memberList: [
 					{
 						icon: '/static/member_icon1.png',
@@ -81,9 +83,8 @@
 					}
 				],
 				is_apply: 0,	//是否点击申请按钮
-				name: 'Peter',
 				id_link: '',
-				send_price: 10000,
+				transfer_name: '',
 				price: '',
 				password: '',
 				input_type: ''
@@ -93,6 +94,11 @@
 			uniNavBar,
 			commonAvatar,
 			switchc
+		},
+		onShow(){
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+			})
 		},
 		methods:{
 			toListLink(idx){
@@ -114,13 +120,31 @@
 				}
 			},
 			applyConfirm(){
-				this.is_apply = 1;
+				this.$Debounce.canDoFunction({
+					key: "submitTransferMoney",
+					time: 1500,
+					success:()=>{
+						this.$http.submitTransferMoney({
+							address: this.id_link,
+							money: this.price,
+							sec_password: this.password
+						}).then((data)=>{
+							this.$api.msg(data.data.message);
+							setTimeout(()=>{
+								this.is_apply = 1;
+								this.transfer_name = data.data.to_user;
+							},1500)
+						})
+					}
+				})
 			},
 			scanCode(){
+				let that = this;
 				uni.scanCode({
 				    success: function (res) {
 				        console.log('条码类型：' + res.scanType);
 				        console.log('条码内容：' + res.result);
+						that.id_link = res.result;
 				    }
 				})
 			},

@@ -1,7 +1,7 @@
 <template>
 	<view class="increase">
 		<uni-nav-bar left-icon="back" leftText="返回" title="加额" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="member_info_box">
 			<view class="member_list">
 				<view class="member_item" @tap="toListLink(index)" v-for="(item,index) in memberList" :key="index">
@@ -30,6 +30,7 @@
 			<view class="ib_info">已提交申请，等待系统处理</view>
 			<button type="primary" v-if="is_pass == 0">汇款账号申请中</button>
 			<button type="primary" class="black" v-else>汇款确认中</button>
+			<button class="submit_btn history_btn" @tap="toHistory">历史充值</button>
 		</view>
 		<view class="increase_after" v-if="is_pass == 1 && is_apply == 0">
 			<view class="form_item">
@@ -58,6 +59,7 @@
 				</view>
 			</view>
 			<button class="submit_btn" form-type="submit" @tap="applyConfirm">申请确认</button>
+			<button class="submit_btn history_btn" @tap="toHistory">历史充值</button>
 		</view>
 		<uni-popup ref="popup" type="center">
 			<view class="popup_box">
@@ -92,6 +94,8 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				name: '',
+				avatar: '/static/avatar.png',
 				memberList: [
 					{
 						icon: '/static/member_icon1.png',
@@ -119,6 +123,11 @@
 			commonAvatar,
 			switchc,
 			uniPopup
+		},
+		onShow(){
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+			})
 		},
 		methods:{
 			toListLink(idx){
@@ -156,16 +165,15 @@
 							url: that.$http.url+'Recharge/uploadFiles', //图片接口
 							filePath: res.tempFilePaths[0],
 							name: 'file',
+							header:{
+								'AUTHORIZATION': uni.getStorageSync('token')
+							},
 							success: (uploadFileRes) => {
 								var data = JSON.parse(uploadFileRes.data);
-								if(data.code == 0){
-									var url = data.data.url;
+								console.log(data);
+								if(data.status == 1){
+									var url = that.$http.url+data.message.path;
 									that.photo = url;
-								}else{
-									uni.showToast({
-										title:data.msg,
-										icon:'none',
-									});
 								}
 							}
 						});
@@ -188,17 +196,23 @@
 				});
 			},
 			applyConfirm(){
-				this.$http.addRecharge({
-					money: this.price,
-					files: this.photo,
-					sec_password: this.password
-				}).then((data)=>{
-					this.$api.msg(data.data.message);
-					if(data.data.status == 1){
-						this.is_apply = 1;
+				this.$Debounce.canDoFunction({
+					key: "addRecharge",
+					time: 1500,
+					success:()=>{
+						this.$http.addRecharge({
+							money: this.price,
+							files: this.photo,
+							sec_password: this.password
+						}).then((data)=>{
+							this.$api.msg(data.data.message);
+							if(data.data.status == 1){
+								setTimeout(()=>{
+									this.is_apply = 1;
+								},1500)
+							}
+						})
 					}
-				}).catch((err)=>{
-					
 				})
 			},
 			lookAccount(){
@@ -209,6 +223,11 @@
 			},
 			okPopup(){
 				this.$refs.popup.close();
+			},
+			toHistory(){
+				uni.navigateTo({
+					url: '/pages/member/historyList?type=2'
+				})
 			}
 		}
 	}
@@ -361,6 +380,7 @@
 	}
 	.submit_btn{
 		margin-top: 40rpx;
+		margin-bottom: 40rpx;
 	}
 	
 	.look_info_box{
@@ -387,5 +407,10 @@
 				border: 0;
 			}
 		}
+	}
+	
+	.history_btn{
+		background: #666 !important;
+		margin: 30rpx 0 0 !important;
 	}
 </style>

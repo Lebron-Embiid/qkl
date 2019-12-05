@@ -8,6 +8,7 @@
 		},
 		onShow: function() {
 			let that = this;
+			
 			console.log('App Show')
 			uni.setTabBarBadge({
 				index: 1,
@@ -29,25 +30,17 @@
 					
 				}
 			})
-			if(uni.getStorageSync('token') == ''){
-				that.$api.msg('请登录');
-				setTimeout(function(){
-					uni.reLaunch({
-						url: '/pages/login/login'
-					})
-				},1500)
-			}
-			that.$http.getBank().then((data)=>{
-				if(data.data.status == 40001){
-					this.$api.msg('请登录');
-					setTimeout(function(){
-						uni.reLaunch({
-							url: '/pages/login/login'
-						})
-					},1500)
-					return;
-				}
-			})
+			// that.$http.getBank().then((data)=>{
+			// 	if(data.data.status == 40001){
+			// 		this.$api.msg('请登录');
+			// 		setTimeout(function(){
+			// 			uni.reLaunch({
+			// 				url: '/pages/login/login'
+			// 			})
+			// 		},1500)
+			// 		return;
+			// 	}
+			// })
 		},
 		onHide: function() {
 			console.log('App Hide')
@@ -83,6 +76,19 @@ uni-modal .uni-modal__btn_primary{
     width: 100%;
     background-color: #ffffff;
 }
+
+
+.wxParse{
+	-webkit-user-select: text;
+}
+.wxParse image,.wxParse .img,.wxParse image>img{
+	display: block !important;
+	max-width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	opacity: 1 !important;
+}
+
 
 .form_item{
 	padding: 30rpx 0 30rpx 20rpx;

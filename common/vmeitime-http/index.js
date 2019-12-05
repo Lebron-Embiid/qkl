@@ -17,7 +17,15 @@ export const test = (data) => {
 	} */
 	//设置请求结束后拦截器
 	http.interceptor.response = (response) => {
-		console.log('个性化response....')
+		console.log(response)
+		
+		// if(response.data.status == 40001){
+		// 	setTimeout(function(){
+		// 		uni.reLaunch({
+		// 			url: '/pages/login/login'
+		// 		})
+		// 	},1500)
+		// }
 		//判断返回状态 执行相应操作
 		return response;
 	}
@@ -74,6 +82,11 @@ export const getAreaCode = (data) => {
 
 // 充值列表
 export const userRecharge = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Recharge/index',
         method: 'POST', 
@@ -82,6 +95,11 @@ export const userRecharge = (data) => {
 }
 // 上传充值凭证
 export const uploadFiles = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Recharge/uploadFiles',
         method: 'POST', 
@@ -90,6 +108,11 @@ export const uploadFiles = (data) => {
 }
 // 提交充值申请
 export const addRecharge = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Recharge/add',
         method: 'POST', 
@@ -100,6 +123,11 @@ export const addRecharge = (data) => {
 
 // 所有开户银行
 export const getBank = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Growth/bankList',
         method: 'POST', 
@@ -108,6 +136,11 @@ export const getBank = (data) => {
 }
 // 添加银行卡
 export const addBank = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Growth/addBank',
         method: 'POST', 
@@ -116,6 +149,11 @@ export const addBank = (data) => {
 }
 // 删除银行卡
 export const delBank = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Growth/cardInfos',
         method: 'POST', 
@@ -124,6 +162,11 @@ export const delBank = (data) => {
 }
 // 用户银行卡列表
 export const userBankList = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Growth/userBankList',
         method: 'POST', 
@@ -134,6 +177,11 @@ export const userBankList = (data) => {
 
 // 申请提现
 export const applyCash = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Cash/apply',
         method: 'POST', 
@@ -142,8 +190,123 @@ export const applyCash = (data) => {
 }
 // 提现申请记录
 export const getCashList = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Cash/cashList',
+        method: 'POST', 
+        data
+    })
+}
+
+
+// 资讯列表
+export const getNewsList = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'News/index',
+        method: 'POST', 
+        data
+    })
+}
+// 资讯列表
+export const getNewsDetail = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'News/NewsDetail',
+        method: 'POST', 
+        data
+    })
+}
+
+
+// 获取个人信息
+export const getUserInfo = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+	// http.interceptor.response = (response) => {
+	// 	console.log(response)
+		
+	// 	if(response.data.status == 40001){
+	// 		setTimeout(function(){
+	// 			uni.reLaunch({
+	// 				url: '/pages/login/login'
+	// 			})
+	// 		},1500)
+	// 	}
+	// 	//判断返回状态 执行相应操作
+	// 	return response;
+	// }
+    return http.request({
+        url: 'User/userInfo',
+        method: 'POST', 
+        data
+    })
+}
+// 修改个人信息
+export const editUserInfo = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'User/editUserInfo',
+        method: 'POST', 
+        data
+    })
+}
+
+
+// 转款钱包二维码 
+export const transferWalletCode = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Transfer/walletCode',
+        method: 'POST', 
+        data
+    })
+}
+// 提交转款  
+export const submitTransferMoney = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Transfer/transferMoney',
+        method: 'POST', 
+        data
+    })
+}
+// 转款记录列表  
+export const getTransferList = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Transfer/getList',
         method: 'POST', 
         data
     })
@@ -200,5 +363,12 @@ export default {
 	delBank,
 	userBankList,
 	applyCash,
-	getCashList
+	getCashList,
+	getNewsList,
+	getNewsDetail,
+	getUserInfo,
+	editUserInfo,
+	transferWalletCode,
+	submitTransferMoney,
+	getTransferList
 }

@@ -1,7 +1,7 @@
 <template>
 	<view class="wallet">
 		<uni-nav-bar left-icon="back" leftText="返回" title="投资钱包" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="common_top_black">
 			<view class="common_price">$ <text>{{over_money}}</text></view>
 		</view>
@@ -55,6 +55,8 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				name: '',
+				avatar: '/static/avatar.png',
 				over_money: 1600000,
 				invest_money: 120000,
 				pay_pwd: '',
@@ -87,6 +89,11 @@
 			commonAvatar,
 			commonWallet,
 			uniPopup
+		},
+		onShow(){
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+			})
 		},
 		methods:{
 			backMoney(idx){

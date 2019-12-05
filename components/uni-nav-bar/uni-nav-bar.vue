@@ -223,8 +223,8 @@
 		}
 		image{
 			display: block;
-			width: 44rpx;
-			height: 44rpx;
+			width: 44rpx !important;
+			height: 44rpx !important;
 		}
 	}
 

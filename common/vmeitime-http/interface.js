@@ -34,7 +34,7 @@ export default {
 		// 线上地址
 		// baseUrl: "http://qkl.longbasz.com/",
 		// 本地地址
-		baseUrl: "http://192.168.2.127/www.qkl.com/",
+		baseUrl: "http://192.168.2.128/www.qkl.com/",
 		header: {
 			'Content-Type': 'application/json;charset=UTF-8',
 			'Content-Type': 'application/x-www-form-urlencoded',
@@ -75,11 +75,27 @@ export default {
 			
 			options.complete = (response) => {
 				let statusCode = response.statusCode
+				// console.log(response);
 				response.config = _config
 				if (process.env.NODE_ENV === 'development') {
 					if (statusCode === 200) {
 						// console.log("【" + _config.requestId + "】 结果：" + JSON.stringify(response.data))
+						// 登录失效拦截
 						// console.log(response);
+						// if(response.data.status === 40001){
+						// 	uni.showToast({
+						// 		title: response.data.message,
+						// 		icon: 'none',
+						// 		duration: 1500,
+						// 		mask: true
+						// 	});
+						// 	setTimeout(function(){
+						// 		uni.reLaunch({
+						// 			url: '/pages/login/login'
+						// 		})
+						// 	},1500)
+						// 	return;
+						// }
 					}
 				}
 				if (this.interceptor.response) {
@@ -188,6 +204,14 @@ function _reslog(res) {
 		case 401:
 			break;
 		case 404:
+			break;
+		case 40001:
+			// this.$api.msg('请登录');
+			// setTimeout(function(){
+			// 	uni.reLaunch({
+			// 		url: '/pages/login/login'
+			// 	})
+			// },1500)
 			break;
 		default:
 			break;

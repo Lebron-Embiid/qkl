@@ -1,7 +1,7 @@
 <template>
 	<view class="myOrder">
 		<uni-nav-bar left-icon="back" leftText="返回" title="我的订单" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="order_nav">
 			<view class="nav_item" :class="[index==current?'active':'']" @tap="changeNav(index)" v-for="(item,index) in orderNavs" :key="index">{{item}}</view>
 		</view>
@@ -36,6 +36,8 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				name: '',
+				avatar: '/static/avatar.png',
 				orderNavs: ["全部订单","待付款","待发货","待收货","已完成"],
 				current: 0,
 				orderList: [
@@ -95,6 +97,11 @@
 			if(opt.index != undefined){
 				this.current = opt.index;
 			}
+		},
+		onShow(){
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+			})
 		},
 		components:{
 			uniNavBar,

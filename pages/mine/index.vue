@@ -1,7 +1,7 @@
 <template>
 	<view class="mine">
 		<uni-nav-bar title="我的" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="mine_list">
 			<view class="mine_item" v-for="(item,index) in mineList" @tap="clickLink(index)" :key="index">
 				<view class="mine_img"><image :src="item.icon" mode="widthFix"></image></view>
@@ -21,6 +21,8 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				name: '',
+				avatar: '/static/avatar.png',
 				mineList: [
 					{
 						icon: '/static/mine_icon1.png',
@@ -69,6 +71,28 @@
 			// model.getSwiper((data)=>{
 			// 	this.Swiperlist=data
 			// })
+		},
+		onShow() {
+			if(uni.getStorageSync('token') == ''){
+				this.$api.msg('请登录');
+				setTimeout(()=>{
+					uni.reLaunch({
+						url: '/pages/login/login'
+					})
+				},1500)
+			}else{
+				this.$http.getUserInfo().then((data)=>{
+					this.name = data.data.username;
+					if(data.data.status == 40001){
+						this.$api.msg(data.data.message);
+						setTimeout(()=>{
+							uni.reLaunch({
+								url: '/pages/login/login'
+							})
+						},1500)
+					}
+				})
+			}
 		},
 		methods:{
 			clickLink(idx){

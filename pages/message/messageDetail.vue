@@ -2,10 +2,14 @@
 	<view class="messageDetail">
 		<uni-nav-bar left-icon="back" leftText="返回" :title="title" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<view class="message_detail_box">
-			<image src="" mode=""></image>
+			<!-- <image src="" mode=""></image> -->
 			<view class="content_box">
 				<view class="message_title">发表于 {{time}}</view>
-				<view class="message_content">{{content}}</view>
+				<view class="message_content">
+					<block v-if="content!=''">
+						<u-parse :content="content"></u-parse>
+					</block>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -13,6 +17,8 @@
 
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
+	import uParse from '@/components/u-parse/u-parse.vue'
+	import util from '@/common/util.js'
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default{
@@ -20,28 +26,41 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				title: '讯息详情',
-				time: '2019/11/25',
+				id: '',
+				title: '',
+				time: '',
 				content: ''
 			}
 		},
 		components:{
-			uniNavBar
+			uniNavBar,
+			uParse
 		},
 		methods:{
 			
 		},
 		onLoad(opt) {
 			console.log(opt);
-			if(opt.title!=undefined){
-				this.title = opt.title;
-				this.content = opt.content;
+			if(opt.id!=undefined){
+				this.id = opt.id;
 			}
+		},
+		onShow() {
+			console.log(this.id);
+			this.$http.getNewsDetail({
+				id: this.id
+			}).then((data)=>{
+				console.log(data.data);
+				this.title = data.data.title;
+				this.content = data.data.content;
+				this.time = util.formatDate(data.data.create_time);
+			})
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+	@import url("../../components/u-parse/u-parse.css");
 	.message_detail_box{
 		padding: 20rpx 30rpx;
 		box-sizing: border-box;

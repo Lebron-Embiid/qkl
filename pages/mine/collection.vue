@@ -1,11 +1,11 @@
 <template>
 	<view class="collection">
 		<uni-nav-bar left-icon="back" leftText="返回" title="收款凭证" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="collect_box">
 			<text class="collect_txt">{{link}}</text>
 			<button type="primary" @tap="copyLink">复制钱包地址</button>
-			<image src="/static/code.png" mode="widthFix"></image>
+			<image :src="code_img" mode="widthFix"></image>
 			<text>扫码收钱</text>
 		</view>
 	</view>
@@ -21,12 +21,24 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				link: 'AdDyRahRz5vmvgy0Uik6fjgQfSeB126TTA'
+				name: '',
+				avatar: '/static/avatar.png',
+				link: '',
+				code_img: ''
 			}
 		},
 		components:{
 			uniNavBar,
 			commonAvatar
+		},
+		onShow(){
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+			})
+			this.$http.transferWalletCode().then((data)=>{
+				this.code_img = this.$http.url+data.data.img_code;
+				this.link = data.data.address;
+			})
 		},
 		methods:{
 			copyLink(){

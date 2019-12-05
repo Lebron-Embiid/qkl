@@ -1,7 +1,7 @@
 <template>
 	<view class="myMember">
 		<uni-nav-bar title="我的会员" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="my_member_box">
 			<view class="my_member_item first">
 				<image src="/static/member_icon4.png" mode="widthFix"></image>
@@ -94,7 +94,8 @@
 				rightIcon: '/static/ling.png',
 				dot: true,
 				
-				name: 'Peter',
+				name: '',
+				avatar: '/static/avatar.png',
 				person_num: 2000,
 				dividend: 800000,
 				price: '',
@@ -225,7 +226,30 @@
 			uniPopup,
 			uniTransition
 		},
+		onLoad() {
+			
+		},
 		onShow() {
+			if(uni.getStorageSync('token') == ''){
+				this.$api.msg('请登录');
+				setTimeout(()=>{
+					uni.reLaunch({
+						url: '/pages/login/login'
+					})
+				},1500)
+			}else{
+				this.$http.getUserInfo().then((data)=>{
+					this.name = data.data.username;
+					if(data.data.status == 40001){
+						this.$api.msg(data.data.message);
+						setTimeout(()=>{
+							uni.reLaunch({
+								url: '/pages/login/login'
+							})
+						},1500)
+					}
+				})
+			}
 			uni.removeTabBarBadge({
 				index: 3
 			})

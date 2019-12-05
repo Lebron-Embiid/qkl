@@ -116,9 +116,6 @@
 					this.areaCode.push(res.data[i].code);
 				}
 				console.log(this.country,this.areaCode);
-			}).catch((err)=>{
-				// console.log('request fail', err);
-				// this.$api.msg(err);
 			})
 		},
 		methods:{

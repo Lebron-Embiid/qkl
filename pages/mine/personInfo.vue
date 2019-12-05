@@ -1,7 +1,7 @@
 <template>
 	<view class="personInfo">
 		<uni-nav-bar left-icon="back" leftText="返回" title="个人信息" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar :has_edit_avatar="true"></common-avatar>
+		<common-avatar :name="username" :avatar="avatar" :has_edit_avatar="true"></common-avatar>
 		<view class="basic_info">
 			<view class="basic_title">基本资料</view>
 			<view class="form_box">
@@ -17,7 +17,7 @@
 					<view class="icon no"><image src="/static/phone.svg" mode="widthFix"></image></view>
 					<view class="right_box">
 						<view class="ipt_box">
-							<input type="text" placeholder="请输入手机号码" v-model="phone" />
+							<input type="text" disabled placeholder="手机号码" v-model="phone" />
 						</view>
 					</view>
 				</view>
@@ -45,7 +45,7 @@
 					<view class="icon no"><image src="/static/invite.png" mode="widthFix"></image></view>
 					<view class="right_box">
 						<view class="ipt_box">
-							<input type="text" placeholder="请输入邀请码" v-model="invite_code" />
+							<input type="text" disabled placeholder="邀请码" v-model="invite_code" />
 						</view>
 					</view>
 				</view>
@@ -57,14 +57,14 @@
 						</view>
 					</view>
 				</view>
-				<view class="form_item last">
+				<!-- <view class="form_item last">
 					<view class="icon no"><image src="/static/ship.png" mode="widthFix"></image></view>
 					<view class="right_box">
 						<view class="ipt_box">
 							<input type="text" placeholder="请输入收货地址" v-model="address" />
 						</view>
 					</view>
-				</view>
+				</view> -->
 			</view>
 			<view class="basic_title">银行账户</view>
 			<view class="bank_info" v-for="(item,index) in bankList" :key="index">
@@ -96,6 +96,8 @@
 				dot: true,
 				url: '',
 				name: '',
+				username: '',
+				avatar: '/static/avatar.png',
 				phone: '',
 				password: '',
 				trade_pwd: '',
@@ -103,7 +105,7 @@
 				input_type2: '',
 				invite_code: '',
 				email: '',
-				address: '',
+				// address: '',
 				bankList: [
 					// {
 					// 	id: 1,
@@ -122,6 +124,15 @@
 		onShow() {
 			this.url = this.$http.url;
 			console.log(this.url);
+			this.$http.getUserInfo().then((data)=>{
+				console.log(data.data);
+				this.name = data.data.username;
+				this.username = data.data.username;
+				this.phone = data.data.mobile;
+				this.email = data.data.email;
+				this.invite_code = data.data.parent_name;
+			})
+			
 			this.$http.userBankList({
 				limit: 10
 			}).then((data)=>{
@@ -136,8 +147,6 @@
 					return;
 				}
 				this.bankList = data.data;
-			}).catch((err)=>{
-				
 			})
 		},
 		methods:{
@@ -183,6 +192,23 @@
 				
 			},
 			submitForm(){
+				this.$Debounce.canDoFunction({
+					key: "editUserInfo",
+					time: 1500,
+					success:()=>{
+						this.$http.editUserInfo({
+							username: this.name,
+							login_pwd: this.password,
+							safety_pwd: this.trade_pwd,
+							email: this.email
+						}).then((data)=>{
+							this.$api.msg(data.data.message);
+							if(data.data.status != 0){
+								this.username = this.name;
+							}
+						})
+					}
+				})
 				// if(this.phone == ''){
 				// 	this.$api.msg("请输入登录手机号");
 				// 	return;

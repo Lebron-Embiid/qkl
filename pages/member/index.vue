@@ -13,8 +13,8 @@
 			<button type="primary" @tap="toShop">商城</button>
 		</view>
 		<view class="member_info_box">
-			<image src="/static/avatar.png" mode="widthFix" class="avatar_img"></image>
-			<view class="member_name">Mr.Maker</view>
+			<image :src="avatar" mode="widthFix" class="avatar_img"></image>
+			<view class="member_name">{{name}}</view>
 			<view class="member_list">
 				<view class="member_item" @tap="toListLink(index)" v-for="(item,index) in memberList" :key="index">
 					<image :src="item.icon" mode="widthFix"></image>
@@ -46,6 +46,8 @@
 			return{
 				logoSrc: '/static/logo1.png',
 				app_name: 'SOLOMON MATRIX',
+				name: '',
+				avatar: '/static/avatar.png',
 				memberList: [
 					{
 						icon: '/static/member_icon1.png',
@@ -90,9 +92,28 @@
 			
 		},
 		onShow() {
+			if(uni.getStorageSync('token') == ''){
+				this.$api.msg('请登录');
+				setTimeout(function(){
+					uni.reLaunch({
+						url: '/pages/login/login'
+					})
+				},1500)
+			}else{
+				this.$http.getUserInfo().then((data)=>{
+					this.name = data.data.username;
+					if(data.data.status == 40001){
+						this.$api.msg(data.data.message);
+						setTimeout(()=>{
+							uni.reLaunch({
+								url: '/pages/login/login'
+							})
+						},1500)
+					}
+				})
+			}
 			console.log(getApp().globalData.is_login);
 			console.log(uni.getStorageSync('token'));
-			
 		},
 		methods:{
 			toListLink(idx){

@@ -1,7 +1,7 @@
 <template>
 	<view class="recommendMember">
 		<uni-nav-bar left-icon="back" leftText="返回" title="推荐会员" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="recommend_box">
 			<text class="collect_txt">推荐人邀请码：{{link}}</text>
 			<button type="primary" @tap="copyLink">复制推荐地址</button>
@@ -22,6 +22,8 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				name: '',
+				avatar: '/static/avatar.png',
 				link: 'YdhkSnm',
 				code_img: '/static/code.png'
 			}
@@ -29,6 +31,11 @@
 		components:{
 			uniNavBar,
 			commonAvatar
+		},
+		onShow(){
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+			})
 		},
 		methods:{
 			copyLink(){

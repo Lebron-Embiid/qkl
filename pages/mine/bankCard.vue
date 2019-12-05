@@ -1,7 +1,7 @@
 <template>
 	<view class="bankCard">
 		<uni-nav-bar left-icon="back" leftText="返回" title="银行账号" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="bankCard_box">
 			<!-- <view class="bank_title">*请绑定持卡人本人的银行卡，姓名一经填写不可修改!</view> -->
 			<view class="bank_item">
@@ -39,6 +39,8 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				name: '',
+				avatar: '/static/avatar.png',
 				array: [],
 				bank_type: '请选择开户银行',
 				card_name: '',
@@ -55,6 +57,11 @@
 			this.$http.getBank().then((data)=>{
 				console.log(data.data);
 				this.array = data.data;
+			})
+		},
+		onShow(){
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
 			})
 		},
 		methods:{

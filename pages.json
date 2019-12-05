@@ -115,8 +115,14 @@
 			"path": "pages/message/index",
 			"style": {
 				"navigationBarTitleText": "讯息",
+				"enablePullDownRefresh": true,
 				"app-plus": {
-					"titleNView": false
+					"titleNView": false,
+					"pullToRefresh": {
+						"support": true,
+						"color": "#1ABC9C",
+						"style": "circle"
+					}
 				}
 			}
 		},

@@ -1,7 +1,7 @@
 <template>
 	<view class="historyList">
 		<uni-nav-bar left-icon="back" leftText="返回" :title="title"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="member_info_box">
 			<view class="member_list">
 				<view class="member_item" @tap="toListLink(index)" v-for="(item,index) in memberList" :key="index">
@@ -20,36 +20,57 @@
 			</view>
 			<view class="invest_item" v-for="(item,index) in investList" :key="index">
 				<view class="invest_center">
-					<view class="ic_left">{{item.name}}</view>
-					<view class="ic_right">{{item.price}}</view>
+					<view class="ic_left">{{item.bank_account}}</view>
+					<view class="ic_right">{{item.money}}</view>
 				</view>
 				<view class="invest_bottom">
 					<view>
-						{{item.time}}
+						{{util.formatTime(item.add_time)}}
 					</view>
-					<text v-if="item.is_status == 0">{{item.status}}</text>
-					<text v-if="item.is_status == 1" class="load">{{item.status}}</text>
-					<text v-if="item.is_status == 2" class="finish">{{item.status}}</text>
+					<text v-if="item.status == 0">{{item.status_name}}</text>
+					<text v-if="item.status == 1" class="load">{{item.status_name}}</text>
+					<text v-if="item.status == 2" class="finish">{{item.status_name}}</text>
 				</view>
 			</view>
 		</view>
-		<view class="invest_box" v-else>
+		<view class="invest_box" v-if="isType == 1">
 			<view class="invest_top">
 				<view class="it_left">流水单号</view>
 				<view class="it_right">转款</view>
 			</view>
-			<view class="invest_item" v-for="(item,index) in investList" :key="index">
+			<view class="invest_item" v-for="(item,index) in transferList" :key="index">
 				<view class="invest_center">
-					<view class="ic_left">{{item.name}}</view>
-					<view class="ic_right">{{item.price}}</view>
+					<view class="ic_left">{{item.order_sn}}</view>
+					<view class="ic_right">{{item.money}}</view>
 				</view>
 				<view class="invest_bottom">
 					<view>
-						{{item.time}}
+						{{item.add_time}}
 					</view>
-					<text v-if="item.is_status == 0">{{item.status}}</text>
+					<text>{{item.to_user_name}}</text>
+					<!-- <text v-if="item.is_status == 0">{{item.status}}</text>
 					<text v-if="item.is_status == 1" class="load">{{item.status}}</text>
-					<text v-if="item.is_status == 2" class="finish">{{item.status}}</text>
+					<text v-if="item.is_status == 2" class="finish">{{item.status}}</text> -->
+				</view>
+			</view>
+		</view>
+		<view class="invest_box" v-if="isType == 2">
+			<view class="invest_top">
+				<view class="it_left">流水单号</view>
+				<view class="it_right">充值金额</view>
+			</view>
+			<view class="invest_item" v-for="(item,index) in rechargeList" :key="index">
+				<view class="invest_center">
+					<view class="ic_left">{{item.order_sn}}</view>
+					<view class="ic_right">{{item.money}}</view>
+				</view>
+				<view class="invest_bottom">
+					<view>
+						{{util.formatTime(item.add_time)}}
+					</view>
+					<text v-if="item.status == 0">{{item.status_name[item.status]}}</text>
+					<text v-if="item.status == 1" class="load">{{item.status_name[item.status]}}</text>
+					<text v-if="item.status == 2" class="finish">{{item.status_name[item.status]}}</text>
 				</view>
 			</view>
 		</view>
@@ -59,6 +80,7 @@
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
+	import util from '@/common/util.js'
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default{
@@ -66,6 +88,8 @@
 			return{
 				title: '历史提款',
 				isType: 0,
+				name: '',
+				avatar: '/static/avatar.png',
 				memberList: [
 					{
 						icon: '/static/member_icon1.png',
@@ -79,27 +103,18 @@
 						value: '16000000'
 					}
 				],
-				investList: [
+				investList: [],
+				transferList:[
 					// {
 					// 	name: 'SLM20191125A001',
 					// 	price: '20000',
 					// 	time: '2019/11/25  09：00',
 					// 	status: '申请中',
 					// 	is_status: 1
-					// },{
-					// 	name: 'SLM20191125A001',
-					// 	price: '20000',
-					// 	time: '2019/11/25  09：00',
-					// 	status: '已完成',
-					// 	is_status: 2
-					// },{
-					// 	name: 'SLM20191125A001',
-					// 	price: '10000',
-					// 	time: '2019/11/25  09：00',
-					// 	status: '已取消',
-					// 	is_status: 0
 					// }
-				]
+				],
+				rechargeList: [],
+				util: util
 			}
 		},
 		components:{
@@ -115,14 +130,38 @@
 					title: "历史提款"
 				});
 				this.$http.getCashList().then((data)=>{
+					console.log(data.data);
 					this.investList = data.data;
 				})
-			}else{
+			}else if(opt.type == 1){
 				this.title = '历史转款';
 				uni.setNavigationBarTitle({
 					title: "历史转款"
 				});
+				this.$http.getTransferList({
+					page: 1,
+					limit: 10
+				}).then((data)=>{
+					console.log(data.data);
+					this.transferList = data.data.list;
+				})
+			}else{
+				this.title = '历史充值';
+				uni.setNavigationBarTitle({
+					title: "历史充值"
+				});
+				this.$http.userRecharge({
+					limit: 10
+				}).then((data)=>{
+					console.log(data.data);
+					this.rechargeList = data.data.list;
+				})
 			}
+		},
+		onShow(){
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+			})
 		},
 		methods:{
 			toListLink(idx){

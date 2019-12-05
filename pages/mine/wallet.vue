@@ -1,7 +1,7 @@
 <template>
 	<view class="wallet">
 		<uni-nav-bar left-icon="back" leftText="返回" title="APP钱包" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="common_top_black">
 			<view class="common_price">$ <text>{{over_money}}</text></view>
 			<view class="add_btn" @tap="toIncrease">加额</view>
@@ -39,6 +39,8 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				name: '',
+				avatar: '/static/avatar.png',
 				over_money: 1600000,
 				walletNavs: [{title:'转入',name:'first'},{title:'转出',name:'active'},{title:'提现',name:''}],
 				investList: [
@@ -73,12 +75,14 @@
 				})
 			}
 		},
+		onShow(){
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+			})
+		},
 		onLoad(opt) {
 			this.$http.userRecharge().then((data)=>{
 				console.log(data);
-			}).catch((err)=>{
-				// console.log('request fail', err);
-				// this.$api.msg(err);
 			})
 		}
 	}

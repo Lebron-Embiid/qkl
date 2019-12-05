@@ -1,7 +1,7 @@
 <template>
 	<view class="dividend">
 		<uni-nav-bar left-icon="back" leftText="返回" title="我的分红" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="dividend_box">
 			<view class="dividend_left">
 				<image src="/static/member_icon3.png" mode="widthFix"></image>
@@ -86,7 +86,8 @@
 				dot: true,
 				show: true,
 				show1: false,
-				avatar: '',
+				name: '',
+				avatar: '/static/avatar.png',
 				dividend: 800000,
 				navs: ['个人分红','团队分红'],
 				current: 0,
@@ -167,6 +168,11 @@
 			okPopup(){
 				this.$refs.popup.close();
 			}
+		},
+		onShow(){
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+			})
 		},
 		onLoad(opt) {
 			if(opt.index != undefined){

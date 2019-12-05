@@ -1,7 +1,7 @@
 <template>
 	<view class="commonAvatar">
 		<view class="mine_top">
-			<image :src="avatar" class="avatar_img" mode="widthFix"></image>
+			<image :src="user_avatar" class="avatar_img" mode="widthFix"></image>
 			<text>{{name}}</text>
 			<image src="/static/left_bg.png" class="bg left_bg" mode="widthFix"></image>
 			<image src="/static/right_bg.png" class="bg right_bg" mode="widthFix"></image>
@@ -37,8 +37,8 @@
 		name: 'commonAvatar',
 		data(){
 			return{
-				avatar: '/static/avatar.png',
-				name: 'Mr.Maker',
+				user_name: '',
+				user_avatar: '',
 				sex: [
 					{
 						name: '男',
@@ -74,15 +74,28 @@
 			uniPopup
 		},
 		props:{
+			name: {
+				type: String,
+				default: ''
+			},
+			avatar: {
+				type: String,
+				default: ''
+			},
 			has_edit_avatar: {
 				type: Boolean,
 				default: false
 			}
 		},
-		onLoad() {
-			
+		mounted() {
+			this.user_avatar = this.avatar;
 		},
 		methods:{
+			// update(){
+				// this.$http.getUserInfo().then((data)=>{
+				// 	this.name = data.data.username;
+				// })
+			// },
 			changeAvatar(){
 				this.$refs.popup_avatar.open();
 			},
@@ -95,12 +108,12 @@
 				}
 				console.log(this.current);
 				if(this.select != null){
-					this.avatar = this.avatarList[this.current][this.select];					
+					this.user_avatar = this.avatarList[this.current][this.select];					
 				}
 			},
 			selectAvatar(index,idx){
 				this.select = idx;
-				this.avatar = this.avatarList[index][idx];
+				this.user_avatar = this.avatarList[index][idx];
 			}
 		}
 	}
@@ -115,6 +128,11 @@
 		text-align: center;
 		color: #ccc;
 		font-size: 24rpx;
+		text{
+			display: block;
+			text-align: center;
+			background: #000 !important;
+		}
 		.avatar_img{
 			display: block;
 			width: 138rpx !important;

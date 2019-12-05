@@ -1,7 +1,7 @@
 <template>
 	<view class="withdraw">
 		<uni-nav-bar left-icon="back" leftText="返回" title="提款" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
-		<common-avatar></common-avatar>
+		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="member_info_box">
 			<view class="member_list">
 				<view class="member_item" @tap="toListLink(index)" v-for="(item,index) in memberList" :key="index">
@@ -65,6 +65,8 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
+				name: '',
+				avatar: '/static/avatar.png',
 				memberList: [
 					{
 						icon: '/static/member_icon1.png',
@@ -93,6 +95,9 @@
 			switchc
 		},
 		onShow() {
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+			})
 			this.$http.userBankList().then((data)=>{
 				this.bankList = data.data;
 				console.log(this.bankList);
@@ -128,6 +133,10 @@
 					this.$api.msg('请输入提款金额');
 					return;
 				}
+				if(this.price == 0){
+					this.$api.msg('提款金额不能为0');
+					return;
+				}
 				this.$http.applyCash({
 					card_id: this.bank_id,
 					money: this.price,
@@ -135,7 +144,9 @@
 				}).then((data)=>{
 					this.$api.msg(data.data.message);
 					if(data.data.status == 1){
-						this.is_apply = 1;
+						setTimeout(()=>{
+							this.is_apply = 1;
+						},1500)
 					}
 				})
 			},

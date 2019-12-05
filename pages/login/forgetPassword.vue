@@ -116,9 +116,6 @@
 									}
 								},1000)
 							}
-						}).catch((err)=>{
-							// console.log('request fail', err);
-							this.$api.msg(err);
 						})
 				    }
 				})
@@ -142,9 +139,6 @@
 									})
 								},1500)
 							}
-						}).catch((err)=>{
-							// console.log('request fail', err);
-							// this.$api.msg(err);
 						})
 					}
 				})

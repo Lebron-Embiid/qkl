@@ -27,8 +27,11 @@
 						<block v-if="current == 0 && isApp == true">
 						您将把APP钱包资金转入到投资钱包
 						</block>
-						<block v-if="current == 1">
+						<block v-if="current == 1 && isApp == false">
 						您将把投资钱包资金转入到APP钱包
+						</block>
+						<block v-if="current == 1 && isApp == true">
+						您将把APP钱包资金转入到投资钱包
 						</block>
 						<block v-if="current == 2 && isApp == false">
 						您将对投资钱包资金进行投资
