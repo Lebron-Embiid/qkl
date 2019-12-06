@@ -76,11 +76,12 @@
 			}
 		},
 		onShow(){
+			
+		},
+		onLoad(opt) {
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
 			})
-		},
-		onLoad(opt) {
 			this.$http.userRecharge().then((data)=>{
 				console.log(data);
 			})

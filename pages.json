@@ -199,6 +199,24 @@
 			}
 		},
 		{
+			"path": "pages/mine/bankList",
+			"style": {
+				"navigationBarTitleText": "我的银行卡",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/mine/changePassword",
+			"style": {
+				"navigationBarTitleText": "修改密码",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
 			"path": "pages/mine/myOrder",
 			"style": {
 				"navigationBarTitleText": "我的订单",

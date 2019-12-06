@@ -91,6 +91,8 @@
 			uniPopup
 		},
 		onShow(){
+		},
+		onLoad() {
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
 			})

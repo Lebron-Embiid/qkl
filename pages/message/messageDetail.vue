@@ -1,6 +1,7 @@
 <template>
 	<view class="messageDetail">
-		<uni-nav-bar left-icon="back" leftText="返回" :title="title" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		 <!-- :rightDot="dot" :rightIcon="rightIcon" -->
+		<uni-nav-bar left-icon="back" leftText="返回" :title="title"></uni-nav-bar>
 		<view class="message_detail_box">
 			<!-- <image src="" mode=""></image> -->
 			<view class="content_box">
@@ -44,9 +45,9 @@
 			if(opt.id!=undefined){
 				this.id = opt.id;
 			}
-		},
-		onShow() {
-			console.log(this.id);
+			uni.showLoading({
+				title: '加载中'
+			})
 			this.$http.getNewsDetail({
 				id: this.id
 			}).then((data)=>{
@@ -54,7 +55,11 @@
 				this.title = data.data.title;
 				this.content = data.data.content;
 				this.time = util.formatDate(data.data.create_time);
+				uni.hideLoading();
 			})
+		},
+		onShow() {
+			
 		}
 	}
 </script>

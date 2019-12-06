@@ -85,8 +85,8 @@
 	export default {
 	    data(){
 			return{
-				logoSrc: '/static/logo1.png',
-				app_name: 'SOLOMON MATRIX',
+				logoSrc: '',
+				app_name: '',
 				internation_number: '',
 				phone: '',
 				password: '',
@@ -110,6 +110,8 @@
 			switchc
 		},
 		onShow() {
+			this.app_name = getApp().globalData.app_name;
+			this.logoSrc = getApp().globalData.app_logo;
 			this.$http.getAreaCode().then((res)=>{
 				for(let i in res.data){
 					this.country.push(res.data[i].country);

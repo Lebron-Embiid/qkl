@@ -99,13 +99,12 @@ const formatTime = date => {
     const hour = date.getHours()
     const minute = date.getMinutes()
     const second = date.getSeconds()
-	console.log(date,new Date(1575532837));
+	
     return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
 // 时间戳转年月日
 const formatDate = date => {
-	console.log(date,parseInt(date));
     date = new Date(parseInt(date)*1000);
     const year = date.getFullYear()
     const month = date.getMonth() + 1

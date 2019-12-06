@@ -152,7 +152,7 @@
 				treeList: [
 					{
 						id: 1,
-						avatar: '/static/avatar.jpg',
+						avatar: '/static/avatar.png',
 						member_id: 'SLM00001',
 						name: 'Peter1',
 						superior: 'Nick',
@@ -161,7 +161,7 @@
 						twoList: [
 							{
 								id: 2,
-								avatar: '/static/avatar.jpg',
+								avatar: '/static/avatar.png',
 								member_id: 'SLM00001',
 								name: 'Peter2',
 								superior: 'Nick',
@@ -170,7 +170,7 @@
 								threeList: [
 									{
 										id: 4,
-										avatar: '/static/avatar.jpg',
+										avatar: '/static/avatar.png',
 										member_id: 'SLM00001',
 										name: 'Peter3',
 										superior: 'Nick',
@@ -178,7 +178,7 @@
 										time: '2019/11/23  09：00'
 									},{
 										id: 5,
-										avatar: '/static/avatar.jpg',
+										avatar: '/static/avatar.png',
 										member_id: 'SLM00001',
 										name: 'Peter3',
 										superior: 'Nick',
@@ -189,7 +189,7 @@
 							},
 							{
 								id: 3,
-								avatar: '/static/avatar.jpg',
+								avatar: '/static/avatar.png',
 								member_id: 'SLM00001',
 								name: 'Peter2',
 								superior: 'Nick',
@@ -198,7 +198,7 @@
 								threeList: [
 									{
 										id: 6,
-										avatar: '/static/avatar.jpg',
+										avatar: '/static/avatar.png',
 										member_id: 'SLM00001',
 										name: 'Peter3',
 										superior: 'Nick',
@@ -206,7 +206,7 @@
 										time: '2019/11/23  09：00'
 									},{
 										id: 7,
-										avatar: '/static/avatar.jpg',
+										avatar: '/static/avatar.png',
 										member_id: 'SLM00001',
 										name: 'Peter3',
 										superior: 'Nick',
@@ -240,14 +240,6 @@
 			}else{
 				this.$http.getUserInfo().then((data)=>{
 					this.name = data.data.username;
-					if(data.data.status == 40001){
-						this.$api.msg(data.data.message);
-						setTimeout(()=>{
-							uni.reLaunch({
-								url: '/pages/login/login'
-							})
-						},1500)
-					}
 				})
 			}
 			uni.removeTabBarBadge({

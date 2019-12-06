@@ -170,14 +170,14 @@
 			}
 		},
 		onShow(){
-			this.$http.getUserInfo().then((data)=>{
-				this.name = data.data.username;
-			})
 		},
 		onLoad(opt) {
 			if(opt.index != undefined){
 				this.current = opt.index;
 			}
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+			})
 		}
 	}
 </script>

@@ -5,7 +5,7 @@
 		<view class="order_nav">
 			<view class="nav_item" :class="[index==current?'active':'']" @tap="changeNav(index)" v-for="(item,index) in orderNavs" :key="index">{{item}}</view>
 		</view>
-		<scroll-view scroll-y="true" class="order_content">
+		<scroll-view scroll-y="true" class="order_content" @scrolltolower="scrollLower">
 			<view class="order_item" v-for="(item,index) in orderList" :key="index">
 				<view class="oi_top">{{item.status}}</view>
 				<view class="oi_center">
@@ -22,6 +22,7 @@
 					<button type="primary" @tap="toPay(index)" class="pay_btn last">立即支付</button>
 				</view>
 			</view>
+			<uni-load-more :status="loadingType"></uni-load-more>
 		</scroll-view>
 	</view>
 </template>
@@ -29,6 +30,7 @@
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default{
@@ -90,7 +92,8 @@
 						num: 2,
 						all: ''
 					}
-				]
+				],
+				loadingType: 'more'
 			}
 		},
 		onLoad(opt) {
@@ -105,7 +108,8 @@
 		},
 		components:{
 			uniNavBar,
-			commonAvatar
+			commonAvatar,
+			uniLoadMore
 		},
 		methods:{
 			changeNav(idx){
@@ -120,6 +124,11 @@
 				uni.navigateTo({
 					url: '/pages/index/confirmation'
 				})
+			},
+			// 滑动到底部加载更多
+			scrollLower(){
+				this.loadingType = 'loading';
+				this.loadingType = 'noMore';
 			}
 		}
 	}
@@ -144,7 +153,7 @@
 	}
 	.order_content{
 		// max-height: 880rpx;
-		max-height: 70vh;
+		max-height: 66vh;
 		.order_item{
 			border-bottom: 10rpx solid #f4f4f4;
 			font-size: 28rpx;

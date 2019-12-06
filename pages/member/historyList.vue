@@ -74,12 +74,14 @@
 				</view>
 			</view>
 		</view>
+		<uni-load-more :status="loadingType"></uni-load-more>
 	</view>
 </template>
 
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import util from '@/common/util.js'
 	import {Model} from '@/common/model.js'
 	let model = new Model()
@@ -114,12 +116,15 @@
 					// }
 				],
 				rechargeList: [],
-				util: util
+				util: util,
+				page: 1,
+				loadingType: 'more'
 			}
 		},
 		components:{
 			uniNavBar,
-			commonAvatar
+			commonAvatar,
+			uniLoadMore
 		},
 		onLoad(opt) {
 			// type: 0 提款  1 转款
@@ -132,6 +137,9 @@
 				this.$http.getCashList().then((data)=>{
 					console.log(data.data);
 					this.investList = data.data;
+					if(this.investList.length < 10){
+						this.loadingType = 'noMore';
+					}
 				})
 			}else if(opt.type == 1){
 				this.title = '历史转款';
@@ -139,11 +147,14 @@
 					title: "历史转款"
 				});
 				this.$http.getTransferList({
-					page: 1,
+					page: this.page,
 					limit: 10
 				}).then((data)=>{
 					console.log(data.data);
 					this.transferList = data.data.list;
+					if(this.transferList.length < 10){
+						this.loadingType = 'noMore';
+					}
 				})
 			}else{
 				this.title = '历史充值';
@@ -155,6 +166,9 @@
 				}).then((data)=>{
 					console.log(data.data);
 					this.rechargeList = data.data.list;
+					if(this.rechargeList.length < 10){
+						this.loadingType = 'noMore';
+					}
 				})
 			}
 		},
@@ -169,6 +183,20 @@
 					url: this.memberList[idx].url
 				})
 			}
+		},
+		onReachBottom() {
+			this.page++;
+			this.$http.getTransferList({
+				page: this.page,
+				limit: 10
+			}).then((data)=>{
+				console.log(data.data);
+				if(data.data.list.length == 0){
+					this.loadingType="noMore";
+					return;
+				}
+				this.transferList = this.transferList.concat(data.data.list);
+			})
 		}
 	}
 </script>

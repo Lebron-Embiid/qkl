@@ -3,7 +3,7 @@
 		<uni-nav-bar left-icon="back" leftText="返回" title="个人信息" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar :name="username" :avatar="avatar" :has_edit_avatar="true"></common-avatar>
 		<view class="basic_info">
-			<view class="basic_title">基本资料</view>
+			<view class="basic_title">基本资料<text @tap="toChangePwd">修改密码</text></view>
 			<view class="form_box">
 				<view class="form_item">
 					<view class="icon no"><image src="/static/name.png" mode="widthFix"></image></view>
@@ -21,7 +21,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="form_item">
+				<!-- <view class="form_item">
 					<view class="icon"><image src="/static/pwd.svg" mode="widthFix"></image></view>
 					<view class="right_box">
 						<view class="ipt_box">
@@ -40,7 +40,7 @@
 						</view>
 						<switchc text="可见|***" class="switch_btn" :sid="1" @change="switchchange1"></switchc>
 					</view>
-				</view>
+				</view> -->
 				<view class="form_item">
 					<view class="icon no"><image src="/static/invite.png" mode="widthFix"></image></view>
 					<view class="right_box">
@@ -57,6 +57,7 @@
 						</view>
 					</view>
 				</view>
+				<button class="submit_btn" @tap="submitForm" form-type="submit">修改</button>
 				<!-- <view class="form_item last">
 					<view class="icon no"><image src="/static/ship.png" mode="widthFix"></image></view>
 					<view class="right_box">
@@ -66,7 +67,7 @@
 					</view>
 				</view> -->
 			</view>
-			<view class="basic_title">银行账户</view>
+			<view class="basic_title">银行账户<text @tap="toBankList">查看全部</text></view>
 			<view class="bank_info" v-for="(item,index) in bankList" :key="index">
 				<view class="bank_left">
 					<image :src="url+item.banq_img" mode="widthFix"></image>
@@ -78,7 +79,6 @@
 				<view class="del_txt" @tap="deleteBank(item.id)">删除</view>
 			</view>
 			<button type="primary" class="bank_btn" @tap="addBankCard">银行账号</button>
-			<button class="submit_btn" @tap="submitForm" form-type="submit">确认</button>
 		</view>
 	</view>
 </template>
@@ -121,6 +121,8 @@
 			commonAvatar,
 			switchc
 		},
+		onLoad(){
+		},
 		onShow() {
 			this.url = this.$http.url;
 			console.log(this.url);
@@ -132,20 +134,9 @@
 				this.email = data.data.email;
 				this.invite_code = data.data.parent_name;
 			})
-			
 			this.$http.userBankList({
-				limit: 10
+				limit: 1
 			}).then((data)=>{
-				if(data.data.status == 40001){
-					uni.removeStorageSync('token');
-					this.$api.msg('请登录');
-					setTimeout(function(){
-						uni.reLaunch({
-							url: '/pages/login/login'
-						})
-					},1500)
-					return;
-				}
 				this.bankList = data.data;
 			})
 		},
@@ -171,6 +162,16 @@
 					url: '/pages/mine/bankCard'
 				})
 			},
+			toBankList(){
+				uni.navigateTo({
+					url: '/pages/mine/bankList'
+				})
+			},
+			toChangePwd(){
+				uni.navigateTo({
+					url: '/pages/mine/changePassword'
+				})
+			},
 			deleteBank(id){
 				let that = this;
 				uni.showModal({
@@ -182,14 +183,13 @@
 								id: id
 							}).then((data)=>{
 								that.$api.msg(data.data.message);
-								that.$http.userBankList().then((data)=>{
+								that.$http.userBankList({limit: 1}).then((data)=>{
 									that.bankList = data.data;
 								})
 							})
 						}
 					}
 				})
-				
 			},
 			submitForm(){
 				this.$Debounce.canDoFunction({
@@ -233,7 +233,7 @@
 		.form_box{
 			padding: 0 30rpx;
 			box-sizing: border-box;
-			margin-bottom: 50rpx;
+			margin-bottom: 30rpx;
 			.form_item{
 				&.last{
 					.icon{
@@ -254,53 +254,16 @@
 			padding-bottom: 10rpx;
 			border-bottom: 1px solid #ccc;
 			margin-bottom: 30rpx;
-		}
-	}
-	.bank_info{
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
-		border: 1px solid #ccc;
-		border-radius: 5rpx;
-		padding: 20rpx 20rpx 20rpx 30rpx;
-		box-sizing: border-box;
-		font-size: 28rpx;
-		margin-bottom: 10rpx;
-		border-top: 0;
-		&:last-of-type{
-			border-bottom: 0;
-		}
-		.bank_left{
 			display: flex;
-			justify-content: flex-start;
+			justify-content: space-between;
 			align-items: center;
-			image{
-				display: block;
-				width: 60rpx;
-				height: 60rpx;
-				margin-right: 30rpx;
-				// background: #ccc;
-			}
-			.bank_txt{
-				.bank_name{
-					margin-bottom: 20rpx;
-				}
-			}
-		}
-		.del_txt{
-			border: 1px solid #ccc;
-			padding: 5rpx 25rpx;
-			box-sizing: border-box;
-			border-radius: 6rpx;
-			color: #999;
-			transition: all .5s ease;
-			&:active{
-				background: #099;
-				border-color: #099;
-				color: #fff;
+			text{
+				color: #999;
+				font-size: 24rpx;
 			}
 		}
 	}
+	
 	.bank_btn{
 		height: 80rpx;
 		line-height: 80rpx;
@@ -318,7 +281,7 @@
 		}
 	}
 	.submit_btn{
-		margin-bottom: 0;
+		margin: 30rpx auto 0;
 		width: 80%;
 	}
 </style>

@@ -43,10 +43,10 @@
 	export default{
 		data(){
 			return{
-				logoSrc: '/static/logo1.png',
-				app_name: 'SOLOMON MATRIX',
-				phone: '',
-				password: '',
+				logoSrc: '',
+				app_name: '',
+				phone: '15858585858',
+				password: '666666',
 				input_type: '',
 				is_success: false
 			}
@@ -55,7 +55,8 @@
 			switchc
 		},
 		onShow() {
-			
+			this.app_name = getApp().globalData.app_name;
+			this.logoSrc = getApp().globalData.app_logo;
 		},
 		methods:{
 			switchchange(e) {

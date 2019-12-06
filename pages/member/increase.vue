@@ -30,7 +30,6 @@
 			<view class="ib_info">已提交申请，等待系统处理</view>
 			<button type="primary" v-if="is_pass == 0">汇款账号申请中</button>
 			<button type="primary" class="black" v-else>汇款确认中</button>
-			<button class="submit_btn history_btn" @tap="toHistory">历史充值</button>
 		</view>
 		<view class="increase_after" v-if="is_pass == 1 && is_apply == 0">
 			<view class="form_item">
@@ -67,8 +66,8 @@
 					<view class="popup_title">平台汇款账号</view>
 					<view class="popup_info">请您先往以下账号汇款，然后向平台上传汇款单以此凭证，平台将会在24小时内审核。</view>
 					<view class="look_info_box">
-						<view>户名：XXXXX</view>
-						<view>开户行：XXXXX银行</view>
+						<view>户名：{{bank_name}}</view>
+						<view>开户行：{{bank_type}}</view>
 						<view>银行账号：{{bank_account}}</view>
 						<button type="primary" @tap="copyAccount">复制账号</button>
 					</view>
@@ -115,7 +114,9 @@
 				password: '',
 				input_type: '',
 				photo: '',
-				bank_account: '4412324354522'
+				bank_name: '',
+				bank_type: '',
+				bank_account: ''
 			}
 		},
 		components:{
@@ -127,6 +128,12 @@
 		onShow(){
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
+			})
+			this.$http.userBankList({limit: 1}).then((data)=>{
+				console.log(data.data);
+				this.bank_name = data.data[0].hold_name;
+				this.bank_type = data.data[0].banq_genre;
+				this.bank_account = data.data[0].card_number;
 			})
 		},
 		methods:{

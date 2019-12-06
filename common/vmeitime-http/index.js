@@ -33,30 +33,48 @@ export const test = (data) => {
 		baseUrl: 'https://unidemo.dcloud.net.cn/',
         url: 'ajax/echo/text?name=uni-app',
 		dataType: 'text',
-        data,
+        data
     })
 }
 
 // 登录
 export const checkLogin = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Login/checkLogin',
         method: 'POST', 
-        data,
+        data
 		// handle:true
     })
 }
 // 注册
 export const formRegister = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Login/register',
         method: 'POST', 
-        data,
+        data
 		// handle:true
     })
 }
 // 找回密码
 export const forgetPassword = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Login/setpsw',
         method: 'POST', 
@@ -65,6 +83,12 @@ export const forgetPassword = (data) => {
 }
 // 发送邮箱验证码
 export const sendEmailCode = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Home/Login/sendEmailCode',
         method: 'POST', 
@@ -73,6 +97,12 @@ export const sendEmailCode = (data) => {
 }
 // 获取国际区号
 export const getAreaCode = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
     return http.request({
         url: 'Home/Login/areaCode',
         method: 'POST', 
@@ -84,6 +114,7 @@ export const getAreaCode = (data) => {
 export const userRecharge = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -97,6 +128,7 @@ export const userRecharge = (data) => {
 export const uploadFiles = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -110,6 +142,7 @@ export const uploadFiles = (data) => {
 export const addRecharge = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -125,6 +158,7 @@ export const addRecharge = (data) => {
 export const getBank = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -138,6 +172,7 @@ export const getBank = (data) => {
 export const addBank = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -151,6 +186,7 @@ export const addBank = (data) => {
 export const delBank = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -164,6 +200,7 @@ export const delBank = (data) => {
 export const userBankList = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -179,6 +216,7 @@ export const userBankList = (data) => {
 export const applyCash = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -192,6 +230,7 @@ export const applyCash = (data) => {
 export const getCashList = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -207,6 +246,7 @@ export const getCashList = (data) => {
 export const getNewsList = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -220,6 +260,7 @@ export const getNewsList = (data) => {
 export const getNewsDetail = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -235,6 +276,7 @@ export const getNewsDetail = (data) => {
 export const getUserInfo = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -261,6 +303,7 @@ export const getUserInfo = (data) => {
 export const editUserInfo = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -270,12 +313,40 @@ export const editUserInfo = (data) => {
         data
     })
 }
-
+//修改登录密码
+export const updateLoginPassword = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'User/updatePassword',
+        method: 'POST', 
+        data
+    })
+}
+//修改交易密码
+export const updateTradePassword = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'User/setSecPwd',
+        method: 'POST', 
+        data
+    })
+}
 
 // 转款钱包二维码 
 export const transferWalletCode = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -289,6 +360,7 @@ export const transferWalletCode = (data) => {
 export const submitTransferMoney = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -302,6 +374,7 @@ export const submitTransferMoney = (data) => {
 export const getTransferList = (data) => {
 	http.interceptor.request = (config) => {
 		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
@@ -368,6 +441,8 @@ export default {
 	getNewsDetail,
 	getUserInfo,
 	editUserInfo,
+	updateLoginPassword,
+	updateTradePassword,
 	transferWalletCode,
 	submitTransferMoney,
 	getTransferList

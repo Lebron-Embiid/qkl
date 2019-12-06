@@ -68,9 +68,7 @@
 			commonAvatar
 		},
 		onLoad() {
-			// model.getSwiper((data)=>{
-			// 	this.Swiperlist=data
-			// })
+			
 		},
 		onShow() {
 			if(uni.getStorageSync('token') == ''){
@@ -83,14 +81,6 @@
 			}else{
 				this.$http.getUserInfo().then((data)=>{
 					this.name = data.data.username;
-					if(data.data.status == 40001){
-						this.$api.msg(data.data.message);
-						setTimeout(()=>{
-							uni.reLaunch({
-								url: '/pages/login/login'
-							})
-						},1500)
-					}
 				})
 			}
 		},

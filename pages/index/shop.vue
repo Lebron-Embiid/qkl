@@ -52,7 +52,7 @@
 					</view>
 				</view>
 			</view>
-			<uni-load-more :status="more"></uni-load-more>
+			<uni-load-more :status="loadingType"></uni-load-more>
 		</view>
 	</view>
 </template>
@@ -99,7 +99,7 @@
 						slogan: '1235人付款'
 					}
 				],
-				more: 'noMore'
+				loadingType: 'noMore'
 			}
 		},
 		components:{

@@ -12,6 +12,7 @@
 				</view>
 				<view class="message_bottom"><text @tap="toDetail(item.id)">查看详情</text></view>
 			</view>
+			<uni-load-more :status="loadingType"></uni-load-more>
 		</view>
 	</view>
 </template>
@@ -19,6 +20,7 @@
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import uParse from '@/components/u-parse/u-parse.vue'
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default{
@@ -26,12 +28,15 @@
 			return{
 				rightIcon: '/static/ling.png',
 				dot: true,
-				messageList: []
+				messageList: [],
+				page: 1,
+				loadingType: 'more'
 			}
 		},
 		components:{
 			uniNavBar,
-			uParse
+			uParse,
+			uniLoadMore
 		},
 		methods:{
 			toDetail(id){
@@ -44,13 +49,8 @@
 			console.log(uni.getStorageSync('token'));
 			this.$http.getNewsList().then((data)=>{
 				this.messageList = data.data;
-				if(data.data.status == 40001){
-					this.$api.msg(data.data.message);
-					setTimeout(()=>{
-						uni.reLaunch({
-							url: '/pages/login/login'
-						})
-					},1500)
+				if(this.messageList.length < 10){
+					this.loadingType = 'noMore';
 				}
 			})
 		},
@@ -62,18 +62,6 @@
 						url: '/pages/login/login'
 					})
 				},1500)
-			}else{
-				this.$http.getNewsList().then((data)=>{
-					this.messageList = data.data;
-					if(data.data.status == 40001){
-						this.$api.msg(data.data.message);
-						setTimeout(()=>{
-							uni.reLaunch({
-								url: '/pages/login/login'
-							})
-						},1500)
-					}
-				})
 			}
 			uni.hideTabBarRedDot({
 				index: 2

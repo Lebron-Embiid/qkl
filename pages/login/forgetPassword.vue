@@ -60,8 +60,8 @@
 			return{
 				color: '#999999',
 				background: '#f2f2f2',
-				logoSrc: '/static/logo1.png',
-				app_name: 'SOLOMON MATRIX',
+				logoSrc: '',
+				app_name: '',
 				phone: '',
 				email: '',
 				code:'',
@@ -82,6 +82,10 @@
 					return this.second+'秒';
 				}
 			}
+		},
+		onShow(){
+			this.app_name = getApp().globalData.app_name;
+			this.logoSrc = getApp().globalData.app_logo;			
 		},
 		methods:{
 			switchchange(e) {

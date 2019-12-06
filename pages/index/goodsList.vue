@@ -22,7 +22,7 @@
 					</view>
 				</view>
 			</view>
-			<uni-load-more :status="more"></uni-load-more>
+			<uni-load-more :status="loadingType"></uni-load-more>
 		</scroll-view>
 	</view>
 </template>
@@ -48,7 +48,7 @@
 					{ goods_id: 8, img: '/static/img/p9.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
 					{ goods_id: 9, img: '/static/img/p10.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' }
 				],
-				more: 'loading',
+				loadingType: 'more',
 				headerTop:"44px",
 				headerPosition:"fixed",
 				orderbyList:[
@@ -104,10 +104,10 @@
 			// uni.showToast({title: '触发上拉加载'});
 			let len = this.goodsList.length;
 			if(len>=40){
-				this.more = 'noMore';
+				this.loadingType = 'noMore';
 				return false;
 			}else{
-				this.more = 'loading';
+				this.loadingType = 'loading';
 			}
 			let end_goods_id = this.goodsList[len-1].goods_id;
 			for(let i=1;i<=10;i++){

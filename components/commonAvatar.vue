@@ -20,12 +20,6 @@
 						<image class="selected" :class="[current==index && select==idx?'active':'']" src="/static/select.svg" mode="widthFix"></image>
 					</view>
 				</view>
-				<!-- <view class="avatar_select" v-else>
-					<view class="img" v-for="(item,index) in avatar_famale" @tap="selectAvatar(index)" :key="index">
-						<image class="icon" :src="item" mode="widthFix"></image>
-						<image class="selected" src="/static/select.svg" mode="widthFix"></image>
-					</view>
-				</view> -->
 			</view>
 		</uni-popup>
 	</view>
@@ -130,6 +124,7 @@
 		font-size: 24rpx;
 		text{
 			display: block;
+			min-height: 16rpx;
 			text-align: center;
 			background: #000 !important;
 		}

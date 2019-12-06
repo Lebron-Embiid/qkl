@@ -1,7 +1,9 @@
 <script>
 	export default {
 		globalData:{
-			is_login: false
+			is_login: false,
+			app_name: 'SOLOMON MATRIX',
+			app_logo: '/static/logo1.png'
 		},
 		onLaunch: function() {
 			console.log('App Launch')
@@ -30,17 +32,6 @@
 					
 				}
 			})
-			// that.$http.getBank().then((data)=>{
-			// 	if(data.data.status == 40001){
-			// 		this.$api.msg('请登录');
-			// 		setTimeout(function(){
-			// 			uni.reLaunch({
-			// 				url: '/pages/login/login'
-			// 			})
-			// 		},1500)
-			// 		return;
-			// 	}
-			// })
 		},
 		onHide: function() {
 			console.log('App Hide')
@@ -337,6 +328,53 @@ uni-modal .uni-modal__btn_primary{
 				color: #1ABC9C;
 				border-left: 1px solid #E4E4E4;
 			}
+		}
+	}
+}
+
+// 银行卡样式
+.bank_info{
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	border: 1px solid #ccc;
+	border-radius: 5rpx;
+	padding: 20rpx 20rpx 20rpx 30rpx;
+	box-sizing: border-box;
+	font-size: 28rpx;
+	margin-bottom: 10rpx;
+	border-top: 0;
+	&:last-of-type{
+		border-bottom: 0;
+	}
+	.bank_left{
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		image{
+			display: block;
+			width: 60rpx;
+			height: 60rpx;
+			margin-right: 30rpx;
+			// background: #ccc;
+		}
+		.bank_txt{
+			.bank_name{
+				margin-bottom: 20rpx;
+			}
+		}
+	}
+	.del_txt{
+		border: 1px solid #ccc;
+		padding: 5rpx 25rpx;
+		box-sizing: border-box;
+		border-radius: 6rpx;
+		color: #999;
+		transition: all .5s ease;
+		&:active{
+			background: #099;
+			border-color: #099;
+			color: #fff;
 		}
 	}
 }

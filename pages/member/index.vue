@@ -44,8 +44,8 @@
 	export default{
 		data(){
 			return{
-				logoSrc: '/static/logo1.png',
-				app_name: 'SOLOMON MATRIX',
+				logoSrc: '',
+				app_name: '',
 				name: '',
 				avatar: '/static/avatar.png',
 				memberList: [
@@ -92,6 +92,8 @@
 			
 		},
 		onShow() {
+			this.app_name = getApp().globalData.app_name;
+			this.logoSrc = getApp().globalData.app_logo;
 			if(uni.getStorageSync('token') == ''){
 				this.$api.msg('请登录');
 				setTimeout(function(){
@@ -102,14 +104,6 @@
 			}else{
 				this.$http.getUserInfo().then((data)=>{
 					this.name = data.data.username;
-					if(data.data.status == 40001){
-						this.$api.msg(data.data.message);
-						setTimeout(()=>{
-							uni.reLaunch({
-								url: '/pages/login/login'
-							})
-						},1500)
-					}
 				})
 			}
 			console.log(getApp().globalData.is_login);
