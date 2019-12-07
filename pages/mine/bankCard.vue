@@ -62,6 +62,9 @@
 		onShow(){
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
+				if(data.data.username == ''){
+					this.name = data.data.mobile;
+				}
 			})
 		},
 		methods:{
@@ -80,7 +83,7 @@
 							bank_id: this.bank_id,
 							bank_account: this.card_number,
 							open_card: this.card_bank,
-							is_default: 0
+							is_default: 1
 						}).then((data)=>{
 							this.$api.msg(data.data.message);
 							if(data.data.status == 1){

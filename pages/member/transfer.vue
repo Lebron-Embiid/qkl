@@ -98,6 +98,9 @@
 		onShow(){
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
+				if(data.data.username == ''){
+					this.name = data.data.mobile;
+				}
 			})
 		},
 		methods:{
@@ -140,6 +143,7 @@
 			},
 			scanCode(){
 				let that = this;
+				// #ifndef H5
 				uni.scanCode({
 				    success: function (res) {
 				        console.log('条码类型：' + res.scanType);
@@ -147,6 +151,7 @@
 						that.id_link = res.result;
 				    }
 				})
+				// #endif
 			},
 			toHistory(){
 				uni.navigateTo({

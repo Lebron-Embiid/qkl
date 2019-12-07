@@ -341,6 +341,36 @@ export const updateTradePassword = (data) => {
         data
     })
 }
+//修改头像
+export const updateimgUps = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'User/imgUps',
+        method: 'POST', 
+        data
+    })
+}
+//分享二维码
+export const shareCode = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'User/shareCode',
+        method: 'POST', 
+        data
+    })
+}
+
+
 
 // 转款钱包二维码 
 export const transferWalletCode = (data) => {
@@ -380,6 +410,22 @@ export const getTransferList = (data) => {
 	}
     return http.request({
         url: 'Transfer/getList',
+        method: 'POST', 
+        data
+    })
+}
+
+
+// 会员列表  
+export const getNetList = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Net/index',
         method: 'POST', 
         data
     })
@@ -443,7 +489,10 @@ export default {
 	editUserInfo,
 	updateLoginPassword,
 	updateTradePassword,
+	updateimgUps,
+	shareCode,
 	transferWalletCode,
 	submitTransferMoney,
-	getTransferList
+	getTransferList,
+	getNetList
 }

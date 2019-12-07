@@ -16,6 +16,7 @@
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
 	import {Model} from '@/common/model.js'
+	import downloader from '@/js_sdk/img-downloader/img-downloader.js'
 	let model = new Model()
 	export default{
 		data(){
@@ -25,21 +26,30 @@
 				name: '',
 				avatar: '/static/avatar.png',
 				link: 'YdhkSnm',
-				code_img: '/static/code.png'
+				code_img: ''
 			}
 		},
 		components:{
 			uniNavBar,
 			commonAvatar
 		},
+		onLoad() {
+			this.$http.shareCode().then((data)=>{
+				this.code_img = this.$http.url+data.data.img_url;
+			})
+		},
 		onShow(){
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
+				if(data.data.username == ''){
+					this.name = data.data.mobile;
+				}
 			})
 		},
 		methods:{
 			copyLink(){
 				let that = this;
+				// #ifndef H5
 				uni.setClipboardData({
 				    data: that.link,
 				    success: function () {
@@ -52,9 +62,17 @@
 				        console.log(res.data);
 				    }
 				});
+				// #endif
+				// #ifdef H5
+				uni.setClipboardData({ data:that.link, success:function(data){
+						that.$api.msg('复制成功，快去粘贴吧！');
+					}
+				})
+				// #endif
 			},
 			savaCode(){
 				let that = this;
+				// #ifndef H5
 				uni.showLoading({
 					title: '保存中'
 				})
@@ -65,6 +83,16 @@
 						that.$api.msg('保存成功');
 					},
 				})
+				// #endif
+				
+				// #ifdef H5
+				let promise = downloader.load(that.code_img, 'code_img'); //下载
+				
+				promise.then(([err, res])=>{                 //下载结果 
+				    console.log(err, res);                   // err 和 res 只会有一个存在，另一个为null  
+					that.$api.msg('保存成功');
+				});
+				// #endif
 				// uni.downloadFile({
 				// 	url: that.code_img,
 				// 	success: (ress) => {

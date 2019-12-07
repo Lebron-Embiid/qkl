@@ -32,7 +32,7 @@
 		data(){
 			return{
 				user_name: '',
-				user_avatar: '',
+				user_avatar: '/static/avatar.png',
 				sex: [
 					{
 						name: '男',
@@ -91,7 +91,35 @@
 				// })
 			// },
 			changeAvatar(){
+				// let that = this;
+				// uni.chooseImage({
+				//     count: 1, //默认9
+				//     sizeType: ['original'], //可以指定是原图还是压缩图，默认二者都有
+				//     sourceType: ['album'], //从相册选择
+				//     success: function (res) {
+				//         that.urlTobase64(res.tempFilePaths[0])
+				//     }
+				// });
 				this.$refs.popup_avatar.open();
+			},
+			urlTobase64(url){
+				let that = this;
+				uni.request({
+					url: url,
+					method:'GET',
+					responseType: 'arraybuffer',
+					success: ress => {
+						let base64 = wx.arrayBufferToBase64(ress.data); //把arraybuffer转成base64 
+						base64 = 'data:image/jpeg;base64,' + base64 //不加上这串字符，在页面无法显示的哦
+						console.log(base64);
+						
+						that.$http.updateimgUps({
+							dataflow: base64
+						}).then((data)=>{
+							that.$api.msg(data.data.message);
+						})
+					}
+				})
 			},
 			radioChange(evt) {
 				for (let i = 0; i < this.sex.length; i++) {

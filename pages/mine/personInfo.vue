@@ -130,6 +130,10 @@
 				console.log(data.data);
 				this.name = data.data.username;
 				this.username = data.data.username;
+				if(data.data.username == ''){
+					// this.name = data.data.mobile;
+					this.username = data.data.mobile;
+				}
 				this.phone = data.data.mobile;
 				this.email = data.data.email;
 				this.invite_code = data.data.parent_name;
@@ -192,6 +196,10 @@
 				})
 			},
 			submitForm(){
+				if(this.name == ''){
+					this.$api.msg('请输入昵称');
+					return;
+				}
 				this.$Debounce.canDoFunction({
 					key: "editUserInfo",
 					time: 1500,

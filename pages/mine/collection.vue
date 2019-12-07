@@ -34,6 +34,9 @@
 		onShow(){
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
+				if(data.data.username == ''){
+					this.name = data.data.mobile;
+				}
 			})
 			this.$http.transferWalletCode().then((data)=>{
 				this.code_img = this.$http.url+data.data.img_code;
@@ -43,6 +46,7 @@
 		methods:{
 			copyLink(){
 				let that = this;
+				// #ifndef H5
 				uni.setClipboardData({
 				    data: that.link,
 				    success: function () {
@@ -55,6 +59,14 @@
 				        console.log(res.data);
 				    }
 				});
+				// #endif
+				
+				// #ifdef H5
+				uni.setClipboardData({ data:that.link, success:function(data){
+						that.$api.msg('复制成功，快去粘贴吧！');
+					}
+				})
+				// #endif
 			}
 		}
 	}

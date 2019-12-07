@@ -97,6 +97,9 @@
 		onShow() {
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
+				if(data.data.username == ''){
+					this.name = data.data.mobile;
+				}
 			})
 			this.$http.userBankList().then((data)=>{
 				this.bankList = data.data;

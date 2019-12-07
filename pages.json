@@ -274,8 +274,14 @@
 			"path": "pages/member/myMember",
 			"style": {
 				"navigationBarTitleText": "我的会员",
+				"enablePullDownRefresh": true,
 				"app-plus": {
-					"titleNView": false
+					"titleNView": false,
+					"pullToRefresh": {
+						"support": true,
+						"color": "#1ABC9C",
+						"style": "circle"
+					}
 				}
 			}
 		},

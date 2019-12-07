@@ -46,15 +46,15 @@
 				<view class="leaf-node first" @tap="transferMoney(index)">
 					<image :src="one.avatar" mode="widthFix"></image>
 					<view>昵称：{{one.name}}</view>
-					<text>投资总额：{{one.price}}</text>
+					<text class="active">投资：{{one.price}}</text>
 				</view>
-				<view class="tree" v-for="(two,idx) in one.twoList" :key="idx">
+				<view class="tree" v-for="(two,idx) in one.children" v-if="one.children.length != 0" :key="idx">
 					<view class="leaf-node middle" @tap="transferMoney(index,idx)">
 						<image :src="two.avatar" mode="widthFix"></image>
 						<view>昵称：{{two.name}}</view>
-						<text>投资总额：{{two.price}}</text>
+						<text class="active">投资：{{two.price}}</text>
 					</view>
-					<view class="tree" v-for="(three,ix) in two.threeList" :key="ix">
+					<view class="tree" v-for="(three,ix) in two.children" v-if="two.children.length != 0" :key="ix">
 						<view class="leaf-node last" @tap="transferMoney(index,idx,ix)">
 							<image :src="three.avatar" mode="widthFix"></image>
 							<view>昵称：{{three.name}}</view>
@@ -68,7 +68,7 @@
 			<view class="popup_box">
 				<view class="popup_content">
 					<view class="popup_title">转款到对方APP钱包</view>
-					<view class="popup_info">您将把资金转入到会员 {{name}} APP钱包</view>
+					<view class="popup_info">您将把资金转入到会员 {{member_name}} APP钱包</view>
 					<input type="text" v-model="price" placeholder="请输入转款金额" />
 					<input type="password" v-model="pay_pwd" placeholder="请输入支付密码" />
 				</view>
@@ -95,8 +95,9 @@
 				dot: true,
 				
 				name: '',
+				member_name: '',
 				avatar: '/static/avatar.png',
-				person_num: 2000,
+				person_num: 0,
 				dividend: 800000,
 				price: '',
 				pay_pwd: '',
@@ -150,73 +151,73 @@
 					}
 				],
 				treeList: [
-					{
-						id: 1,
-						avatar: '/static/avatar.png',
-						member_id: 'SLM00001',
-						name: 'Peter1',
-						superior: 'Nick',
-						price: 30000,
-						time: '2019/11/23  09：00',
-						twoList: [
-							{
-								id: 2,
-								avatar: '/static/avatar.png',
-								member_id: 'SLM00001',
-								name: 'Peter2',
-								superior: 'Nick',
-								price: 30000,
-								time: '2019/11/23  09：00',
-								threeList: [
-									{
-										id: 4,
-										avatar: '/static/avatar.png',
-										member_id: 'SLM00001',
-										name: 'Peter3',
-										superior: 'Nick',
-										price: 30000,
-										time: '2019/11/23  09：00'
-									},{
-										id: 5,
-										avatar: '/static/avatar.png',
-										member_id: 'SLM00001',
-										name: 'Peter3',
-										superior: 'Nick',
-										price: 30000,
-										time: '2019/11/23  09：00'
-									}
-								]
-							},
-							{
-								id: 3,
-								avatar: '/static/avatar.png',
-								member_id: 'SLM00001',
-								name: 'Peter2',
-								superior: 'Nick',
-								price: 30000,
-								time: '2019/11/23  09：00',
-								threeList: [
-									{
-										id: 6,
-										avatar: '/static/avatar.png',
-										member_id: 'SLM00001',
-										name: 'Peter3',
-										superior: 'Nick',
-										price: 30000,
-										time: '2019/11/23  09：00'
-									},{
-										id: 7,
-										avatar: '/static/avatar.png',
-										member_id: 'SLM00001',
-										name: 'Peter3',
-										superior: 'Nick',
-										price: 30000,
-										time: '2019/11/23  09：00'
-									}
-								]
-							}
-						]
-					}
+					// {
+					// 	id: 1,
+					// 	avatar: '/static/avatar.png',
+					// 	member_id: 'SLM00001',
+					// 	name: 'Peter1',
+					// 	superior: 'Nick',
+					// 	price: 30000,
+					// 	time: '2019/11/23  09：00',
+					// 	twoList: [
+					// 		{
+					// 			id: 2,
+					// 			avatar: '/static/avatar.png',
+					// 			member_id: 'SLM00001',
+					// 			name: 'Peter2',
+					// 			superior: 'Nick',
+					// 			price: 30000,
+					// 			time: '2019/11/23  09：00',
+					// 			threeList: [
+					// 				{
+					// 					id: 4,
+					// 					avatar: '/static/avatar.png',
+					// 					member_id: 'SLM00001',
+					// 					name: 'Peter3',
+					// 					superior: 'Nick',
+					// 					price: 30000,
+					// 					time: '2019/11/23  09：00'
+					// 				},{
+					// 					id: 5,
+					// 					avatar: '/static/avatar.png',
+					// 					member_id: 'SLM00001',
+					// 					name: 'Peter3',
+					// 					superior: 'Nick',
+					// 					price: 30000,
+					// 					time: '2019/11/23  09：00'
+					// 				}
+					// 			]
+					// 		},
+					// 		{
+					// 			id: 3,
+					// 			avatar: '/static/avatar.png',
+					// 			member_id: 'SLM00001',
+					// 			name: 'Peter2',
+					// 			superior: 'Nick',
+					// 			price: 30000,
+					// 			time: '2019/11/23  09：00',
+					// 			threeList: [
+					// 				{
+					// 					id: 6,
+					// 					avatar: '/static/avatar.png',
+					// 					member_id: 'SLM00001',
+					// 					name: 'Peter3',
+					// 					superior: 'Nick',
+					// 					price: 30000,
+					// 					time: '2019/11/23  09：00'
+					// 				},{
+					// 					id: 7,
+					// 					avatar: '/static/avatar.png',
+					// 					member_id: 'SLM00001',
+					// 					name: 'Peter3',
+					// 					superior: 'Nick',
+					// 					price: 30000,
+					// 					time: '2019/11/23  09：00'
+					// 				}
+					// 			]
+					// 		}
+					// 	]
+					// }
 				]
 			}
 		},
@@ -230,6 +231,12 @@
 			
 		},
 		onShow() {
+			this.$http.getNetList().then((data)=>{
+				console.log(data.data);
+				this.treeList = [data.data];
+				console.log(this.treeList);
+			})
+			
 			if(uni.getStorageSync('token') == ''){
 				this.$api.msg('请登录');
 				setTimeout(()=>{
@@ -240,6 +247,9 @@
 			}else{
 				this.$http.getUserInfo().then((data)=>{
 					this.name = data.data.username;
+					if(data.data.username == ''){
+						this.name = data.data.mobile;
+					}
 				})
 			}
 			uni.removeTabBarBadge({
@@ -252,19 +262,24 @@
 			},
 			transferMoney(index,idx,ix){
 				// this.name = this.memberList[index].list[idx].name;
-				console.log(index,idx,ix);
-				this.$refs.popup.open();
+				// console.log(index,idx,ix);
+				// this.$refs.popup.open();
 				if(idx == undefined && ix == undefined){
-					console.log(this.treeList[index].name);
-					this.name = this.treeList[index].name;
+					this.treeList = this.treeList;
+					console.log(this.treeList);
+					// this.member_name = this.treeList[index].name;
 					return;
 				}
 				if(ix == undefined){
-					this.name = this.treeList[index].twoList[idx].name;
+					this.treeList = [this.treeList[index].children[idx]];
+					console.log(this.treeList);
+					// this.member_name = this.treeList[index].children[idx].name;
 					return;
 				}
 				if(idx != undefined && ix != undefined){
-					this.name = this.treeList[index].twoList[idx].threeList[ix].name;
+					this.treeList = [this.treeList[index].children[idx].children[ix]];
+					console.log(this.treeList);
+					// this.member_name = this.treeList[index].children[idx].children[ix].name;
 					return;
 				}
 			},
@@ -279,6 +294,12 @@
 					url: '/pages/mine/dividend?index=1'
 				})
 			}
+		},
+		onPullDownRefresh() {
+			this.$http.getNetList().then((data)=>{
+				this.treeList = [data.data];
+				uni.stopPullDownRefresh();
+			})
 		}
 	}
 </script>
@@ -308,6 +329,8 @@
 				  margin: 0 auto 10rpx;
 			  }
 			  text{
+				  display: block;
+				  width: 100%;
 				  color: #999;
 				  position: relative;
 			  }
@@ -319,20 +342,23 @@
 					  display: inline-block;
 					  &:before,&:after{
 						  content: "";
-						  display: block;
 						  position: absolute;
 						  width: 80rpx;
 						  height: 1px;
 						  background: #999;
+						  display: none;
+					  }
+					  &.active:before,&.active:after{
+						  display: block;
 					  }
 					  &:before{
 						  transform: rotate(140deg);
-						  left: -50rpx;
+						  left: 30%;
 						  top: 80rpx;
 					  }
 					  &:after{
 						  transform: rotate(-140deg);
-						  right: -50rpx;
+						  right: 30%;
 						  top: 80rpx;
 					  }
 				  }
@@ -341,12 +367,12 @@
 				  text{
 					  &:before{
 						  transform: rotate(105deg);
-						  left: -20rpx;
+						  left: 20%;
 						  top: 90rpx;
 					  }
 					  &:after{
 						  transform: rotate(-105deg);
-						  right: -20rpx;
+						  right: 20%;
 						  top: 90rpx;
 					  }
 				  }

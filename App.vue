@@ -10,7 +10,9 @@
 		},
 		onShow: function() {
 			let that = this;
-			
+			// setInterval(()=>{
+				
+			// },1000)
 			console.log('App Show')
 			uni.setTabBarBadge({
 				index: 1,

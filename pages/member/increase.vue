@@ -128,12 +128,17 @@
 		onShow(){
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
+				if(data.data.username == ''){
+					this.name = data.data.mobile;
+				}
 			})
 			this.$http.userBankList({limit: 1}).then((data)=>{
 				console.log(data.data);
-				this.bank_name = data.data[0].hold_name;
-				this.bank_type = data.data[0].banq_genre;
-				this.bank_account = data.data[0].card_number;
+				if(data.data.length != 0){
+					this.bank_name = data.data[0].hold_name;
+					this.bank_type = data.data[0].banq_genre;
+					this.bank_account = data.data[0].card_number;
+				}
 			})
 		},
 		methods:{
@@ -161,13 +166,6 @@
 				    sourceType: ['album'], //从相册选择
 				    success: function (res) {
 				        console.log(JSON.stringify(res.tempFilePaths));
-						// that.photo = res.tempFilePaths[0];
-						// that.$http.uploadFiles().then((data)=>{
-						// 	that.$api.msg(data.data.message);
-						// 	if(data.data.status == 1){
-								
-						// 	}
-						// })
 						uni.uploadFile({
 							url: that.$http.url+'Recharge/uploadFiles', //图片接口
 							filePath: res.tempFilePaths[0],
@@ -178,6 +176,10 @@
 							success: (uploadFileRes) => {
 								var data = JSON.parse(uploadFileRes.data);
 								console.log(data);
+								if(data.message.stats == 'error'){
+									that.$api.msg(data.message.res);
+									return;
+								}
 								if(data.status == 1){
 									var url = that.$http.url+data.message.path;
 									that.photo = url;
@@ -189,6 +191,11 @@
 			},
 			copyAccount(){
 				let that = this;
+				if(that.bank_account == ""){
+					that.$api.msg('暂无银行卡账户，请先去添加');
+					return;
+				}
+				// #ifndef H5
 				uni.setClipboardData({
 				    data: that.bank_account,
 				    success: function () {
@@ -201,6 +208,14 @@
 				        console.log(res.data);
 				    }
 				});
+				// #endif
+				
+				// #ifdef H5
+				uni.setClipboardData({ data:that.bank_account, success:function(data){
+						that.$api.msg('复制成功，快去粘贴吧！');
+					}
+				})
+				// #endif
 			},
 			applyConfirm(){
 				this.$Debounce.canDoFunction({
