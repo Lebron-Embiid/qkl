@@ -49,16 +49,12 @@
 						'/static/avatar/avatar_m1.svg',
 						'/static/avatar/avatar_m2.svg',
 						'/static/avatar/avatar_m3.svg',
-						'/static/avatar/avatar_m4.svg',
-						'/static/avatar/avatar_m3.svg',
 						'/static/avatar/avatar_m4.svg'
 					],[
 						'/static/avatar/avatar_w1.svg',
 						'/static/avatar/avatar_w2.svg',
 						'/static/avatar/avatar_w3.svg',
-						'/static/avatar/avatar_w4.svg',
-						'/static/avatar/avatar_m3.svg',
-						'/static/avatar/avatar_m4.svg'
+						'/static/avatar/avatar_w4.svg'
 					]
 				],
 				select: null
@@ -188,7 +184,7 @@
 	.popup_avatar_box{
 		background: #fff;
 		padding: 30rpx 30rpx 50rpx;
-		width: 90%;
+		// width: 90%;
 		margin: 0 auto;
 		box-sizing: border-box;
 		radio-group{

@@ -228,7 +228,11 @@
 			uniTransition
 		},
 		onLoad() {
-			
+			this.$http.getNetList().then((data)=>{
+				console.log(data.data);
+				this.treeList = [data.data];
+				console.log(this.treeList);
+			})
 		},
 		onShow() {
 			this.$http.getNetList().then((data)=>{

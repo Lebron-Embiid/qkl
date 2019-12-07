@@ -80,36 +80,7 @@ export default {
 				if (process.env.NODE_ENV === 'development') {
 					if (statusCode === 200) {
 						// console.log("【" + _config.requestId + "】 结果：" + JSON.stringify(response.data))
-						// 登录失效拦截
-						// response.data.message
-						if(response.data.status === 40001){
-							uni.showToast({
-								title: '登录失效,请重新登录',
-								icon: 'none',
-								duration: 1500,
-								mask: true
-							});
-							setTimeout(function(){
-								uni.reLaunch({
-									url: '/pages/login/login'
-								})
-							},1500)
-							return;
-						}
-						if(response.data.status === 40002){
-							uni.showToast({
-								title: response.data.message,
-								icon: 'none',
-								duration: 1500,
-								mask: true
-							});
-							setTimeout(function(){
-								uni.reLaunch({
-									url: '/pages/login/login'
-								})
-							},1500)
-							return;
-						}
+						
 					}
 				}
 				if (this.interceptor.response) {

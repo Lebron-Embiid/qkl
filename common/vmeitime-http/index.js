@@ -250,6 +250,39 @@ export const getNewsList = (data) => {
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
+	http.interceptor.response = (response) => {
+		console.log(response)
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
+		}
+		if(response.data.status === 40002){
+			uni.showToast({
+				title: '账号已冻结',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
+		}
+	}
     return http.request({
         url: 'News/index',
         method: 'POST', 
@@ -262,6 +295,39 @@ export const getNewsDetail = (data) => {
 		config.header = {
 			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+	http.interceptor.response = (response) => {
+		console.log(response)
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
+		}
+		if(response.data.status === 40002){
+			uni.showToast({
+				title: '账号已冻结',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
 		}
 	}
     return http.request({
@@ -280,19 +346,39 @@ export const getUserInfo = (data) => {
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
-	// http.interceptor.response = (response) => {
-	// 	console.log(response)
-		
-	// 	if(response.data.status == 40001){
-	// 		setTimeout(function(){
-	// 			uni.reLaunch({
-	// 				url: '/pages/login/login'
-	// 			})
-	// 		},1500)
-	// 	}
-	// 	//判断返回状态 执行相应操作
-	// 	return response;
-	// }
+	http.interceptor.response = (response) => {
+		console.log(response)
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
+		}
+		if(response.data.status === 40002){
+			uni.showToast({
+				title: '账号已冻结',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
+		}
+	}
     return http.request({
         url: 'User/userInfo',
         method: 'POST', 

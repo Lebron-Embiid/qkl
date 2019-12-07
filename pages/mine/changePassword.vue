@@ -3,7 +3,7 @@
 		<uni-nav-bar left-icon="back" leftText="返回" title="修改密码"></uni-nav-bar>
 		<view class="form_box">
 			<view class="basic_title">修改登录密码</view>
-			<view class="form_item" v-for="(item,index) in loginPwd" :key="index">
+			<view class="form_item" v-for="(item,index) in loginPwd" :key="item.id">
 				<view class="icon"><image src="/static/pwd.svg" mode="widthFix"></image></view>
 				<view class="right_box">
 					<view class="ipt_box">
@@ -25,7 +25,7 @@
 			</view>
 			<button class="submit_btn" @tap="submitForm">修改</button>
 			<view class="basic_title">修改交易密码</view>
-			<view class="form_item" v-for="(trade,idx) in tradePwd" :key="idx+3">
+			<view class="form_item" v-for="(trade,idx) in tradePwd" :key="trade.id">
 				<view class="icon"><image src="/static/pwd.svg" mode="widthFix"></image></view>
 				<view class="right_box">
 					<view class="ipt_box">
@@ -64,24 +64,30 @@
 				again_trade_password: '',
 				loginPwd: [
 					{
+						id: 1,
 						text: '旧登录密码',
 						type: 0
 					},{
+						id: 2,
 						text: '新登录密码',
 						type: 0
 					},{
+						id: 3,
 						text: '确认登录密码',
 						type: 0
 					}
 				],
 				tradePwd: [
 					{
+						id: 4,
 						text: '旧交易密码',
 						type: 0
 					},{
+						id: 5,
 						text: '新交易密码',
 						type: 0
 					},{
+						id: 6,
 						text: '确认交易密码',
 						type: 0
 					}

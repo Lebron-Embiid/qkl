@@ -25,7 +25,7 @@
 				dot: true,
 				name: '',
 				avatar: '/static/avatar.png',
-				link: 'YdhkSnm',
+				link: '',
 				code_img: ''
 			}
 		},
@@ -36,6 +36,7 @@
 		onLoad() {
 			this.$http.shareCode().then((data)=>{
 				this.code_img = this.$http.url+data.data.img_url;
+				this.link = data.data.code;
 			})
 		},
 		onShow(){

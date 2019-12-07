@@ -10,9 +10,19 @@
 		},
 		onShow: function() {
 			let that = this;
-			// setInterval(()=>{
-				
-			// },1000)
+			// that.$http.getUserInfo().then((data)=>{
+			// 	if(data.data.status === 40001){
+			// 		that.$api.msg('登录失效,请重新登录');
+			// 		uni.removeStorageSync('token');
+			// 		setTimeout(function(){
+			// 			uni.reLaunch({
+			// 				url: '/pages/login/login'
+			// 			})
+			// 		},1500)
+			// 		return;
+			// 	}
+			// })
+			
 			console.log('App Show')
 			uni.setTabBarBadge({
 				index: 1,

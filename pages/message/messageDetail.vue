@@ -5,12 +5,17 @@
 		<view class="message_detail_box">
 			<!-- <image src="" mode=""></image> -->
 			<view class="content_box">
+				<skeleton
+				  :loading="loading"
+				  :showAvatar="false"
+				>
 				<view class="message_title">发表于 {{time}}</view>
 				<view class="message_content">
 					<block v-if="content!=''">
 						<u-parse :content="content"></u-parse>
 					</block>
 				</view>
+				</skeleton>
 			</view>
 		</view>
 	</view>
@@ -19,6 +24,7 @@
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import uParse from '@/components/u-parse/u-parse.vue'
+	import Skeleton from '@/components/skeleton/index.vue'
 	import util from '@/common/util.js'
 	import {Model} from '@/common/model.js'
 	let model = new Model()
@@ -30,12 +36,14 @@
 				id: '',
 				title: '',
 				time: '',
-				content: ''
+				content: '',
+				loading: true
 			}
 		},
 		components:{
 			uniNavBar,
-			uParse
+			uParse,
+			Skeleton
 		},
 		methods:{
 			
@@ -45,9 +53,7 @@
 			if(opt.id!=undefined){
 				this.id = opt.id;
 			}
-			uni.showLoading({
-				title: '加载中'
-			})
+			this.loading = true;
 			this.$http.getNewsDetail({
 				id: this.id
 			}).then((data)=>{
@@ -55,7 +61,7 @@
 				this.title = data.data.title;
 				this.content = data.data.content;
 				this.time = util.formatDate(data.data.create_time);
-				uni.hideLoading();
+				this.loading = false;
 			})
 		},
 		onShow() {
@@ -67,7 +73,7 @@
 <style scoped lang="scss">
 	@import url("../../components/u-parse/u-parse.css");
 	.message_detail_box{
-		padding: 20rpx 30rpx;
+		padding: 30rpx;
 		box-sizing: border-box;
 		image{
 			display: block;
@@ -77,7 +83,7 @@
 			background: #ccc;
 		}
 		.content_box{
-			padding: 20rpx 30rpx;
+			// padding: 20rpx 30rpx;
 			box-sizing: border-box;
 			color: #666;
 			font-size: 26rpx;
