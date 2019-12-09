@@ -47,18 +47,18 @@
 				logoSrc: '',
 				app_name: '',
 				name: '',
-				avatar: '/static/avatar.png',
+				avatar: '',
 				memberList: [
 					{
 						icon: '/static/member_icon1.png',
 						title: '投资钱包',
 						url: '/pages/mine/investWallet',
-						value: '600000'
+						value: ''
 					},{
 						icon: '/static/member_icon2.png',
 						title: 'APP钱包',
 						url: '/pages/mine/wallet',
-						value: '16000000'
+						value: ''
 					},{
 						icon: '/static/member_icon3.png',
 						title: '分红总额',
@@ -89,9 +89,22 @@
 			}
 		},
 		onLoad() {
-			
+			this.$http.getHeadImg().then((data)=>{
+				this.avatar = data.data.img_url;
+				getApp().globalData.avatar = data.data.img_url;
+				if(data.data.img_url == 'toux-icon.png'){
+					this.avatar = this.$http.url+'Public/home/wap/heads/default_avatar.svg';
+					getApp().globalData.avatar = this.$http.url+'Public/home/wap/heads/default_avatar.svg';
+				}
+			})
+			this.$http.getInvestment().then((data)=>{
+				let res = data.data;
+				this.memberList[0].value = res.bonus.bonus1;
+				this.memberList[1].value = res.bonus.bonus0;
+			})
 		},
 		onShow() {
+			this.avatar = getApp().globalData.avatar;
 			this.app_name = getApp().globalData.app_name;
 			this.logoSrc = getApp().globalData.app_logo;
 			if(uni.getStorageSync('token') == ''){

@@ -298,7 +298,6 @@ export const getNewsDetail = (data) => {
 		}
 	}
 	http.interceptor.response = (response) => {
-		console.log(response)
 		if(response.data.status === 40001){
 			uni.showToast({
 				title: '登录失效,请重新登录',
@@ -347,7 +346,6 @@ export const getUserInfo = (data) => {
 		}
 	}
 	http.interceptor.response = (response) => {
-		console.log(response)
 		if(response.data.status === 40001){
 			uni.showToast({
 				title: '登录失效,请重新登录',
@@ -441,6 +439,20 @@ export const updateimgUps = (data) => {
         data
     })
 }
+//获取头像
+export const getHeadImg = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'User/getHeadImg',
+        method: 'POST', 
+        data
+    })
+}
 //分享二维码
 export const shareCode = (data) => {
 	http.interceptor.request = (config) => {
@@ -518,6 +530,64 @@ export const getNetList = (data) => {
 }
 
 
+// 转入投资  
+export const changeInvestment = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Investment/changeInto',
+        method: 'POST', 
+        data
+    })
+}
+// 投资记录列表
+export const getInvestment = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Investment/index',
+        method: 'POST', 
+        data
+    })
+}
+// 投资退款
+export const changeInvestmentOut = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Investment/changeOut',
+        method: 'POST', 
+        data
+    })
+}
+// 转入转出
+export const changeInvestmentinto = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Investment/into',
+        method: 'POST', 
+        data
+    })
+}
+
+
 // if(data.data.status == 40001){
 // 	this.$api.msg('请登录');
 // 	setTimeout(function(){
@@ -575,10 +645,15 @@ export default {
 	editUserInfo,
 	updateLoginPassword,
 	updateTradePassword,
+	getHeadImg,
 	updateimgUps,
 	shareCode,
 	transferWalletCode,
 	submitTransferMoney,
 	getTransferList,
-	getNetList
+	getNetList,
+	changeInvestment,
+	getInvestment,
+	changeInvestmentOut,
+	changeInvestmentinto
 }

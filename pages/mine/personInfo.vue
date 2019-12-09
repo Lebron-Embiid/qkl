@@ -97,7 +97,7 @@
 				url: '',
 				name: '',
 				username: '',
-				avatar: '/static/avatar.png',
+				avatar: '',
 				phone: '',
 				password: '',
 				trade_pwd: '',
@@ -124,6 +124,7 @@
 		onLoad(){
 		},
 		onShow() {
+			this.avatar = getApp().globalData.avatar;
 			this.url = this.$http.url;
 			console.log(this.url);
 			this.$http.getUserInfo().then((data)=>{

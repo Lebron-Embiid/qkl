@@ -6,7 +6,7 @@
 			<view class="common_price">$ <text>{{over_money}}</text></view>
 			<view class="add_btn" @tap="toIncrease">加额</view>
 		</view>
-		<common-wallet :list="walletNavs" :isApp="true"></common-wallet>
+		<common-wallet :list="walletNavs" @updateMoney="updateMoney" :over_money="over_money" :isApp="true"></common-wallet>
 		<view class="invest_box">
 			<view class="invest_top">
 				<view class="it_left">流水单号</view>
@@ -24,6 +24,7 @@
 					<view>{{item.from}}</view>
 				</view>
 			</view>
+			<uni-load-more :status="loadingType"></uni-load-more>
 		</view>
 	</view>
 </template>
@@ -32,6 +33,7 @@
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
 	import commonWallet from "@/components/commonWallet.vue"
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default{
@@ -40,8 +42,8 @@
 				rightIcon: '/static/ling.png',
 				dot: true,
 				name: '',
-				avatar: '/static/avatar.png',
-				over_money: 1600000,
+				avatar: '',
+				over_money: '',
 				walletNavs: [{title:'转入',name:'first'},{title:'转出',name:'active'},{title:'提现',name:''}],
 				investList: [
 					{
@@ -60,23 +62,33 @@
 						time: '2019/11/25  09：00',
 						from: '转出到投资钱包'
 					}
-				]
+				],
+				loadingType: 'more'
 			}
 		},
 		components:{
 			uniNavBar,
 			commonAvatar,
-			commonWallet
+			commonWallet,
+			uniLoadMore
 		},
 		methods:{
 			toIncrease(){
 				uni.navigateTo({
 					url: '/pages/member/increase'
 				})
+			},
+			updateMoney(){
+				// this.$http.getInvestment().then((data)=>{
+				// 	let res = data.data;
+				// 	this.investList = res.list;
+				// 	this.over_money = res.bonus.bonus0;
+				// 	this.invest_money = res.bonus.bonus1;
+				// })
 			}
 		},
 		onShow(){
-			
+			this.avatar = getApp().globalData.avatar;
 		},
 		onLoad(opt) {
 			this.$http.getUserInfo().then((data)=>{
@@ -84,6 +96,11 @@
 				if(data.data.username == ''){
 					this.name = data.data.mobile;
 				}
+			})
+			this.$http.getInvestment().then((data)=>{
+				let res = data.data;
+				this.investList = res.list;
+				this.over_money = res.bonus.bonus0;
 			})
 			this.$http.userRecharge().then((data)=>{
 				console.log(data);

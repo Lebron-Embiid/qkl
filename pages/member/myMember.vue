@@ -44,19 +44,19 @@
 		<view class="my_member_box_tree">
 			<view class="tree" v-for="(one,index) in treeList" :key="index">
 				<view class="leaf-node first" @tap="transferMoney(index)">
-					<image :src="one.avatar" mode="widthFix"></image>
+					<image :src="url+'Public/home/wap/heads/default_avatar.svg'" mode="widthFix"></image>
 					<view>昵称：{{one.name}}</view>
 					<text class="active">投资：{{one.price}}</text>
 				</view>
 				<view class="tree" v-for="(two,idx) in one.children" v-if="one.children.length != 0" :key="idx">
 					<view class="leaf-node middle" @tap="transferMoney(index,idx)">
-						<image :src="two.avatar" mode="widthFix"></image>
+						<image :src="url+'Public/home/wap/heads/default_avatar.svg'" mode="widthFix"></image>
 						<view>昵称：{{two.name}}</view>
 						<text class="active">投资：{{two.price}}</text>
 					</view>
 					<view class="tree" v-for="(three,ix) in two.children" v-if="two.children.length != 0" :key="ix">
 						<view class="leaf-node last" @tap="transferMoney(index,idx,ix)">
-							<image :src="three.avatar" mode="widthFix"></image>
+							<image :src="url+'Public/home/wap/heads/default_avatar.svg'" mode="widthFix"></image>
 							<view>昵称：{{three.name}}</view>
 							<text>投资：{{three.price}}</text>
 						</view>
@@ -96,129 +96,62 @@
 				
 				name: '',
 				member_name: '',
-				avatar: '/static/avatar.png',
+				avatar: '',
 				person_num: 0,
 				dividend: 800000,
 				price: '',
 				pay_pwd: '',
 				memberList: [
-					{
-						title: '直推一级会员',
-						current: false,
-						list: [
-							{
-								avatar: '/static/avatar.png',
-								member_id: 'SLM00001',
-								name: 'Peter',
-								superior: 'Nick',
-								price: 30000,
-								time: '2019/11/23  09：00'
-							},{
-								avatar: '/static/avatar.png',
-								member_id: 'SLM00001',
-								name: 'Peter',
-								superior: 'Nick',
-								price: 30000,
-								time: '2019/11/23  09：00'
-							}
-						]
-					},{
-						title: '二级会员',
-						current: false,
-						list: [
-							{
-								avatar: '/static/avatar.png',
-								member_id: 'SLM00001',
-								name: 'Peter',
-								superior: 'Nick',
-								price: 30000,
-								time: '2019/11/23  09：00'
-							}
-						]
-					},{
-						title: '三级会员',
-						current: false,
-						list: [
-							{
-								avatar: '/static/avatar.png',
-								member_id: 'SLM00001',
-								name: 'Peter',
-								superior: 'Nick',
-								price: 30000,
-								time: '2019/11/23  09：00'
-							}
-						]
-					}
-				],
-				treeList: [
 					// {
-					// 	id: 1,
-					// 	avatar: '/static/avatar.png',
-					// 	member_id: 'SLM00001',
-					// 	name: 'Peter1',
-					// 	superior: 'Nick',
-					// 	price: 30000,
-					// 	time: '2019/11/23  09：00',
-					// 	twoList: [
+					// 	title: '直推一级会员',
+					// 	current: false,
+					// 	list: [
 					// 		{
-					// 			id: 2,
 					// 			avatar: '/static/avatar.png',
 					// 			member_id: 'SLM00001',
-					// 			name: 'Peter2',
+					// 			name: 'Peter',
 					// 			superior: 'Nick',
 					// 			price: 30000,
-					// 			time: '2019/11/23  09：00',
-					// 			threeList: [
-					// 				{
-					// 					id: 4,
-					// 					avatar: '/static/avatar.png',
-					// 					member_id: 'SLM00001',
-					// 					name: 'Peter3',
-					// 					superior: 'Nick',
-					// 					price: 30000,
-					// 					time: '2019/11/23  09：00'
-					// 				},{
-					// 					id: 5,
-					// 					avatar: '/static/avatar.png',
-					// 					member_id: 'SLM00001',
-					// 					name: 'Peter3',
-					// 					superior: 'Nick',
-					// 					price: 30000,
-					// 					time: '2019/11/23  09：00'
-					// 				}
-					// 			]
-					// 		},
-					// 		{
-					// 			id: 3,
+					// 			time: '2019/11/23  09：00'
+					// 		},{
 					// 			avatar: '/static/avatar.png',
 					// 			member_id: 'SLM00001',
-					// 			name: 'Peter2',
+					// 			name: 'Peter',
 					// 			superior: 'Nick',
 					// 			price: 30000,
-					// 			time: '2019/11/23  09：00',
-					// 			threeList: [
-					// 				{
-					// 					id: 6,
-					// 					avatar: '/static/avatar.png',
-					// 					member_id: 'SLM00001',
-					// 					name: 'Peter3',
-					// 					superior: 'Nick',
-					// 					price: 30000,
-					// 					time: '2019/11/23  09：00'
-					// 				},{
-					// 					id: 7,
-					// 					avatar: '/static/avatar.png',
-					// 					member_id: 'SLM00001',
-					// 					name: 'Peter3',
-					// 					superior: 'Nick',
-					// 					price: 30000,
-					// 					time: '2019/11/23  09：00'
-					// 				}
-					// 			]
+					// 			time: '2019/11/23  09：00'
+					// 		}
+					// 	]
+					// },{
+					// 	title: '二级会员',
+					// 	current: false,
+					// 	list: [
+					// 		{
+					// 			avatar: '/static/avatar.png',
+					// 			member_id: 'SLM00001',
+					// 			name: 'Peter',
+					// 			superior: 'Nick',
+					// 			price: 30000,
+					// 			time: '2019/11/23  09：00'
+					// 		}
+					// 	]
+					// },{
+					// 	title: '三级会员',
+					// 	current: false,
+					// 	list: [
+					// 		{
+					// 			avatar: '/static/avatar.png',
+					// 			member_id: 'SLM00001',
+					// 			name: 'Peter',
+					// 			superior: 'Nick',
+					// 			price: 30000,
+					// 			time: '2019/11/23  09：00'
 					// 		}
 					// 	]
 					// }
-				]
+				],
+				treeList: [],
+				url: ''
 			}
 		},
 		components:{
@@ -228,19 +161,24 @@
 			uniTransition
 		},
 		onLoad() {
-			this.$http.getNetList().then((data)=>{
-				console.log(data.data);
-				this.treeList = [data.data];
-				console.log(this.treeList);
+			this.$http.getHeadImg().then((data)=>{
+				this.avatar = data.data.img_url;
+				getApp().globalData.avatar = data.data.img_url;
+				if(data.data.img_url == 'toux-icon.png'){
+					this.avatar = this.$http.url+'Public/home/wap/heads/default_avatar.svg';
+					getApp().globalData.avatar = this.$http.url+'Public/home/wap/heads/default_avatar.svg';
+				}
 			})
+			this.$http.getNetList().then((data)=>{
+				// console.log(data.data);
+				// this.person_num = 
+				this.treeList = [data.data];
+				// console.log(this.treeList);
+			})
+			this.url = this.$http.url;
 		},
-		onShow() {
-			this.$http.getNetList().then((data)=>{
-				console.log(data.data);
-				this.treeList = [data.data];
-				console.log(this.treeList);
-			})
-			
+		onShow() {			
+			this.avatar = getApp().globalData.avatar;
 			if(uni.getStorageSync('token') == ''){
 				this.$api.msg('请登录');
 				setTimeout(()=>{
@@ -254,6 +192,11 @@
 					if(data.data.username == ''){
 						this.name = data.data.mobile;
 					}
+				})
+				this.$http.getNetList().then((data)=>{
+					// console.log(data.data);
+					// this.person_num = 
+					this.treeList = [data.data];
 				})
 			}
 			uni.removeTabBarBadge({
@@ -270,19 +213,19 @@
 				// this.$refs.popup.open();
 				if(idx == undefined && ix == undefined){
 					this.treeList = this.treeList;
-					console.log(this.treeList);
+					// console.log(this.treeList);
 					// this.member_name = this.treeList[index].name;
 					return;
 				}
 				if(ix == undefined){
 					this.treeList = [this.treeList[index].children[idx]];
-					console.log(this.treeList);
+					// console.log(this.treeList);
 					// this.member_name = this.treeList[index].children[idx].name;
 					return;
 				}
 				if(idx != undefined && ix != undefined){
 					this.treeList = [this.treeList[index].children[idx].children[ix]];
-					console.log(this.treeList);
+					// console.log(this.treeList);
 					// this.member_name = this.treeList[index].children[idx].children[ix].name;
 					return;
 				}

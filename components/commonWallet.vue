@@ -3,7 +3,7 @@
 		<view class="wallet_box">
 			<view class="wallet_txt" :class="item.name" @tap="changeNav(index)" v-for="(item,index) in list" :key="index">{{item.title}}</view>
 		</view>
-		<uni-popup ref="popup" type="center">
+		<uni-popup ref="popup" :maskClick="false" type="center">
 			<view class="popup_box">
 				<view class="popup_content">
 					<view class="popup_title">
@@ -65,13 +65,16 @@
 		data(){
 			return{
 				current: 0,
-				over_money: 600000,
 				price: '',
 				pay_pwd: '',
 				placeholder: "请输入转入金额"
 			}
 		},
 		props:{
+			over_money:{
+				type: String,
+				default: ''
+			},
 			// 是否是APP钱包页面
 			isApp:{
 				type: Boolean,
@@ -96,18 +99,118 @@
 				if(this.current == 1){
 					this.placeholder = "请输入转出金额";
 				}
-				if(this.current == 2 && this.isApp == false){
-					this.placeholder = "请输入投资金额"
-				}
 				if(this.current == 2 && this.isApp == true){
 					this.placeholder = "请输入申请提现金额"
+				}
+				if(this.current == 2 && this.isApp == false){
+					this.placeholder = "请输入投资金额"
 				}
 			},
 			cancelPopup(){
 				this.$refs.popup.close();
+				this.pay_pwd = '';
+				this.price = '';
 			},
 			okPopup(){
-				this.$refs.popup.close();
+				this.$Debounce.canDoFunction({
+					key: "investment",
+					time: 1500,
+					success:()=>{
+						// 投资钱包转入
+						if(this.current == 0 && this.isApp == false){
+							this.$http.changeInvestmentinto({
+								sec_password: this.pay_pwd,
+								money: this.price,
+								type: 1
+							}).then((data)=>{
+								console.log('投资转入：');
+								this.$api.msg(data.data.message);
+								if(data.data.status == 1){
+									this.$refs.popup.close();
+									this.pay_pwd = '';
+									this.price = '';
+								}
+							})
+						}
+						// 投资钱包转出
+						if(this.current == 1 && this.isApp == false){
+							this.$http.changeInvestmentinto({
+								sec_password: this.pay_pwd,
+								money: this.price,
+								type: 2
+							}).then((data)=>{
+								console.log('投资转出：');
+								this.$api.msg(data.data.message);
+								if(data.data.status == 1){
+									this.$refs.popup.close();
+									this.pay_pwd = '';
+									this.price = '';
+								}
+							})
+						}
+						// APP钱包转入
+						if(this.current == 0 && this.isApp == true){
+							this.$http.changeInvestmentinto({
+								sec_password: this.pay_pwd,
+								money: this.price,
+								type: 2
+							}).then((data)=>{
+								console.log('投资转入：');
+								this.$api.msg(data.data.message);
+								if(data.data.status == 1){
+									this.$refs.popup.close();
+									this.pay_pwd = '';
+									this.price = '';
+								}
+							})
+						}
+						// APP钱包转出
+						if(this.current == 1 && this.isApp == true){
+							this.$http.changeInvestmentinto({
+								sec_password: this.pay_pwd,
+								money: this.price,
+								type: 1
+							}).then((data)=>{
+								console.log('投资转出：');
+								this.$api.msg(data.data.message);
+								if(data.data.status == 1){
+									this.$refs.popup.close();
+									this.pay_pwd = '';
+									this.price = '';
+								}
+							})
+						}
+						// 投资
+						if(this.current == 2 && this.isApp == false){
+							this.$http.changeInvestment({
+								sec_password: this.pay_pwd,
+								money: this.price
+							}).then((data)=>{
+								this.$api.msg(data.data.message);
+								if(data.data.status == 1){
+									this.$refs.popup.close();
+									this.pay_pwd = '';
+									this.price = '';
+								}
+							})
+						}
+						// 提现
+						if(this.current == 2 && this.isApp == true){
+							this.$http.changeInvestment({
+								sec_password: this.pay_pwd,
+								money: this.price
+							}).then((data)=>{
+								this.$api.msg(data.data.message);
+								if(data.data.status == 1){
+									this.$refs.popup.close();
+									this.pay_pwd = '';
+									this.price = '';
+								}
+							})
+						}
+						this.$emit('updateMoney');
+					}
+				})
 			}
 		}
 	}

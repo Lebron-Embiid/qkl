@@ -66,18 +66,18 @@
 				rightIcon: '/static/ling.png',
 				dot: true,
 				name: '',
-				avatar: '/static/avatar.png',
+				avatar: '',
 				memberList: [
 					{
 						icon: '/static/member_icon1.png',
 						title: '投资钱包',
 						url: '/pages/mine/investWallet',
-						value: '600000'
+						value: ''
 					},{
 						icon: '/static/member_icon2.png',
 						title: 'APP钱包',
 						url: '/pages/mine/wallet',
-						value: '16000000'
+						value: ''
 					}
 				],
 				is_apply: 0,	//是否点击申请按钮
@@ -94,7 +94,15 @@
 			commonAvatar,
 			switchc
 		},
+		onLoad() {
+			this.$http.getInvestment().then((data)=>{
+				let res = data.data;
+				this.memberList[0].value = res.bonus.bonus1;
+				this.memberList[1].value = res.bonus.bonus0;
+			})
+		},
 		onShow() {
+			this.avatar = getApp().globalData.avatar;
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
 				if(data.data.username == ''){

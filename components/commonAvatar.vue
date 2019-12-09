@@ -32,7 +32,7 @@
 		data(){
 			return{
 				user_name: '',
-				user_avatar: '/static/avatar.png',
+				user_avatar: this.avatar,
 				sex: [
 					{
 						name: '男',
@@ -46,15 +46,15 @@
 				current: 0,
 				avatarList: [
 					[
-						'/static/avatar/avatar_m1.svg',
-						'/static/avatar/avatar_m2.svg',
-						'/static/avatar/avatar_m3.svg',
-						'/static/avatar/avatar_m4.svg'
+						this.$http.url+'Public/home/wap/heads/avatar_m1.svg',
+						this.$http.url+'Public/home/wap/heads/avatar_m2.svg',
+						this.$http.url+'Public/home/wap/heads/avatar_m3.svg',
+						this.$http.url+'Public/home/wap/heads/avatar_m4.svg'
 					],[
-						'/static/avatar/avatar_w1.svg',
-						'/static/avatar/avatar_w2.svg',
-						'/static/avatar/avatar_w3.svg',
-						'/static/avatar/avatar_w4.svg'
+						this.$http.url+'Public/home/wap/heads/avatar_w1.svg',
+						this.$http.url+'Public/home/wap/heads/avatar_w2.svg',
+						this.$http.url+'Public/home/wap/heads/avatar_w3.svg',
+						this.$http.url+'Public/home/wap/heads/avatar_w4.svg'
 					]
 				],
 				select: null
@@ -77,9 +77,18 @@
 				default: false
 			}
 		},
-		mounted() {
-			this.user_avatar = this.avatar;
+		watch:{
+			avatar(val){
+				this.user_avatar = val;
+			}
 		},
+		// beforeMount() {
+		// 	this.avatar = getApp().globalData.avatar;
+		// },
+		// mounted() {
+		// 	this.user_avatar = this.avatar;
+		// 	console.log(this.user_avatar);
+		// },
 		methods:{
 			// update(){
 				// this.$http.getUserInfo().then((data)=>{
@@ -109,11 +118,7 @@
 						base64 = 'data:image/jpeg;base64,' + base64 //不加上这串字符，在页面无法显示的哦
 						console.log(base64);
 						
-						that.$http.updateimgUps({
-							dataflow: base64
-						}).then((data)=>{
-							that.$api.msg(data.data.message);
-						})
+						
 					}
 				})
 			},
@@ -131,7 +136,15 @@
 			},
 			selectAvatar(index,idx){
 				this.select = idx;
-				this.user_avatar = this.avatarList[index][idx];
+				// this.user_avatar = this.avatarList[index][idx];
+				this.$http.updateimgUps({
+					dataflow: this.avatarList[index][idx]
+				}).then((data)=>{
+					this.user_avatar = data.data.img_url;
+					getApp().globalData.avatar = data.data.img_url;
+					// uni.setStorageSync('avatar',data.data.img_url);
+					// this.$api.msg(data.data.message);
+				})
 			}
 		}
 	}
@@ -157,6 +170,7 @@
 			width: 138rpx !important;
 			height: 138rpx !important;
 			margin: 0 auto 20rpx;
+			border-radius: 50%;
 		}
 		.bg{
 			position: absolute;
@@ -184,7 +198,7 @@
 	.popup_avatar_box{
 		background: #fff;
 		padding: 30rpx 30rpx 50rpx;
-		// width: 90%;
+		width: 90vw;
 		margin: 0 auto;
 		box-sizing: border-box;
 		radio-group{

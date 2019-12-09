@@ -5,27 +5,28 @@
 		<view class="common_top_black">
 			<view class="common_price">$ <text>{{over_money}}</text></view>
 		</view>
-		<common-wallet :list="walletNavs"></common-wallet>
+		<common-wallet :list="walletNavs" :over_money="over_money" @updateMoney="updateMoney"></common-wallet>
 		<view class="common_top_black all_price">当前投资总额：<text>{{invest_money}}</text></view>
 		<view class="invest_box">
 			<view class="invest_top">
 				<view class="it_left">投资单号</view>
-				<view class="it_right">投资金额</view>
+				<view class="it_right">投资金额/收益</view>
 			</view>
 			<view class="invest_item" v-for="(item,index) in investList" :key="index">
 				<view class="invest_center">
-					<view class="ic_left">{{item.name}}</view>
-					<view class="ic_right">{{item.price}}</view>
+					<view class="ic_left">{{item.order_sn}}</view>
+					<view class="ic_right">{{item.money}} /<text>1.00</text></view>
 				</view>
 				<view class="invest_bottom">
 					<view>
-						投资于 {{item.time}}
-						<text>{{item.status}}</text>
+						投资于 {{item.add_time}}
+						<text>{{item.status_name}}</text>
 					</view>
-					<button type="primary" @tap="backMoney(index)" v-if="item.btn == 0">退款</button>
-					<button type="primary" class="already" v-if="item.btn == 1">已退款</button>
+					<button type="primary" @tap="backMoney(item.id)" v-if="item.status == 1">退款</button>
+					<button type="primary" class="already" v-else>已退款</button>
 				</view>
 			</view>
+			<uni-load-more :status="loadingType"></uni-load-more>
 		</view>
 		<uni-popup ref="popup_back" type="center">
 			<view class="popup_box">
@@ -48,6 +49,7 @@
 	import commonAvatar from "@/components/commonAvatar.vue"
 	import commonWallet from "@/components/commonWallet.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default{
@@ -56,41 +58,25 @@
 				rightIcon: '/static/ling.png',
 				dot: true,
 				name: '',
-				avatar: '/static/avatar.png',
-				over_money: 1600000,
-				invest_money: 120000,
+				avatar: '',
+				over_money: '',
+				invest_money: '',
+				id: '',
 				pay_pwd: '',
 				walletNavs: [{title:'转入',name:'first'},{title:'转出',name:'active'},{title:'投资',name:''}],
-				investList: [
-					{
-						name: 'SLM20191125A001',
-						price: '20000',
-						time: '2019/11/25  09：00',
-						status: '进行中',
-						btn: 0
-					},{
-						name: 'SLM20191125A001',
-						price: '20000',
-						time: '2019/11/25  09：00',
-						status: '进行中',
-						btn: 0
-					},{
-						name: 'SLM20191125A001',
-						price: '10000',
-						time: '2019/11/25  09：00',
-						status: '已结束',
-						btn: 1
-					}
-				]
+				investList: [],
+				loadingType: 'more'
 			}
 		},
 		components:{
 			uniNavBar,
 			commonAvatar,
 			commonWallet,
-			uniPopup
+			uniPopup,
+			uniLoadMore
 		},
 		onShow(){
+			this.avatar = getApp().globalData.avatar;
 		},
 		onLoad() {
 			this.$http.getUserInfo().then((data)=>{
@@ -99,16 +85,52 @@
 					this.name = data.data.mobile;
 				}
 			})
+			this.$http.getInvestment().then((data)=>{
+				let res = data.data;
+				this.investList = res.list;
+				this.over_money = res.bonus.bonus1;
+			})
 		},
 		methods:{
-			backMoney(idx){
+			backMoney(id){
 				this.$refs.popup_back.open();
+				this.id = id;
 			},
 			cancelBack(){
 				this.$refs.popup_back.close();
 			},
 			okBack(){
-				this.$refs.popup_back.close();
+				this.$Debounce.canDoFunction({
+					key: "investmentOut",
+					time: 1500,
+					success:()=>{
+						this.$http.changeInvestmentOut({
+							order_id: this.id,
+							sec_password: this.pay_pwd
+						}).then((data)=>{
+							this.$api.msg(data.data.message);
+							if(data.data.status == 1){
+								this.$http.getInvestment().then((data)=>{
+									let res = data.data;
+									this.investList = res.list;
+									this.over_money = res.bonus.bonus0;
+									this.invest_money = res.bonus.bonus1;
+									this.$refs.popup_back.close();
+									this.id = '';
+									this.pay_pwd = '';
+								})
+							}
+						})
+					}
+				})
+			},
+			updateMoney(){
+				this.$http.getInvestment().then((data)=>{
+					let res = data.data;
+					this.investList = res.list;
+					this.over_money = res.bonus.bonus0;
+					this.invest_money = res.bonus.bonus1;
+				})
 			}
 		}
 	}
@@ -153,5 +175,7 @@
 			font-weight: bold;
 		}
 	}
-	
+	.invest_bottom button{
+		color: #fff;
+	}
 </style>

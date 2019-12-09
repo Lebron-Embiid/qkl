@@ -117,7 +117,7 @@
 					this.country.push(res.data[i].country);
 					this.areaCode.push(res.data[i].code);
 				}
-				console.log(this.country,this.areaCode);
+				// console.log(this.country,this.areaCode);
 			})
 		},
 		methods:{
@@ -126,7 +126,7 @@
 				this.internation_number = this.areaCode[e.detail.value];
 			},
 			switchchange(e) {
-				console.log(e);
+				// console.log(e);
 				if(e.value == true){
 					this.input_type1 = 1;
 				}else{
@@ -134,7 +134,7 @@
 				}
 			},
 			switchchange1(e) {
-				console.log(e);
+				// console.log(e);
 				if(e.value == true){
 					this.input_type2 = 1;
 				}else{

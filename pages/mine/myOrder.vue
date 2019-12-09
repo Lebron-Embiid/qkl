@@ -39,7 +39,7 @@
 				rightIcon: '/static/ling.png',
 				dot: true,
 				name: '',
-				avatar: '/static/avatar.png',
+				avatar: '',
 				orderNavs: ["全部订单","待付款","待发货","待收货","已完成"],
 				current: 0,
 				orderList: [
@@ -102,6 +102,7 @@
 			}
 		},
 		onShow(){
+			this.avatar = getApp().globalData.avatar;
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
 				if(data.data.username == ''){

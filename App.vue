@@ -1,27 +1,72 @@
 <script>
+	var wgtVer = null;
+	var wgtUrl = null;
 	export default {
 		globalData:{
 			is_login: false,
 			app_name: 'SOLOMON MATRIX',
-			app_logo: '/static/logo1.png'
+			app_logo: '/static/logo1.png',
+			avatar: '',
+			and_ios: 0
 		},
 		onLaunch: function() {
-			console.log('App Launch')
+			console.log('App Launch');
+			switch(uni.getSystemInfoSync().platform){
+				case 'android':
+					console.log('运行Android上')
+					this.$options.globalData.and_ios = 0;
+					break;
+				case 'ios':
+					console.log('运行iOS上')
+					this.$options.globalData.and_ios = 1;
+					break;
+				default:
+					console.log('运行在开发者工具上')
+					break;
+			}
 		},
 		onShow: function() {
 			let that = this;
-			// that.$http.getUserInfo().then((data)=>{
-			// 	if(data.data.status === 40001){
-			// 		that.$api.msg('登录失效,请重新登录');
-			// 		uni.removeStorageSync('token');
-			// 		setTimeout(function(){
-			// 			uni.reLaunch({
-			// 				url: '/pages/login/login'
-			// 			})
-			// 		},1500)
-			// 		return;
-			// 	}
-			// })
+			// plus.runtime.getProperty(plus.runtime.appid,function(inf){  
+			// 	wgtVer = inf.version;  
+			// 	console.log("当前应用版本："+wgtVer); 
+			// 	uni.request({
+			// 	    url: that.$api+'default/edition', //仅为示例，并非真实接口地址。
+			// 	    data: {number:wgtVer,type:that.$options.globalData.and_ios},
+			// 		method: 'POST',
+			// 		dataType:'json',
+			// 		header: {
+			// 			'content-type': 'application/x-www-form-urlencoded'
+			// 		},
+			// 	    success: (res) => {
+			// 			if(res.data.code == 0){ 
+			// 				wgtUrl = res.data.data;
+			// 				uni.showModal({
+			// 					content: res.data.msg,
+			// 					confirmText:"升级APP",
+			// 					showCancel:false,
+			// 					success:function(){		
+			// 						console.log(uni.getSystemInfoSync().platform)
+			// 						plus.runtime.openURL(wgtUrl);
+			// 						switch(uni.getSystemInfoSync().platform){
+			// 							case 'android':
+			// 								console.log('运行Android上')
+			// 								plus.runtime.openURL(wgtUrl);
+			// 								break;
+			// 							case 'ios':
+			// 								console.log('运行iOS上')
+			// 								plus.runtime.install(wgtUrl);
+			// 								break;
+			// 							default:
+			// 								console.log('运行在开发者工具上')
+			// 								break;
+			// 						}
+			// 					}
+			// 				})							 
+			// 			}
+			// 	    }
+			// 	});
+			// });
 			
 			console.log('App Show')
 			uni.setTabBarBadge({
@@ -241,6 +286,10 @@ uni-modal .uni-modal__btn_primary{
 			}
 			.ic_left,.ic_right{
 				border-bottom: 1px solid #e6e6e6;
+				text{
+					color: #f00;
+					margin-left: 10rpx;
+				}
 			}
 		}
 		.invest_bottom{

@@ -87,7 +87,7 @@
 				show: true,
 				show1: false,
 				name: '',
-				avatar: '/static/avatar.png',
+				avatar: '',
 				dividend: 800000,
 				navs: ['个人分红','团队分红'],
 				current: 0,
@@ -170,6 +170,7 @@
 			}
 		},
 		onShow(){
+			this.avatar = getApp().globalData.avatar;
 		},
 		onLoad(opt) {
 			if(opt.index != undefined){

@@ -1,11 +1,8 @@
 <template>
 	<view class="guide">
 		<swiper class="swiper"
-		:autoplay="autoplay" 
-		:indicator-dots="indicator" 
 		indicator-color="rgba(204, 204, 204, 1)"
 		indicator-active-color="rgba(230, 230, 230, 1)"
-		:duration="duration"
 		@change="changeSwiper">
 			<swiper-item v-for="(item,index) in guideList" :key="index">
 				<view class="swiper-item">
@@ -36,9 +33,6 @@
 		data() {
 			return {
 				background: ['color1', 'color2', 'color3'],
-				autoplay: false,
-				indicator: false,
-				duration: 500,
 				jumpover: '跳过',
 				experience: '立即体验',
 				currentSwiper: 0,

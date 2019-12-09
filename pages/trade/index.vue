@@ -35,7 +35,7 @@
 				rightIcon: '/static/ling.png',
 				dot: true,
 				name: '',
-				avatar: '/static/avatar.png',
+				avatar: '',
 				orderNavs: [
 					{
 						icon: '/static/order_icon1.svg',
@@ -128,9 +128,17 @@
 			}
 		},
 		onLoad() {
-			
+			this.$http.getHeadImg().then((data)=>{
+				this.avatar = data.data.img_url;
+				getApp().globalData.avatar = data.data.img_url;
+				if(data.data.img_url == 'toux-icon.png'){
+					this.avatar = this.$http.url+'Public/home/wap/heads/default_avatar.svg';
+					getApp().globalData.avatar = this.$http.url+'Public/home/wap/heads/default_avatar.svg';
+				}
+			})
 		},
 		onShow() {
+			this.avatar = getApp().globalData.avatar;
 			if(uni.getStorageSync('token') == ''){
 				this.$api.msg('请登录');
 				setTimeout(()=>{

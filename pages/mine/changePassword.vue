@@ -103,7 +103,6 @@
 		},
 		methods:{
 			switchchange(e,idx) {
-				// console.log(e,idx);
 				if(e.value == true){
 					this.loginPwd[idx].type = 1
 				}else{
@@ -119,7 +118,7 @@
 				}
 			},
 			submitForm(){
-				console.log(this.password,this.new_password,this.again_password);
+				// console.log(this.password,this.new_password,this.again_password);
 				// if(this.password == this.again_password){
 				// 	this.$api.msg('旧密码与新密码一样');
 				// 	return;
@@ -138,7 +137,7 @@
 				})
 			},
 			submitForm1(){
-				console.log(this.trade_password,this.new_trade_password,this.again_trade_password);
+				// console.log(this.trade_password,this.new_trade_password,this.again_trade_password);
 				// if(this.trade_password == this.again_trade_password){
 				// 	this.$api.msg('旧密码与新密码一样');
 				// 	return;

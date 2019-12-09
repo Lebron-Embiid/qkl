@@ -40,7 +40,7 @@
 				rightIcon: '/static/ling.png',
 				dot: true,
 				name: '',
-				avatar: '/static/avatar.png',
+				avatar: '',
 				array: [],
 				bank_type: '请选择开户银行',
 				card_name: '',
@@ -60,6 +60,7 @@
 			})
 		},
 		onShow(){
+			this.avatar = getApp().globalData.avatar;
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
 				if(data.data.username == ''){

@@ -24,7 +24,7 @@
 				rightIcon: '/static/ling.png',
 				dot: true,
 				name: '',
-				avatar: '/static/avatar.png',
+				avatar: '',
 				link: '',
 				code_img: ''
 			}
@@ -40,6 +40,7 @@
 			})
 		},
 		onShow(){
+			this.avatar = getApp().globalData.avatar;
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
 				if(data.data.username == ''){
@@ -87,11 +88,13 @@
 				// #endif
 				
 				// #ifdef H5
-				let promise = downloader.load(that.code_img, 'code_img'); //下载
+				let promise = downloader.load(that.code_img, 'my_code'); //下载
 				
-				promise.then(([err, res])=>{                 //下载结果 
-				    console.log(err, res);                   // err 和 res 只会有一个存在，另一个为null  
-					that.$api.msg('保存成功');
+				promise.then(([err, res])=>{
+				    console.log(err, res);			// err 和 res 只会有一个存在，另一个为null
+					if(res.statusCode == 200){
+						that.$api.msg('保存成功');
+					}
 				});
 				// #endif
 				// uni.downloadFile({

@@ -22,7 +22,7 @@
 				rightIcon: '/static/ling.png',
 				dot: true,
 				name: '',
-				avatar: '/static/avatar.png',
+				avatar: '',
 				link: '',
 				code_img: ''
 			}
@@ -32,6 +32,7 @@
 			commonAvatar
 		},
 		onShow(){
+			this.avatar = getApp().globalData.avatar;
 			this.$http.getUserInfo().then((data)=>{
 				this.name = data.data.username;
 				if(data.data.username == ''){
