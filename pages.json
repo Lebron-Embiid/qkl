@@ -39,6 +39,15 @@
 			}
 		},
 		{
+			"path": "pages/index/category",
+			"style": {
+				"navigationBarTitleText": "商品分类",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
 			"path": "pages/index/confirmation",
 			"style": {
 				"navigationBarTitleText": "确认订单",

@@ -6,7 +6,7 @@
 			<view class="tis" v-if="goodsList.length==0">购物车是空的哦~</view>
             <view class="row" v-for="(row,index) in goodsList" :key="index" >
 				<!-- 删除按钮 -->
-				<view class="menu" @tap.stop="deleteGoods(row.id)">
+				<view class="menu" @tap.stop="deleteGoods(row.gid)">
 					<view class="icon shanchu"></view>
 				</view>
 				<!-- 商品 -->
@@ -20,7 +20,7 @@
 					<!-- 商品信息 -->
 					<view class="goods-info" @tap="toGoods(row)">
 						<view class="img">
-							<image :src="row.img"></image>
+							<image :src="url+row.pic" mode="widthFix"></image>
 						</view>
 						<view class="info">
 							<view class="title">{{row.name}}</view>
@@ -32,7 +32,7 @@
 										<view class="icon jian"></view>
 									</view>
 									<view class="input" @tap.stop="discard">
-										<input type="number" v-model="row.number" @input="sum($event,index)" />
+										<input type="number" v-model="row.num" @input="sum($event,index)" />
 									</view>
 									<view class="add"  @tap.stop="add(index)">
 										<view class="icon jia"></view>
@@ -75,16 +75,12 @@
 				showHeader:true,
 				selectedList:[],
 				isAllselected:false,
-				goodsList:[
-					{id:1,img:'/static/img/p1.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
-					{id:2,img:'/static/img/p2.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
-					{id:3,img:'/static/img/p3.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
-					{id:4,img:'/static/img/p4.jpg',name:'商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题',spec:'规格:S码',price:127.5,number:1,selected:false},
-				],
+				goodsList:[],
 				//控制滑动效果
 				theIndex:null,
 				oldIndex:null,
-				isStop:false
+				isStop:false,
+				url: ''
 			}
 		},
 		components:{
@@ -103,6 +99,11 @@
 		    }, 1000);
 		},
 		onLoad() {
+			this.url = this.$http.url;
+			this.$http.getCar().then((data)=>{
+				console.log(data.data);
+				this.goodsList = data.data.list;
+			})
 			//兼容H5下结算条位置
 			// #ifdef H5
 				this.footerbottom = document.getElementsByTagName('uni-tabbar')[0].offsetHeight+'px';
@@ -223,14 +224,15 @@
 			},
 			//删除商品
 			deleteGoods(id){
-				let len = this.goodsList.length;
-				for(let i=0;i<len;i++){
-					if(id==this.goodsList[i].id){
-						this.goodsList.splice(i, 1);
-						break;
-					}
-				}
-				this.selectedList.splice(this.selectedList.indexOf(id), 1);
+				this.$http.delCar({
+					g_id: id
+				}).then((data)=>{
+					this.$api.msg(data.data.message);
+					this.$http.getCar().then((data)=>{
+						console.log(data.data);
+						this.goodsList = data.data.list;
+					})
+				})
 				this.sum();
 				this.oldIndex = null;
 				this.theIndex = null;
@@ -240,7 +242,15 @@
 				let len = this.selectedList.length;
 				while (this.selectedList.length>0)
 				{
-					this.deleteGoods(this.selectedList[0]);
+					this.$http.delCar({
+						is_all: 1
+					}).then((data)=>{
+						this.$api.msg(data.data.message);
+						this.$http.getCar().then((data)=>{
+							console.log(data.data);
+							this.goodsList = data.data.list;
+						})
+					})
 				}
 				this.selectedList = [];
 				this.isAllselected = this.selectedList.length == this.goodsList.length && this.goodsList.length>0;
@@ -288,7 +298,7 @@
 						if(e && i==index){
 							this.sumPrice = this.sumPrice + (e.detail.value*this.goodsList[i].price);
 						}else{
-							this.sumPrice = this.sumPrice + (this.goodsList[i].number*this.goodsList[i].price);
+							this.sumPrice = this.sumPrice + (this.goodsList[i].num*this.goodsList[i].price);
 						}
 					}
 				}
@@ -462,22 +472,24 @@
 						.title{
 							width: 100%;
 							font-size: 28upx;
+							overflow : hidden;
+							text-overflow: ellipsis;
 							display: -webkit-box;
-							-webkit-box-orient: vertical;
 							-webkit-line-clamp: 2;
-							// text-align: justify;
-							overflow: hidden;
+							-webkit-box-orient: vertical;
+							word-wrap: break-word;
+							word-break: break-all;
 						}
 						.spec{
-							font-size: 20upx;
-							background-color: #f3f3f3;
-							color: #a7a7a7;
-							height: 30upx;
-							display: flex;
-							align-items: center;
-							padding: 0 10upx;
-							border-radius: 15upx;
-							margin-bottom: 20vw;
+							// font-size: 20upx;
+							// background-color: #f3f3f3;
+							// color: #a7a7a7;
+							// height: 30upx;
+							// display: flex;
+							// align-items: center;
+							// padding: 0 10upx;
+							// border-radius: 15upx;
+							// margin-bottom: 20vw;
 						}
 						.price-number{
 							position: absolute;
@@ -489,6 +501,7 @@
 							font-size: 28upx;
 							height: 60upx;
 							.price{
+								color: #f00;
 							}
 							.number{
 								display: flex;
@@ -559,7 +572,7 @@
 			justify-content: flex-end;
 			align-items: center;
 			.sum{
-				width: 50%;
+				width: 60%;
 				font-size: 28upx;
 				margin-right: 10upx;
 				display: flex;

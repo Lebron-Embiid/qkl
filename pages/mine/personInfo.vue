@@ -106,14 +106,7 @@
 				invite_code: '',
 				email: '',
 				// address: '',
-				bankList: [
-					// {
-					// 	id: 1,
-					// 	imageUrl: '',
-					// 	bank_name: '中国工商银行',
-					// 	bank_card: '622228219821821313421'
-					// }
-				]
+				bankList: []
 			}
 		},
 		components:{

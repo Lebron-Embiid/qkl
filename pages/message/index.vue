@@ -72,6 +72,19 @@
 				this.messageList = data.data;
 				uni.stopPullDownRefresh();
 			})
+		},
+		onReachBottom() {
+			this.page++;
+			this.$http.getNewsList({
+				limit: 10,
+				page: this.page
+			}).then((data)=>{
+				this.loadingType = "loading";
+				if(data.data.length == 0){
+					this.loadingType = 'noMore';
+				}
+				this.messageList = this.messageList.concat(data.data);
+			})
 		}
 	}
 </script>

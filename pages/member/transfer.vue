@@ -141,10 +141,12 @@
 							sec_password: this.password
 						}).then((data)=>{
 							this.$api.msg(data.data.message);
-							setTimeout(()=>{
-								this.is_apply = 1;
-								this.transfer_name = data.data.to_user;
-							},1500)
+							if(data.data.status == 1){
+								setTimeout(()=>{
+									this.is_apply = 1;
+									this.transfer_name = data.data.to_user;
+								},1500)
+							}
 						})
 					}
 				})

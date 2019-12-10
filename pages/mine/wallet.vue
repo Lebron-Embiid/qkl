@@ -79,12 +79,11 @@
 				})
 			},
 			updateMoney(){
-				// this.$http.getInvestment().then((data)=>{
-				// 	let res = data.data;
-				// 	this.investList = res.list;
-				// 	this.over_money = res.bonus.bonus0;
-				// 	this.invest_money = res.bonus.bonus1;
-				// })
+				this.$http.getInvestment().then((data)=>{
+					let res = data.data;
+					// this.investList = res.list;
+					this.over_money = res.bonus.bonus0;
+				})
 			}
 		},
 		onShow(){
@@ -99,11 +98,8 @@
 			})
 			this.$http.getInvestment().then((data)=>{
 				let res = data.data;
-				this.investList = res.list;
+				// this.investList = res.list;
 				this.over_money = res.bonus.bonus0;
-			})
-			this.$http.userRecharge().then((data)=>{
-				console.log(data);
 			})
 		}
 	}

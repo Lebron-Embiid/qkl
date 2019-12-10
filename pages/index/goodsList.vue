@@ -2,23 +2,23 @@
 	<view>
 		<uni-nav-bar left-icon="back" leftText="返回" :title="title"></uni-nav-bar>
 		
-		<view class="header">
+		<!-- <view class="header">
 			<view class="target" v-for="(target,index) in orderbyList" @tap="select(index)" :key="index" :class="[target.selected?'on':'']">
 				{{target.text}}
 				<view v-if="target.orderbyicon" class="icon" :class="target.orderbyicon[target.orderby]"></view>
 			</view>
-		</view> 
+		</view> -->
 		<!-- 占位 -->
 		<!-- <view class="place"></view> -->
 		<!-- 商品列表 -->
 		<scroll-view scroll-y="true" class="goods-list">
 			<view class="product-list">
 				<view class="product" v-for="(goods) in goodsList" :key="goods.goods_id" @tap="toGoods(goods)">
-					<image mode="widthFix" :src="goods.img"></image>
+					<image mode="widthFix" :src="url+goods.pic"></image>
 					<view class="name">{{goods.name}}</view>
 					<view class="info">
-						<view class="price">{{goods.price}}</view>
-						<view class="slogan">{{goods.slogan}}</view>
+						<view class="price">￥{{goods.price}}<text>￥{{goods.old_price}}</text></view>
+						<!-- <view class="slogan">{{goods.slogan}}</view> -->
 					</view>
 				</view>
 			</view>
@@ -35,38 +35,82 @@
 	export default {
 		data() {
 			return {
+				id: '',
 				title: '商品列表',
-				goodsList:[
-					{ goods_id: 0, img: '/static/img/p1.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 1, img: '/static/img/p2.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 2, img: '/static/img/p3.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 3, img: '/static/img/p4.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 4, img: '/static/img/p1.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 5, img: '/static/img/p2.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 6, img: '/static/img/p7.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 7, img: '/static/img/p8.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 8, img: '/static/img/p9.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' },
-					{ goods_id: 9, img: '/static/img/p10.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' }
-				],
+				goodsList:[],
 				loadingType: 'more',
 				headerTop:"44px",
 				headerPosition:"fixed",
-				orderbyList:[
-					{text:"销量",selected:true,orderbyicon:false,orderby:0},
-					{text:"价格",selected:false,orderbyicon:['sheng','jiang'],orderby:0},
-					{text:"好评",selected:false,orderbyicon:false,orderby:0}
-				],
-				orderby:"sheng"
+				// orderbyList:[
+				// 	{text:"销量",selected:true,orderbyicon:false,orderby:0},
+				// 	{text:"价格",selected:false,orderbyicon:['sheng','jiang'],orderby:0},
+				// 	{text:"好评",selected:false,orderbyicon:false,orderby:0}
+				// ],
+				orderby:"sheng",
+				url: '',
+				page: 1,
+				type: 1
 			};
 		},
 		components:{
 			uniNavBar,
 			uniLoadMore
 		},
-		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
-			console.log(option.cid); //打印出上个页面传递的参数。
+		onLoad: function (option) { 
+			this.url = this.$http.url;
+			//option为object类型，会序列化上个页面传递的参数
+			// console.log(option.cid); //打印出上个页面传递的参数。
 			if(option.name != undefined){
 				this.title = option.name;
+			}
+			if(option.cid != undefined){
+				this.id = option.cid;
+			}
+			if(option.ctype != undefined){
+				this.type = option.ctype;
+			}
+			// 热门商品
+			if(this.type == 3){
+				console.log('热门商品');
+				this.$http.getStoreMend({
+					is_hot: 1,
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					this.goodsList = data.data.list;
+					if(this.goodsList.length < 10){
+						this.loadingType = 'noMore';
+					}
+				})
+			}
+			// 推荐商品
+			else if(this.type == 4){
+				console.log('推荐商品');
+				this.$http.getStoreMend({
+					is_res: 1,
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					this.goodsList = data.data.list;
+					if(this.goodsList.length < 10){
+						this.loadingType = 'noMore';
+					}
+				})
+			}
+			// 分类商品
+			else{
+				console.log('分类商品');
+				console.log(this.id);
+				this.$http.getStoreMend({
+					c_id: this.id,
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					this.goodsList = data.data.list;
+					if(this.goodsList.length < 10){
+						this.loadingType = 'noMore';
+					}
+				})
 			}
 			// uni.setNavigationBarTitle({
 			// 	title: option.name
@@ -95,44 +139,59 @@
 		//下拉刷新，需要自己在page.json文件中配置开启页面下拉刷新 "enablePullDownRefresh": true
 		onPullDownRefresh() {
 		    setTimeout(()=>{
-				this.reload();
 		        uni.stopPullDownRefresh();
 		    }, 1000);
 		},
 		//上拉加载，需要自己在page.json文件中配置"onReachBottomDistance"
 		onReachBottom(){
-			// uni.showToast({title: '触发上拉加载'});
-			let len = this.goodsList.length;
-			if(len>=40){
-				this.loadingType = 'noMore';
-				return false;
+			this.page++;
+			// 热门
+			if(this.type == 3){
+				this.$http.getStoreMend({
+					is_hot: 1,
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					this.loadingType = 'loading';
+					if(data.data.list.length == 0){
+						this.loadingType = 'noMore';
+						return;
+					}
+					this.goodsList = this.goodsList.concat(data.data.list);
+				})
+			}else if(this.type == 4){
+				this.$http.getStoreMend({
+					is_res: 1,
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					this.loadingType = 'loading';
+					if(data.data.list.length == 0){
+						this.loadingType = 'noMore';
+						return;
+					}
+					this.goodsList = this.goodsList.concat(data.data.list);
+				})
 			}else{
-				this.loadingType = 'loading';
-			}
-			let end_goods_id = this.goodsList[len-1].goods_id;
-			for(let i=1;i<=10;i++){
-				let goods_id = end_goods_id+i;
-				let p = { goods_id: goods_id, img: '/static/img/goods/p'+(goods_id%10==0?10:goods_id%10)+'.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' };
-				this.goodsList.push(p);
+				this.$http.getStoreMend({
+					c_id: this.id,
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					this.loadingType = 'loading';
+					if(data.data.list.length == 0){
+						this.loadingType = 'noMore';
+						return;
+					}
+					this.goodsList = this.goodsList.concat(data.data.list);
+				})
 			}
 		},
 		methods:{
-			reload(){
-				console.log("reload");
-				let tmpArr = []
-				this.goodsList = [];
-				let end_goods_id = 0;
-				for(let i=1;i<=10;i++){
-					let goods_id = end_goods_id+i;
-					let p = { goods_id: goods_id, img: '/static/img/goods/p'+(goods_id%10==0?10:goods_id%10)+'.jpg', name: '商品名称商品名称商品名称商品名称商品名称', price: '￥168', slogan:'1235人付款' };
-					this.goodsList.push(p);
-				}
-			},
 			//商品跳转
 			toGoods(e){
-				uni.showToast({title: '商品'+e.goods_id,icon:"none"});
 				uni.navigateTo({
-					url: '/pages/index/detail?cid=' + e.goods_id + '&name=' + e.name
+					url: '/pages/index/detail?cid=' + e.id+'&name='+e.name
 				});
 			},
 			//排序类型
@@ -200,7 +259,9 @@
 
 	}
 .goods-list{
-	height: 85vh;
+	padding: 30rpx 0 10rpx;
+	box-sizing: border-box;
+	// height: 85vh;
 		.loading-text{
 			width: 100%;
 			display: flex;
@@ -250,6 +311,13 @@
 						color: #e65339;
 						font-size: 30rpx;
 						font-weight: 600;
+						text{
+							color: #ccc;
+							font-size: 22rpx;
+							text-decoration: line-through;
+							margin-left: 20rpx;
+							font-weight: normal;
+						}
 					}
 					.slogan{
 						color: #807c87;

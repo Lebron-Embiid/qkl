@@ -30,6 +30,7 @@
 			<view class="ib_info">已提交申请，等待系统处理</view>
 			<button type="primary" v-if="is_pass == 0">汇款账号申请中</button>
 			<button type="primary" class="black" v-else>汇款确认中</button>
+			<button class="submit_btn history_btn" v-if="is_pass == 1 && is_apply == 1" @tap="toHistory">历史充值</button>
 		</view>
 		<view class="increase_after" v-if="is_pass == 1 && is_apply == 0">
 			<view class="form_item">

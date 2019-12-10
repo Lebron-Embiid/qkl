@@ -99,6 +99,13 @@
 								this.is_success = true;
 								getApp().globalData.is_login = true;
 								uni.setStorageSync('token',data.data.token);
+								
+								this.$http.getHeadImg().then((data)=>{
+									getApp().globalData.avatar = data.data.img_url;
+									if(data.data.img_url == 'toux-icon.png'){
+										getApp().globalData.avatar = this.$http.url+'Public/home/wap/heads/default_avatar.svg';
+									}
+								})
 								// uni.setStorageSync('sessionkey',data.sessionkey);
 								setTimeout(function(){
 									uni.reLaunch({

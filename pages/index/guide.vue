@@ -130,10 +130,12 @@
 			width: 360rpx;
 			height: 90rpx;
 			line-height: 90rpx;
+			color: #fff;
 			font-size: 32rpx;
 			background: rgba(0, 153, 153, 1);
 			border-radius: 6rpx;
 			margin-top: 200rpx;
+			transition: background .5s ease;
 			&:after{
 				border: 0;
 			}

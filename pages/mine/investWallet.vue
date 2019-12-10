@@ -28,7 +28,7 @@
 			</view>
 			<uni-load-more :status="loadingType"></uni-load-more>
 		</view>
-		<uni-popup ref="popup_back" type="center">
+		<uni-popup ref="popup_back" :maskClick="false" type="center">
 			<view class="popup_box">
 				<view class="popup_content">
 					<view class="popup_title">退款</view>
@@ -65,6 +65,7 @@
 				pay_pwd: '',
 				walletNavs: [{title:'转入',name:'first'},{title:'转出',name:'active'},{title:'投资',name:''}],
 				investList: [],
+				page: 1,
 				loadingType: 'more'
 			}
 		},
@@ -85,10 +86,14 @@
 					this.name = data.data.mobile;
 				}
 			})
-			this.$http.getInvestment().then((data)=>{
+			this.$http.getInvestment({
+				page: this.page,
+				limit: 10
+			}).then((data)=>{
 				let res = data.data;
 				this.investList = res.list;
 				this.over_money = res.bonus.bonus1;
+				this.invest_money = res.list.length*100;
 			})
 		},
 		methods:{
@@ -97,6 +102,7 @@
 				this.id = id;
 			},
 			cancelBack(){
+				this.pay_pwd = '';
 				this.$refs.popup_back.close();
 			},
 			okBack(){
@@ -128,10 +134,24 @@
 				this.$http.getInvestment().then((data)=>{
 					let res = data.data;
 					this.investList = res.list;
-					this.over_money = res.bonus.bonus0;
-					this.invest_money = res.bonus.bonus1;
+					this.over_money = res.bonus.bonus1;
+					this.invest_money = res.list.length*100;
 				})
 			}
+		},
+		onReachBottom() {
+			this.page++;
+			this.$http.getInvestment({
+				page: this.page,
+				limit: 10
+			}).then((data)=>{
+				let res = data.data;
+				this.loadingType = 'loading';
+				if(res.list.length == 0){
+					this.loadingType = 'noMore';
+				}
+				this.investList = this.investList.concat(res.list);
+			})
 		}
 	}
 </script>

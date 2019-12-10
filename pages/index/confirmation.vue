@@ -121,6 +121,11 @@
 		components:{
 			uniNavBar
 		},
+		onLoad(opt) {
+			if(opt.goods!=undefined){
+				console.log(JSON.parse(opt.goods));
+			}
+		},
 		onShow() {
 			//页面显示时，加载订单信息
 			uni.getStorage({

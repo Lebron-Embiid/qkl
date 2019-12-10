@@ -6,7 +6,7 @@
 			<view class="swiper-box">
 				<swiper circular="true" indicatorDots="true" indicator-color="rgba(0, 0, 0, .5)" indicator-active-color="rgba(0, 153, 153, .8)" autoplay="true" @change="swiperChange">
 					<swiper-item v-for="swiper in swiperList" :key="swiper.id">
-						<image :src="swiper.img"></image>
+						<image :src="url+swiper.picture" mode="aspectFill"></image>
 					</swiper-item>
 				</swiper>
 				<!-- <view class="indicator">
@@ -31,7 +31,7 @@
 			</view>
 		</view>
 		<!-- 广告图 -->
-		<view class="banner"><image src="/static/img/banner.jpg"></image></view>
+		<!-- <view class="banner"><image src="/static/img/banner.jpg"></image></view> -->
 		<!-- 商品列表 -->
 		<view class="goods-list">
 			<view class="title">
@@ -41,18 +41,38 @@
 				<view
 					class="product"
 					v-for="product in productList"
-					:key="product.goods_id"
+					:key="product.id"
 					@tap="toGoods(product)"
 				>
-					<image mode="widthFix" :src="product.img"></image>
+					<image mode="widthFix" :src="url+product.pic"></image>
 					<view class="name">{{ product.name }}</view>
 					<view class="info">
-						<view class="price">{{ product.price }}</view>
-						<view class="slogan">{{ product.slogan }}</view>
+						<view class="price">￥{{ product.price }}</view>
+						<!-- <view class="slogan">{{ product.slogan }}</view> -->
 					</view>
 				</view>
 			</view>
-			<uni-load-more :status="loadingType"></uni-load-more>
+		</view>
+		<!-- 商品列表 -->
+		<view class="goods-list">
+			<view class="title">
+				推荐商品
+			</view>
+			<view class="product-list">
+				<view
+					class="product"
+					v-for="(recommend,index) in recommendList"
+					:key="index"
+					@tap="toGoods(recommend)"
+				>
+					<image mode="widthFix" :src="url+recommend.pic"></image>
+					<view class="name">{{ recommend.name }}</view>
+					<view class="info">
+						<view class="price">￥{{ recommend.price }}</view>
+						<!-- <view class="slogan">{{ recommend.slogan }}</view> -->
+					</view>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -67,44 +87,45 @@
 			return{
 				currentSwiper: 0,
 				// 轮播图片
-				swiperList: [
-					{ id: 1, src: 'url1', img: '/static/1.jpg' },
-					{ id: 2, src: 'url2', img: '/static/2.jpg' },
-					{ id: 3, src: 'url3', img: '/static/3.jpg' }
-				],	
+				swiperList: [],	
 				// 分类菜单
 				categoryList: [
-					{ id: 1, name: '入驻商家', img: '/static/img/1.png' },
-					{ id: 2, name: '热门商品', img: '/static/img/2.png' },
-					{ id: 3, name: '最新商品', img: '/static/img/3.png' },
-					{ id: 4, name: '推荐商品', img: '/static/img/4.png' },
-					{ id: 5, name: '全部商品', img: '/static/img/5.png' },
-					{ id: 6, name: '会员中心', img: '/static/img/6.png' },
-					{ id: 7, name: '帮助中心', img: '/static/img/7.png' },
-					{ id: 8, name: '商城介绍', img: '/static/img/8.png' }
+					// { id: 1, name: '入驻商家', img: '/static/img/1.png' },
+					{ id: 1, name: '会员中心', img: '/static/img/shop_nav1.svg' },
+					{ id: 2, name: '全部商品', img: '/static/img/shop_nav2.svg' },
+					{ id: 3, name: '热门商品', img: '/static/img/shop_nav3.svg' },
+					// { id: 3, name: '最新商品', img: '/static/img/3.png' },A
+					{ id: 4, name: '推荐商品', img: '/static/img/shop_nav4.svg' },
+					// { id: 7, name: '帮助中心', img: '/static/img/7.png' },
+					// { id: 8, name: '商城介绍', img: '/static/img/8.png' }
 				],
 				productList: [
-					{
-						goods_id: 0,
-						img: '/static/img/p1.jpg',
-						name: '商品名称商品名称商品名称商品名称商品名称',
-						price: '￥168',
-						slogan: '1235人付款'
-					},
-					{
-						goods_id: 1,
-						img: '/static/img/p2.jpg',
-						name: '商品名称商品名称商品名称商品名称商品名称',
-						price: '￥168',
-						slogan: '1235人付款'
-					}
+					// {
+					// 	goods_id: 0,
+					// 	img: '/static/img/p1.jpg',
+					// 	name: '商品名称商品名称商品名称商品名称商品名称',
+					// 	price: '￥168',
+					// 	slogan: '1235人付款'
+					// }
 				],
-				loadingType: 'noMore'
+				recommendList: [],
+				url: ''
 			}
 		},
 		components:{
 			uniNavBar,
 			uniLoadMore
+		},
+		onLoad() {
+			this.url = this.$http.url;
+		},
+		onShow() {
+			this.$http.getStoreIndex().then((data)=>{
+				console.log(data.data);
+				this.swiperList = data.data.banner;
+				this.productList = data.data.hot_product_list;
+				this.recommendList = data.data.like_product_list;
+			})
 		},
 		methods:{
 			//轮播图指示器
@@ -113,16 +134,28 @@
 			},
 			//分类跳转
 			toCategory(e) {
-				uni.setStorageSync('catName',e.name);
-				uni.navigateTo({
-					url: '/pages/index/goodsList?cid='+e.id+'&name='+e.name
-				});
+				if(e.id == 1){
+					uni.switchTab({
+						url: '/pages/trade/index'
+					})
+					return;
+				}else if(e.id == 2){
+					uni.navigateTo({
+						url: '/pages/index/category'
+					})
+					return;
+				}else{
+					uni.setStorageSync('catName',e.name);
+					uni.navigateTo({
+						url: '/pages/index/goodsList?ctype='+e.id+'&name='+e.name
+					});
+				}
 			},
 			//商品跳转
 			toGoods(e) {
 				console.log(e,e.goods_id);
 				uni.navigateTo({
-					url: '/pages/index/detail?cid=' + e.goods_id + '&name=' + e.name
+					url: '/pages/index/detail?cid=' + e.id+'&name='+e.name
 				})
 			}
 		}
@@ -224,7 +257,7 @@
 			justify-content: center;
 			align-items: center;
 			height: 80upx;
-			color: #f47825;
+			color: #1abc9c;
 			font-size: 32upx;
 			margin-bottom: 20rpx;
 			position: relative;
@@ -233,7 +266,7 @@
 				width: 30vw;
 				position: absolute;
 				height: 1px;
-				background: #f47825;
+				background: #1abc9c;
 				top: 50%;
 				transform: translateY(-50%);
 				z-index: 1;

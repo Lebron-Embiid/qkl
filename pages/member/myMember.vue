@@ -161,6 +161,7 @@
 			uniTransition
 		},
 		onLoad() {
+			this.url = this.$http.url;
 			this.$http.getHeadImg().then((data)=>{
 				this.avatar = data.data.img_url;
 				getApp().globalData.avatar = data.data.img_url;
@@ -169,13 +170,6 @@
 					getApp().globalData.avatar = this.$http.url+'Public/home/wap/heads/default_avatar.svg';
 				}
 			})
-			this.$http.getNetList().then((data)=>{
-				// console.log(data.data);
-				// this.person_num = 
-				this.treeList = [data.data];
-				// console.log(this.treeList);
-			})
-			this.url = this.$http.url;
 		},
 		onShow() {			
 			this.avatar = getApp().globalData.avatar;
@@ -195,7 +189,7 @@
 				})
 				this.$http.getNetList().then((data)=>{
 					// console.log(data.data);
-					// this.person_num = 
+					this.person_num = data.data.title[1].charAt(data.data.title[1].length-1);
 					this.treeList = [data.data];
 				})
 			}

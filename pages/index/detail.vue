@@ -19,7 +19,7 @@
 		<!-- </view> -->
 		<!-- 底部菜单 -->
 		<view class="footer">
-			<view class="icons">
+			<!-- <view class="icons">
 				<view class="box" @tap="share">
 					<view class="icon fenxiang"></view>
 					<view class="text">分享</view>
@@ -28,7 +28,7 @@
 					<view class="icon" :class="[isKeep?'shoucangsel':'shoucang']"></view>
 					<view class="text">{{isKeep?'已':''}}收藏</view>
 				</view>
-			</view>
+			</view> -->
 			<view class="btn">
 				<view class="joinCart" @tap="joinCart">加入购物车</view>
 				<view class="buy" @tap="buy">立即购买</view>
@@ -91,11 +91,12 @@
 			<view class="mask"></view>
 			<view class="layer" @tap.stop="discard">
 				<view class="content">
-					<view class="title">选择规格</view>
+					<!-- <view class="title">选择规格</view>
 					<view class="sp">
 						<view v-for="(item,index) in goodsData.spec" :class="[index==selectSpec?'on':'']" @tap="setSelectSpec(index)" :key="index">{{item}}</view>
-					</view>
-					<view class="length" v-if="selectSpec!=null">
+					</view> -->
+					<!-- v-if="selectSpec!=null" -->
+					<view class="length" >
 						<view class="text">数量</view>
 						<view class="number">
 							<view class="sub" @tap.stop="sub">
@@ -110,27 +111,28 @@
 						</view>
 					</view>
 				</view>
-				<view class="btn"><view class="button" @tap="hideSpec">完成</view></view>
+				<view class="btn"><view class="button" @tap="hideSpec(btn)">完成</view></view>
 			</view>
 		</view>
 		<!-- 商品主图轮播 -->
 		<view class="swiper-box">
 			<swiper circular="true" autoplay="true" @change="swiperChange">
 				<swiper-item v-for="swiper in swiperList" :key="swiper.id">
-					<image :src="swiper.img"></image>
+					<image :src="url+swiper" mode="widthFix"></image>
 				</swiper-item>
 			</swiper>
 			<view class="indicator">{{currentSwiper+1}}/{{swiperList.length}}</view>
 		</view>
 		<!-- 标题 价格 -->
 		<view class="info-box goods-info">
-			<view class="price">￥{{goodsData.price}}</view>
+			<view class="price">￥{{goodsData.price}} <text v-if="goodsData.old_price != null">￥{{goodsData.old_price}}</text></view>
+			<view class="stock">库存：{{goodsData.stock}}</view>
 			<view class="title">
 				{{goodsData.name}}
 			</view>
 		</view>
 		<!-- 服务-规则选择 -->
-		<view class="info-box spec">
+		<!-- <view class="info-box spec">
 			<view class="row" @tap="showService">
 				<view class="text">服务</view>
 				<view class="content"><view class="serviceitem" v-for="(item,index) in goodsData.service" :key="index">{{item.name}}</view></view>
@@ -140,14 +142,14 @@
 				<view class="text">选择</view>
 				<view class="content">
 					<view>选择规格</view>
-					<!-- <view class="sp">
+					<view class="sp">
 						<view v-for="(item,index) in goodsData.spec" :key="index" :class="[index==selectSpec?'on':'']">{{item}}</view>
-					</view> -->
+					</view>
 					
 				</view>
 				<view class="arrow"><view class="icon xiangyou"></view></view>
 			</view>
-		</view>
+		</view> -->
 		<!-- 评价 -->
 		<!-- <view class="info-box comments" id="comments">
 			<view class="row">
@@ -172,7 +174,11 @@
 		<!-- 详情 -->
 		<view class="description">
 			<view class="title">———— 商品详情 ————</view>
-			<view class="content"><rich-text :nodes="descriptionStr"></rich-text></view>
+			<view class="content">
+				<block v-if="content!=''">
+					<u-parse :content="content"></u-parse>
+				</block>
+			</view>
 		</view>
 	</view>
 </template>
@@ -180,6 +186,7 @@
 <script>
 import {Model} from '@/common/model.js'
 let model = new Model()
+import uParse from '@/components/u-parse/u-parse.vue'
 export default {
 	data() {
 		return {
@@ -208,43 +215,65 @@ export default {
 			shareClass:'',//分享弹窗css类，控制开关动画
 			// 商品信息
 			goodsData:{
-				id:1,
-				name:"商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题商品标题",
-				price:"127.00",
-				number:1,
-				service:[
-					{name:"正品保证",description:"此商品官方保证为正品"},
-					{name:"极速退款",description:"此商品享受退货极速退款服务"},
-					{name:"7天退换",description:"此商品享受7天无理由退换服务"}
-				],
-				spec:["XS","S","M","L","XL","XXL"],
-				comment:{
-					number:102,
-					userface:'../../static/img/face.jpg',
-					username:'大黑哥',
-					content:'很不错，之前买了很多次了，很好看，能放很久，和图片色差不大，值得购买！'
-				}
+				id:'',
+				name:"",
+				price:"",
+				stock:'',
+				number: 1,
+				// service:[
+				// 	{name:"正品保证",description:"此商品官方保证为正品"},
+				// 	{name:"极速退款",description:"此商品享受退货极速退款服务"},
+				// 	{name:"7天退换",description:"此商品享受7天无理由退换服务"}
+				// ],
+				// spec:["XS","S","M","L","XL","XXL"],
+				// comment:{
+				// 	number:1,
+				// 	userface:'../../static/img/face.jpg',
+				// 	username:'大黑哥',
+				// 	content:'很不错，之前买了很多次了，很好看，能放很久，和图片色差不大，值得购买！'
+				// }
 			},
+			goods_id: '',
 			selectSpec:null,//选中规格
 			isKeep:false,//收藏
 			//商品描述html
-			descriptionStr:'<div style="text-align:center;"><img width="100%" src="https://ae01.alicdn.com/kf/HTB1t0fUl_Zmx1VjSZFGq6yx2XXa5.jpg"/><img width="100%" src="https://ae01.alicdn.com/kf/HTB1LzkjThTpK1RjSZFKq6y2wXXaT.jpg"/><img width="100%" src="https://ae01.alicdn.com/kf/HTB18dkiTbvpK1RjSZPiq6zmwXXa8.jpg"/></div>'
+			content: '',
+			url: '',
+			btn: 0	//0:加入购物车  1:立即购买
 		};
 	},
+	components:{
+		uParse
+	},
 	onLoad(option) {
+		this.url = this.$http.url;
 		if(option.name != undefined){
 			uni.setNavigationBarTitle({
 				title: option.name
 			});
+			this.goods_id = option.cid;
+			console.log(this.goods_id);
 		}
 		// #ifdef MP
 		//小程序隐藏返回按钮
 		this.showBack = false;
 		// #endif
 		//option为object类型，会序列化上个页面传递的参数
-		console.log(option.cid); //打印出上个页面传递的参数。
 	},
-	onReady(){
+	onShow(){
+		this.$http.getStoreDetails({
+			g_id: this.goods_id
+		}).then((data)=>{
+			console.log(data.data);
+			let res = data.data;
+			this.goodsData.id = res.id;
+			this.goodsData.name = res.name;
+			this.goodsData.price = res.price;
+			this.goodsData.old_price = res.old_price;
+			this.goodsData.stock = res.stock;
+			this.swiperList = res.pic_list;
+			this.content = res.content==null?'':res.content;
+		})
 		// this.calcAnchor();//计算锚点高度，页面数据是ajax加载时，请把此行放在数据渲染完成事件中执行以保证高度计算正确
 	},
 	// onPageScroll(e) {
@@ -284,21 +313,23 @@ export default {
 		},
 		// 加入购物车
 		joinCart(){
-			if(this.selectSpec==null){
-				return this.showSpec(()=>{
-					uni.showToast({title: "已加入购物车"});
-				});
-			}
-			uni.showToast({title: "已加入购物车"});
+			this.btn = 0;
+			this.showSpec(false);
+			// if(this.selectSpec==null){
+			// 	return this.showSpec(()=>{
+			// 		uni.showToast({title: "已加入购物车"});
+			// 	});
+			// }
 		},
 		//立即购买
 		buy(){
-			if(this.selectSpec==null){
-				return this.showSpec(()=>{
-					this.toConfirmation();
-				});
-			}
-			this.toConfirmation();
+			this.btn = 1;
+			this.showSpec(false);
+			// if(this.selectSpec==null){
+			// 	return this.showSpec(()=>{
+			// 		this.toConfirmation();
+			// 	});
+			// }
 		},
 		//商品评论
 		toRatings(){
@@ -394,11 +425,28 @@ export default {
 		hideSpec() {
 			this.specClass = 'hide';
 			//回调
-
+				
 			this.selectSpec&&this.specCallback&&this.specCallback();
 			this.specCallback = false;
 			setTimeout(() => {
 				this.specClass = 'none';
+				if(this.btn == 0){
+					this.$http.addCar({
+						g_id: this.goodsData.id,
+						num: this.goodsData.number
+					}).then((data)=>{
+						if(data.data.status == 1){
+							uni.showToast({title: "已加入购物车"});
+						}else{
+							this.$api.msg(data.data.message);
+						}
+					})
+					
+				}else{
+					uni.navigateTo({
+						url:'/pages/index/confirmation?goods='+JSON.stringify(this.goodsData)
+					})
+				}
 			}, 200);
 		},
 		discard() {
@@ -614,6 +662,18 @@ page {
 		font-size: 46rpx;
 		font-weight: 600;
 		color: #f47925;
+		text{
+			color: #ccc;
+			font-size: 28rpx;
+			font-weight: normal;
+			margin-left: 50rpx;
+			text-decoration: line-through;
+		}
+	}
+	.stock{
+		color: #999;
+		font-size: 28rpx;
+		margin: 10rpx 0;
 	}
 	.title {
 		font-size: 30rpx;
@@ -762,7 +822,7 @@ page {
 		}
 	}
 	.btn {
-		width: 75%;
+		width: 100%;
 		height: 80rpx;
 		border-radius: 40rpx;
 		overflow: hidden;

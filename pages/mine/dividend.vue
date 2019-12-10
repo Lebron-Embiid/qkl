@@ -55,7 +55,7 @@
 				</view>
 			<!-- </uni-transition> -->
 		</view>
-		<uni-popup ref="popup" type="center">
+		<uni-popup ref="popup" :maskClick="false" type="center">
 			<view class="popup_box">
 				<view class="popup_content">
 					<view class="popup_title">转出到APP钱包</view>
@@ -164,6 +164,8 @@
 			},
 			cancelPopup(){
 				this.$refs.popup.close();
+				this.price = '';
+				this.pay_pwd = '';
 			},
 			okPopup(){
 				this.$refs.popup.close();

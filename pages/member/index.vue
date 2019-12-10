@@ -68,7 +68,7 @@
 						icon: '/static/member_icon4.png',
 						title: '会员人数',
 						url: '/pages/member/myMember',
-						value: '2000'
+						value: ''
 					}
 				],
 				otherList: [
@@ -89,19 +89,7 @@
 			}
 		},
 		onLoad() {
-			this.$http.getHeadImg().then((data)=>{
-				this.avatar = data.data.img_url;
-				getApp().globalData.avatar = data.data.img_url;
-				if(data.data.img_url == 'toux-icon.png'){
-					this.avatar = this.$http.url+'Public/home/wap/heads/default_avatar.svg';
-					getApp().globalData.avatar = this.$http.url+'Public/home/wap/heads/default_avatar.svg';
-				}
-			})
-			this.$http.getInvestment().then((data)=>{
-				let res = data.data;
-				this.memberList[0].value = res.bonus.bonus1;
-				this.memberList[1].value = res.bonus.bonus0;
-			})
+			
 		},
 		onShow() {
 			this.avatar = getApp().globalData.avatar;
@@ -115,14 +103,22 @@
 					})
 				},1500)
 			}else{
+				this.$http.getInvestment().then((data)=>{
+					let res = data.data;
+					this.memberList[0].value = res.bonus.bonus1;
+					this.memberList[1].value = res.bonus.bonus0;
+				})
 				this.$http.getUserInfo().then((data)=>{
 					this.name = data.data.username;
 					if(data.data.username == ''){
 						this.name = data.data.mobile;
 					}
 				})
+				this.$http.getNetList().then((data)=>{
+					this.memberList[3].value = data.data.title[1].charAt(data.data.title[1].length-1);
+				})
 			}
-			console.log(getApp().globalData.is_login);
+			// console.log(getApp().globalData.is_login);
 			console.log(uni.getStorageSync('token'));
 		},
 		methods:{

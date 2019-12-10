@@ -56,12 +56,13 @@
 					}
 				],
 				navList: [
+					// {
+					// 	icon: '/static/nav_icon1.svg',
+					// 	title: '商城收益',
+					// 	text: '',
+					// 	url: '/pages/index/shop'
+					// },
 					{
-						icon: '/static/nav_icon1.svg',
-						title: '商城收益',
-						text: '',
-						url: '/pages/index/shop'
-					},{
 						icon: '/static/nav_icon2.svg',
 						title: '收货地址',
 						text: '添加/修改',
@@ -76,12 +77,13 @@
 						title: '购物车',
 						text: '',
 						url: '/pages/index/cart'
-					},{
-						icon: '/static/nav_icon4.svg',
-						title: '认证中心',
-						text: '前往认证',
-						url: ''
 					}
+					// ,{
+					// 	icon: '/static/nav_icon4.svg',
+					// 	title: '认证中心',
+					// 	text: '前往认证',
+					// 	url: ''
+					// }
 				]
 			}
 		},

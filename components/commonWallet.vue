@@ -121,9 +121,8 @@
 							this.$http.changeInvestmentinto({
 								sec_password: this.pay_pwd,
 								money: this.price,
-								type: 1
+								type: 2
 							}).then((data)=>{
-								console.log('投资转入：');
 								this.$api.msg(data.data.message);
 								if(data.data.status == 1){
 									this.$refs.popup.close();
@@ -137,9 +136,8 @@
 							this.$http.changeInvestmentinto({
 								sec_password: this.pay_pwd,
 								money: this.price,
-								type: 2
+								type: 1
 							}).then((data)=>{
-								console.log('投资转出：');
 								this.$api.msg(data.data.message);
 								if(data.data.status == 1){
 									this.$refs.popup.close();
@@ -153,9 +151,8 @@
 							this.$http.changeInvestmentinto({
 								sec_password: this.pay_pwd,
 								money: this.price,
-								type: 2
+								type: 1
 							}).then((data)=>{
-								console.log('投资转入：');
 								this.$api.msg(data.data.message);
 								if(data.data.status == 1){
 									this.$refs.popup.close();
@@ -169,9 +166,8 @@
 							this.$http.changeInvestmentinto({
 								sec_password: this.pay_pwd,
 								money: this.price,
-								type: 1
+								type: 2
 							}).then((data)=>{
-								console.log('投资转出：');
 								this.$api.msg(data.data.message);
 								if(data.data.status == 1){
 									this.$refs.popup.close();

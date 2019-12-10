@@ -54,7 +54,8 @@
 						title: '我的投资'
 					},{
 						icon: '/static/mine_icon7.png',
-						title: '我的店铺'
+						url: '/pages/index/address',
+						title: '我的地址'
 					},{
 						icon: '/static/mine_icon8.png',
 						url: '/pages/mine/myOrder',

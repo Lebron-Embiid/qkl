@@ -69,8 +69,8 @@
 						{{util.formatTime(item.add_time)}}
 					</view>
 					<text v-if="item.status == 0">{{item.status_name[item.status]}}</text>
-					<text v-if="item.status == 1" class="load">{{item.status_name[item.status]}}</text>
-					<text v-if="item.status == 2" class="finish">{{item.status_name[item.status]}}</text>
+					<text v-if="item.status == 1" class="load">{{item.status_name}}</text>
+					<text v-if="item.status == 2" class="finish">{{item.status_name}}</text>
 				</view>
 			</view>
 		</view>
@@ -106,15 +106,7 @@
 					}
 				],
 				investList: [],
-				transferList:[
-					// {
-					// 	name: 'SLM20191125A001',
-					// 	price: '20000',
-					// 	time: '2019/11/25  09：00',
-					// 	status: '申请中',
-					// 	is_status: 1
-					// }
-				],
+				transferList:[],
 				rechargeList: [],
 				util: util,
 				page: 1,
@@ -132,14 +124,17 @@
 				this.memberList[0].value = res.bonus.bonus1;
 				this.memberList[1].value = res.bonus.bonus0;
 			})
-			// type: 0 提款  1 转款
+			// type: 0 提款  1 转款  2 充值
 			this.isType = opt.type;
 			if(opt.type == 0){
 				this.title = '历史提款';
 				uni.setNavigationBarTitle({
 					title: "历史提款"
 				});
-				this.$http.getCashList().then((data)=>{
+				this.$http.getCashList({
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
 					// console.log(data.data);
 					this.investList = data.data;
 					if(this.investList.length < 10){
@@ -167,6 +162,7 @@
 					title: "历史充值"
 				});
 				this.$http.userRecharge({
+					page: this.page,
 					limit: 10
 				}).then((data)=>{
 					// console.log(data.data);
@@ -195,17 +191,46 @@
 		},
 		onReachBottom() {
 			this.page++;
-			this.$http.getTransferList({
-				page: this.page,
-				limit: 10
-			}).then((data)=>{
-				// console.log(data.data);
-				if(data.data.list.length == 0){
-					this.loadingType="noMore";
-					return;
-				}
-				this.transferList = this.transferList.concat(data.data.list);
-			})
+			if(this.isType == 0){
+				this.$http.getCashList({
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					// console.log(data.data);
+					this.loadingType = "loading";
+					if(data.data.length == 0){
+						this.loadingType = "noMore";
+						return;
+					}
+					this.investList = this.investList.concat(data.data);
+				})
+			}else if(this.isType == 1){
+				this.$http.getTransferList({
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					// console.log(data.data);
+					this.loadingType = "loading";
+					if(data.data.list.length == 0){
+						this.loadingType = "noMore";
+						return;
+					}
+					this.transferList = this.transferList.concat(data.data.list);
+				})
+			}else{
+				this.$http.userRecharge({
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					// console.log(data.data);
+					this.loadingType = "loading";
+					if(data.data.list.length == 0){
+						this.loadingType = "noMore";
+						return;
+					}
+					this.rechargeList = this.rechargeList.concat(data.data.list);
+				})
+			}
 		}
 	}
 </script>

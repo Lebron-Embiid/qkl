@@ -251,7 +251,6 @@ export const getNewsList = (data) => {
 		}
 	}
 	http.interceptor.response = (response) => {
-		console.log(response)
 		if(response.data.status === 40001){
 			uni.showToast({
 				title: '登录失效,请重新登录',
@@ -588,6 +587,105 @@ export const changeInvestmentinto = (data) => {
 }
 
 
+// 商城首页
+export const getStoreIndex = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Store/index',
+        method: 'POST', 
+        data
+    })
+}
+// 商品分类
+export const getGoodsCate = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'GoodsCate/index',
+        method: 'POST', 
+        data
+    })
+}
+// 商品列表
+export const getStoreMend = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Store/mend',
+        method: 'POST', 
+        data
+    })
+}
+// 商品详情
+export const getStoreDetails = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Store/details',
+        method: 'POST', 
+        data
+    })
+}
+
+// 获取购物车
+export const getCar = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Car/getCar',
+        method: 'POST', 
+        data
+    })
+}
+// 添加购物车
+export const addCar = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Car/addCar',
+        method: 'POST', 
+        data
+    })
+}
+// 删除购物车
+export const delCar = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Car/delCar',
+        method: 'POST', 
+        data
+    })
+}
 // if(data.data.status == 40001){
 // 	this.$api.msg('请登录');
 // 	setTimeout(function(){
@@ -655,5 +753,12 @@ export default {
 	changeInvestment,
 	getInvestment,
 	changeInvestmentOut,
-	changeInvestmentinto
+	changeInvestmentinto,
+	getStoreIndex,
+	getGoodsCate,
+	getStoreMend,
+	getStoreDetails,
+	getCar,
+	addCar,
+	delCar
 }
