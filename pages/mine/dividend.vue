@@ -24,15 +24,16 @@
 				</view>
 				<view class="dividend_item" v-for="(item,index) in dividendList" :key="index">
 					<view class="dividend_center">
-						<view class="dc_left">{{item.title}}</view>
-						<view class="dc_center">{{item.price}}</view>
-						<view class="dc_right">{{item.income}}</view>
+						<view class="dc_left">{{item.order_sn}}</view>
+						<view class="dc_center">{{item.money}}</view>
+						<view class="dc_right">{{item.bonus}}</view>
 					</view>
 					<view class="dividend_bottom">
-						<view>投资于 {{item.start_time}}</view>
-						<view class="last">结算于 {{item.end_time}}</view>
+						<view>投资于 {{item.into_time}}</view>
+						<view class="last">结算于 {{item.add_time}}</view>
 					</view>
 				</view>
+				<uni-load-more :status="loadingType"></uni-load-more>
 			<!-- </uni-transition> -->
 		</view>
 		<view class="dividend_content" v-if="current == 1">
@@ -53,6 +54,7 @@
 						<view class="last">结算于 {{item.end_time}}</view>
 					</view>
 				</view>
+				<uni-load-more :status="loadingType"></uni-load-more>
 			<!-- </uni-transition> -->
 		</view>
 		<uni-popup ref="popup" :maskClick="false" type="center">
@@ -77,6 +79,7 @@
 	import commonAvatar from "@/components/commonAvatar.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import uniTransition from "@/components/uni-transition/uni-transition.vue"
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default{
@@ -88,36 +91,10 @@
 				show1: false,
 				name: '',
 				avatar: '',
-				dividend: 800000,
+				dividend: 0,
 				navs: ['个人分红','团队分红'],
 				current: 0,
-				dividendList: [
-					{
-						title: 'SLM20191125A001',
-						price: '20000',
-						income: '200',
-						start_time: '2019/11/25  09：00',
-						end_time: '2019/11/25  09：00'
-					},{
-						title: 'SLM20191125A001',
-						price: '20000',
-						income: '200',
-						start_time: '2019/11/25  09：00',
-						end_time: '2019/11/25  09：00'
-					},{
-						title: 'SLM20191125A001',
-						price: '20000',
-						income: '200',
-						start_time: '2019/11/25  09：00',
-						end_time: '2019/11/25  09：00'
-					},{
-						title: 'SLM20191125A001',
-						price: '20000',
-						income: '200',
-						start_time: '2019/11/25  09：00',
-						end_time: '2019/11/25  09：00'
-					}
-				],
+				dividendList: [],
 				dividendTeamList: [
 					{
 						list: [
@@ -139,24 +116,34 @@
 					}
 				],
 				price: '',
-				pay_pwd: ''
+				pay_pwd: '',
+				loadingType: 'more',
+				page: 1
 			}
 		},
 		components:{
 			uniNavBar,
 			commonAvatar,
 			uniPopup,
-			uniTransition
+			uniTransition,
+			uniLoadMore
 		},
 		methods:{
 			changeNav(idx){
 				this.current = idx;
+				this.page = 1;
 				if(this.current == 0){
-					this.show = true;
-					this.show1 = false;
+					this.$http.getShareBonus({
+						page: 1,
+						limit: 10
+					}).then((data)=>{
+						if(data.data.list.length < 10){
+							this.loadingType = 'noMore';
+						}
+						this.dividendList = data.data.list;
+					})
 				}else{
-					this.show = false;
-					this.show1 = true;
+					
 				}
 			},
 			openOut(){
@@ -173,6 +160,23 @@
 		},
 		onShow(){
 			this.avatar = getApp().globalData.avatar;
+			if(this.current == 0){
+				this.$http.getShareBonus({
+					page: 1,
+					limit: 10
+				}).then((data)=>{
+					if(data.data.list.length < 10){
+						this.loadingType = 'noMore';
+					}
+					this.dividendList = data.data.list;
+					for(let i in data.data.list){
+						this.dividend += parseInt(data.data.list[i].bonus);
+					}
+					uni.setStorageSync('dividend',this.dividend);
+				})
+			}else{
+				
+			}
 		},
 		onLoad(opt) {
 			if(opt.index != undefined){
@@ -184,6 +188,24 @@
 					this.name = data.data.mobile;
 				}
 			})
+		},
+		onReachBottom() {
+			this.page++;
+			if(this.current == 0){
+				this.$http.getShareBonus({
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					this.loadingType = "loading";
+					if(data.data.list.length == 0){
+						this.loadingType = 'noMore';
+					}
+					this.dividendList = this.dividendList.concat(data.data.list);
+				})
+			}else{
+				
+			}
+			
 		}
 	}
 </script>
@@ -228,26 +250,6 @@
 			justify-content: center;
 		}
 	}
-	.dividend_nav{
-		margin-top: 20rpx;
-		border: 1px solid #1ABC9C;
-		box-sizing: border-box;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		view{
-			width: 50%;
-			padding: 20rpx 0;
-			box-sizing: border-box;
-			color: #099;
-			font-size: 28rpx;
-			text-align: center;
-			&.active{
-				color: #fff;
-				background: #1ABC9C;
-			}
-		}
-	}
 	.dividend_content{
 		.dividend_top{
 			display: flex;
@@ -261,7 +263,7 @@
 				padding: 20rpx 0;
 			}
 			.dt_left{
-				width: 40%;
+				width: 50%;
 				color: #666;
 				background: #ccc;
 			}
@@ -276,7 +278,7 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			font-size: 24rpx;
+			font-size: 22rpx;
 			border-bottom: 1px solid #ccc;
 			color: #666;
 			view{
@@ -289,7 +291,7 @@
 				}
 			}
 			.dc_left{
-				width: 40%;
+				width: 50%;
 			}
 		}
 		.dividend_bottom{

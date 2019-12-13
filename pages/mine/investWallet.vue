@@ -7,15 +7,18 @@
 		</view>
 		<common-wallet :list="walletNavs" :over_money="over_money" @updateMoney="updateMoney"></common-wallet>
 		<view class="common_top_black all_price">当前投资总额：<text>{{invest_money}}</text></view>
-		<view class="invest_box">
+		<view class="dividend_nav">
+			<view :class="[current == index?'active':'']" @tap="changeNav(index)" v-for="(item,index) in navs" :key="index">{{item}}</view>
+		</view>
+		<view class="invest_box" v-if="current == 0">
 			<view class="invest_top">
 				<view class="it_left">投资单号</view>
-				<view class="it_right">投资金额/收益</view>
+				<view class="it_right">投资金额</view>
 			</view>
 			<view class="invest_item" v-for="(item,index) in investList" :key="index">
 				<view class="invest_center">
 					<view class="ic_left">{{item.order_sn}}</view>
-					<view class="ic_right">{{item.money}} /<text>1.00</text></view>
+					<view class="ic_right">{{item.money}}</view>
 				</view>
 				<view class="invest_bottom">
 					<view>
@@ -24,6 +27,25 @@
 					</view>
 					<button type="primary" @tap="backMoney(item.id)" v-if="item.status == 1">退款</button>
 					<button type="primary" class="already" v-else>已退款</button>
+				</view>
+			</view>
+			<uni-load-more :status="loadingType"></uni-load-more>
+		</view>
+		<view class="invest_box" v-if="current == 1">
+			<view class="invest_top">
+				<view class="it_left">流水单号</view>
+				<view class="it_right">转入/转出</view>
+			</view>
+			<view class="invest_item" v-for="(item,index) in transferList" :key="index">
+				<view class="invest_center">
+					<view class="ic_left">{{item.order_sn}}</view>
+					<view class="ic_right">{{item.money}}</view>
+				</view>
+				<view class="invest_bottom">
+					<view>
+						投资于 {{item.add_time}}
+					</view>
+					<view>{{item.bonus}} 转入 {{item.to_bonus}}</view>
 				</view>
 			</view>
 			<uni-load-more :status="loadingType"></uni-load-more>
@@ -63,8 +85,11 @@
 				invest_money: '',
 				id: '',
 				pay_pwd: '',
+				current: 0,
+				navs: ['投资记录','转入转出明细'],
 				walletNavs: [{title:'转入',name:'first'},{title:'转出',name:'active'},{title:'投资',name:''}],
 				investList: [],
+				transferList: [],
 				page: 1,
 				loadingType: 'more'
 			}
@@ -91,12 +116,43 @@
 				limit: 10
 			}).then((data)=>{
 				let res = data.data;
+				if(res.list.length < 10){
+					this.loadingType = 'noMore';
+				}
 				this.investList = res.list;
 				this.over_money = res.bonus.bonus1;
-				this.invest_money = res.list.length*100;
+				this.invest_money = res.total;
 			})
 		},
 		methods:{
+			changeNav(idx){
+				this.current = idx;
+				this.page = 1;
+				if(this.current == 0){
+					this.$http.getInvestment({
+						page: this.page,
+						limit: 10
+					}).then((data)=>{
+						let res = data.data;
+						if(res.list.length < 10){
+							this.loadingType = 'noMore';
+						}
+						this.investList = res.list;
+						this.over_money = res.bonus.bonus1;
+						this.invest_money = res.total;
+					})
+				}else{
+					this.$http.getTransferOutIndex({
+						page: 1,
+						limit: 10
+					}).then((data)=>{
+						if(data.data.length < 10){
+							this.loadingType = 'noMore';
+						}
+						this.transferList = data.data;
+					})
+				}
+			},
 			backMoney(id){
 				this.$refs.popup_back.open();
 				this.id = id;
@@ -116,7 +172,10 @@
 						}).then((data)=>{
 							this.$api.msg(data.data.message);
 							if(data.data.status == 1){
-								this.$http.getInvestment().then((data)=>{
+								this.$http.getInvestment({
+									page: 1,
+									limit: 10
+								}).then((data)=>{
 									let res = data.data;
 									this.investList = res.list;
 									this.over_money = res.bonus.bonus0;
@@ -131,27 +190,49 @@
 				})
 			},
 			updateMoney(){
-				this.$http.getInvestment().then((data)=>{
+				this.$http.getInvestment({
+						page: 1,
+						limit: 10
+					}).then((data)=>{
 					let res = data.data;
 					this.investList = res.list;
 					this.over_money = res.bonus.bonus1;
-					this.invest_money = res.list.length*100;
+					this.invest_money = res.total;
+				})
+				this.$http.getTransferOutIndex({
+					page: 1,
+					limit: 10
+				}).then((data)=>{
+					this.transferList = data.data;
 				})
 			}
 		},
 		onReachBottom() {
 			this.page++;
-			this.$http.getInvestment({
-				page: this.page,
-				limit: 10
-			}).then((data)=>{
-				let res = data.data;
-				this.loadingType = 'loading';
-				if(res.list.length == 0){
-					this.loadingType = 'noMore';
-				}
-				this.investList = this.investList.concat(res.list);
-			})
+			if(this.current == 0){
+				this.$http.getInvestment({
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					let res = data.data;
+					this.loadingType = 'loading';
+					if(res.list.length == 0){
+						this.loadingType = 'noMore';
+					}
+					this.investList = this.investList.concat(res.list);
+				})
+			}else{
+				this.$http.getTransferOutIndex({
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					this.loadingType = 'loading';
+					if(data.data.length == 0){
+						this.loadingType = 'noMore';
+					}
+					this.transferList = this.transferList.concat(data.data);
+				})
+			}
 		}
 	}
 </script>

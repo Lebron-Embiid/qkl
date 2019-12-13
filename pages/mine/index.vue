@@ -58,7 +58,7 @@
 						title: '我的地址'
 					},{
 						icon: '/static/mine_icon8.png',
-						url: '/pages/mine/myOrder',
+						url: '/pages/mine/myOrder?type=1',
 						title: '我的订单'
 					}
 				]

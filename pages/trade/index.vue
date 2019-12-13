@@ -40,7 +40,7 @@
 					{
 						icon: '/static/order_icon1.svg',
 						title: '待付款',
-						new_txt: 99
+						new_txt: 0
 					},{
 						icon: '/static/order_icon2.svg',
 						title: '待发货',
@@ -48,11 +48,11 @@
 					},{
 						icon: '/static/order_icon3.svg',
 						title: '待收货',
-						new_txt: 1
+						new_txt: 0
 					},{
 						icon: '/static/order_icon4.svg',
 						title: '已完成',
-						new_txt: 50
+						new_txt: 0
 					}
 				],
 				navList: [
@@ -140,6 +140,35 @@
 			})
 		},
 		onShow() {
+			this.$http.getOrderList({
+				page: 1,
+				limit: 100,
+				status: 0
+			}).then((data)=>{
+				this.orderNavs[0].new_txt = data.data.length;
+			})
+			this.$http.getOrderList({
+				page: 1,
+				limit: 100,
+				status: 1
+			}).then((data)=>{
+				this.orderNavs[1].new_txt = data.data.length;
+			})
+			this.$http.getOrderList({
+				page: 1,
+				limit: 100,
+				status: 2
+			}).then((data)=>{
+				this.orderNavs[2].new_txt = data.data.length;
+			})
+			this.$http.getOrderList({
+				page: 1,
+				limit: 100,
+				status: 3
+			}).then((data)=>{
+				this.orderNavs[3].new_txt = data.data.length;
+			})
+			
 			this.avatar = getApp().globalData.avatar;
 			if(uni.getStorageSync('token') == ''){
 				this.$api.msg('请登录');
@@ -156,9 +185,6 @@
 					}
 				})
 			}
-			uni.removeTabBarBadge({
-				index: 1
-			})
 		}
 	}
 </script>

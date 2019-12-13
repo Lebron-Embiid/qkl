@@ -63,12 +63,12 @@
 						icon: '/static/member_icon3.png',
 						title: '分红总额',
 						url: '/pages/mine/dividend',
-						value: '800000'
+						value: '0'
 					},{
 						icon: '/static/member_icon4.png',
 						title: '会员人数',
 						url: '/pages/member/myMember',
-						value: ''
+						value: 0
 					}
 				],
 				otherList: [
@@ -103,10 +103,11 @@
 					})
 				},1500)
 			}else{
-				this.$http.getInvestment().then((data)=>{
+				this.$http.getUserBonus().then((data)=>{
 					let res = data.data;
-					this.memberList[0].value = res.bonus.bonus1;
-					this.memberList[1].value = res.bonus.bonus0;
+					this.memberList[0].value = res[0].money;
+					this.memberList[1].value = res[1].money;
+					this.memberList[2].value = uni.getStorageSync('dividend');
 				})
 				this.$http.getUserInfo().then((data)=>{
 					this.name = data.data.username;

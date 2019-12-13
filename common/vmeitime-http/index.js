@@ -152,6 +152,20 @@ export const addRecharge = (data) => {
         data
     })
 }
+// 获取平台汇款账号 
+export const getBankCard = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Recharge/getBankCard',
+        method: 'POST', 
+        data
+    })
+}
 
 
 // 所有开户银行
@@ -452,6 +466,49 @@ export const getHeadImg = (data) => {
         data
     })
 }
+//获取钱包金额
+export const getUserBonus = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'User/getUserBonus',
+        method: 'POST', 
+        data
+    })
+}
+//钱包明细 
+export const getBonusIndex = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Bonus/index',
+        method: 'POST', 
+        data
+    })
+}
+//转入转出明细 
+export const getTransferOutIndex = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'TransferOut/index',
+        method: 'POST', 
+        data
+    })
+}
+
 //分享二维码
 export const shareCode = (data) => {
 	http.interceptor.request = (config) => {
@@ -595,6 +652,23 @@ export const getStoreIndex = (data) => {
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
+	http.interceptor.response = (response) => {
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
+		}
+	}
     return http.request({
         url: 'Store/index',
         method: 'POST', 
@@ -607,6 +681,23 @@ export const getGoodsCate = (data) => {
 		config.header = {
 			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+	http.interceptor.response = (response) => {
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
 		}
 	}
     return http.request({
@@ -623,6 +714,23 @@ export const getStoreMend = (data) => {
 			'AUTHORIZATION': uni.getStorageSync('token')
 		}
 	}
+	http.interceptor.response = (response) => {
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
+		}
+	}
     return http.request({
         url: 'Store/mend',
         method: 'POST', 
@@ -635,6 +743,23 @@ export const getStoreDetails = (data) => {
 		config.header = {
 			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+	http.interceptor.response = (response) => {
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
 		}
 	}
     return http.request({
@@ -650,6 +775,23 @@ export const getCar = (data) => {
 		config.header = {
 			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+	http.interceptor.response = (response) => {
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
 		}
 	}
     return http.request({
@@ -686,6 +828,276 @@ export const delCar = (data) => {
         data
     })
 }
+// 修改购物车
+export const editCar = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Car/editCar',
+        method: 'POST', 
+        data
+    })
+}
+
+
+// 获取省市区
+export const getAddressArea = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Address/area',
+        method: 'POST', 
+        data
+    })
+}
+// 添加收货地址
+export const addAddress = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+	http.interceptor.response = (response) => {
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
+		}
+	}
+    return http.request({
+        url: 'Address/addAddress',
+        method: 'POST', 
+        data
+    })
+}
+// 删除收货地址
+export const delAddress = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Address/deleteAddress',
+        method: 'POST', 
+        data
+    })
+}
+// 收货地址列表
+export const getAddressList = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+	http.interceptor.response = (response) => {
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
+		}
+	}
+    return http.request({
+        url: 'Address/addressList',
+        method: 'POST', 
+        data
+    })
+}
+
+
+// 立即购买
+export const buyNow = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Car/buyNow',
+        method: 'POST', 
+        data
+    })
+}
+// 购物车结算
+export const carOrder = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Car/carOrder',
+        method: 'POST', 
+        data
+    })
+}
+// 生产订单
+export const addOrder = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Orders/addOrder',
+        method: 'POST', 
+        data
+    })
+}
+// 订单详情
+export const getOrderDetail = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+	http.interceptor.response = (response) => {
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
+		}
+	}
+    return http.request({
+        url: 'Orders/orderDetail',
+        method: 'POST', 
+        data
+    })
+}
+// 订单列表
+export const getOrderList = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+	http.interceptor.response = (response) => {
+		if(response.data.status === 40001){
+			uni.showToast({
+				title: '登录失效,请重新登录',
+				icon: 'none',
+				duration: 1500,
+				mask: true
+			});
+			uni.removeStorageSync('token');
+			setTimeout(function(){
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
+			},1500)
+			return;
+		}
+	}
+    return http.request({
+        url: 'Orders/orderList',
+        method: 'POST', 
+        data
+    })
+}
+// 取消订单
+export const cancelOrder = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Orders/cancel',
+        method: 'POST', 
+        data
+    })
+}
+// 支付订单
+export const payOrder = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Orders/payOrder',
+        method: 'POST', 
+        data
+    })
+}
+// 确认收货
+export const completeOrder = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Orders/complete',
+        method: 'POST', 
+        data
+    })
+}
+
+// 我的分红
+export const getShareBonus = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'ShareBonus/index',
+        method: 'POST', 
+        data
+    })
+}
+
 // if(data.data.status == 40001){
 // 	this.$api.msg('请登录');
 // 	setTimeout(function(){
@@ -731,6 +1143,7 @@ export default {
 	userRecharge,
 	uploadFiles,
 	addRecharge,
+	getBankCard,
 	getBank,
 	addBank,
 	delBank,
@@ -744,6 +1157,9 @@ export default {
 	updateLoginPassword,
 	updateTradePassword,
 	getHeadImg,
+	getUserBonus,
+	getBonusIndex,
+	getTransferOutIndex,
 	updateimgUps,
 	shareCode,
 	transferWalletCode,
@@ -760,5 +1176,19 @@ export default {
 	getStoreDetails,
 	getCar,
 	addCar,
-	delCar
+	delCar,
+	editCar,
+	getAddressArea,
+	addAddress,
+	delAddress,
+	getAddressList,
+	buyNow,
+	carOrder,
+	addOrder,
+	getOrderDetail,
+	getOrderList,
+	cancelOrder,
+	payOrder,
+	completeOrder,
+	getShareBonus
 }

@@ -96,10 +96,10 @@
 			switchc
 		},
 		onLoad() {
-			this.$http.getInvestment().then((data)=>{
+			this.$http.getUserBonus().then((data)=>{
 				let res = data.data;
-				this.memberList[0].value = res.bonus.bonus1;
-				this.memberList[1].value = res.bonus.bonus0;
+				this.memberList[0].value = res[0].money;
+				this.memberList[1].value = res[1].money;
 			})
 		},
 		onShow(){

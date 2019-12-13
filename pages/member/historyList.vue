@@ -27,9 +27,9 @@
 					<view>
 						{{util.formatTime(item.add_time)}}
 					</view>
-					<text v-if="item.status == 0">{{item.status_name}}</text>
-					<text v-if="item.status == 1" class="load">{{item.status_name}}</text>
-					<text v-if="item.status == 2" class="finish">{{item.status_name}}</text>
+					<view v-if="item.status == 0">{{item.status_name}}</view>
+					<view v-if="item.status == 1" class="load">{{item.status_name}} <text @tap="lookPic(index)">查看图片</text></view>
+					<view v-if="item.status == 2" class="finish">{{item.status_name}}</view>
 				</view>
 			</view>
 		</view>
@@ -47,10 +47,10 @@
 					<view>
 						{{item.add_time}}
 					</view>
-					<text>{{item.to_user_name}}</text>
-					<!-- <text v-if="item.is_status == 0">{{item.status}}</text>
-					<text v-if="item.is_status == 1" class="load">{{item.status}}</text>
-					<text v-if="item.is_status == 2" class="finish">{{item.status}}</text> -->
+					<view>{{item.to_user_name}}</view>
+					<!-- <view v-if="item.is_status == 0">{{item.status}}</view>
+					<view v-if="item.is_status == 1" class="load">{{item.status}}</view>
+					<view v-if="item.is_status == 2" class="finish">{{item.status}}</view> -->
 				</view>
 			</view>
 		</view>
@@ -68,9 +68,9 @@
 					<view>
 						{{util.formatTime(item.add_time)}}
 					</view>
-					<text v-if="item.status == 0">{{item.status_name[item.status]}}</text>
-					<text v-if="item.status == 1" class="load">{{item.status_name}}</text>
-					<text v-if="item.status == 2" class="finish">{{item.status_name}}</text>
+					<view v-if="item.status == 0">{{item.status_name[item.status]}}</view>
+					<view v-if="item.status == 1" class="load">{{item.status_name}}</view>
+					<view v-if="item.status == 2" class="finish">{{item.status_name}}</view>
 				</view>
 			</view>
 		</view>
@@ -108,6 +108,7 @@
 				investList: [],
 				transferList:[],
 				rechargeList: [],
+				photo: [],
 				util: util,
 				page: 1,
 				loadingType: 'more'
@@ -119,10 +120,10 @@
 			uniLoadMore
 		},
 		onLoad(opt) {
-			this.$http.getInvestment().then((data)=>{
+			this.$http.getUserBonus().then((data)=>{
 				let res = data.data;
-				this.memberList[0].value = res.bonus.bonus1;
-				this.memberList[1].value = res.bonus.bonus0;
+				this.memberList[0].value = res[0].money;
+				this.memberList[1].value = res[1].money;
 			})
 			// type: 0 提款  1 转款  2 充值
 			this.isType = opt.type;
@@ -187,6 +188,37 @@
 				uni.navigateTo({
 					url: this.memberList[idx].url
 				})
+			},
+			lookPic(idx){
+				var that = this;
+				that.photo = [];
+				that.photo.push(that.$http.url+that.investList[idx].pic);
+				console.log(that.photo);
+				// uni.previewImage({
+				// 	current: that.photo[0],
+				// 	urls: that.photo
+				// });
+				uni.previewImage({
+					current: that.photo[0],
+					urls: that.photo,
+					longPressActions: {
+					itemList: ['保存图片'],
+						success: function (res) {
+							console.log(res.tapIndex + 1);
+							if(res.tapIndex + 1 == 1){
+								uni.saveImageToPhotosAlbum({					
+									filePath: that.photo[0],				                
+									success: function () { 
+										that.$api.msg('保存成功');
+									},
+									fail: () => {
+										that.$api.msg('保存失败');
+									}
+								});
+							}
+						}   
+					}
+				});
 			}
 		},
 		onReachBottom() {
@@ -237,12 +269,10 @@
 
 <style scoped lang="scss">
 	.invest_box .invest_item .invest_bottom{
-		view,text{
+		view{
 			display: block;
 			width: 50%;
 			text-align: center;
-		}
-		text{
 			color: #999;
 			&.load{
 				color: #090;
@@ -250,7 +280,13 @@
 			&.finish{
 				color: #c00;
 			}
+			text{
+				font-style: normal;
+				margin-left: 20rpx;
+				color: #f00;
+			}
 		}
+		
 	}
 	.member_info_box{
 		background: #000;

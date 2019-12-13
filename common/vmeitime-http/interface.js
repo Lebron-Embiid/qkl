@@ -34,7 +34,7 @@ export default {
 		// 线上地址
 		// baseUrl: "http://qkl.longbasz.com/",
 		// 本地地址
-		baseUrl: "http://192.168.2.129/www.qkl.com/",
+		baseUrl: "http://192.168.1.126/www.qkl.com/",
 		header: {
 			// 'Content-Type': 'application/json;charset=UTF-8',
 			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',

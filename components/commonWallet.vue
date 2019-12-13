@@ -91,6 +91,13 @@
 		methods:{
 			changeNav(idx){
 				this.current = idx;
+				if(this.current == 2 && this.isApp == true){
+					this.placeholder = "请输入申请提现金额"
+					uni.navigateTo({
+						url: '/pages/member/withdraw'
+					})
+					return;
+				}
 				this.$refs.popup.open();
 				console.log(this.current,this.isApp);
 				if(this.current == 0){
@@ -98,9 +105,6 @@
 				}
 				if(this.current == 1){
 					this.placeholder = "请输入转出金额";
-				}
-				if(this.current == 2 && this.isApp == true){
-					this.placeholder = "请输入申请提现金额"
 				}
 				if(this.current == 2 && this.isApp == false){
 					this.placeholder = "请输入投资金额"
@@ -192,17 +196,7 @@
 						}
 						// 提现
 						if(this.current == 2 && this.isApp == true){
-							this.$http.changeInvestment({
-								sec_password: this.pay_pwd,
-								money: this.price
-							}).then((data)=>{
-								this.$api.msg(data.data.message);
-								if(data.data.status == 1){
-									this.$refs.popup.close();
-									this.pay_pwd = '';
-									this.price = '';
-								}
-							})
+							
 						}
 						this.$emit('updateMoney');
 					}

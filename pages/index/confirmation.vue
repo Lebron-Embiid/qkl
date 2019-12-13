@@ -7,18 +7,25 @@
 			<view class="icon">
 				<image src="../../static/nav_icon2.svg" mode="widthFix"></image>
 			</view>
-			<view class="right">
+			<view class="right" v-if="recinfo == null || recinfo.length == 0">
+				<view class="tel-name">
+					<view class="name">
+						请选择收货地址
+					</view>
+				</view>
+			</view>
+			<view class="right" v-else>
 				<view class="tel-name">
 					<view class="name">
 						{{recinfo.name}}
 					</view>
 					<view class="tel">
-						{{recinfo.tel}}
+						{{recinfo.telephone}}
 					</view>
 				</view>
 				<view class="addres">
-					{{recinfo.address.region.label}}
-					{{recinfo.address.detailed}}
+					{{recinfo.province_id+'-'+recinfo.city_id+'-'+recinfo.country_id}}
+					{{recinfo.address}}
 				</view>
 			</view>
 		</view>
@@ -27,13 +34,13 @@
 			<view class="row" v-for="(row,index) in buylist" :key="index">
 				<view class="goods-info">
 					<view class="img">
-						<image :src="row.img"></image>
+						<image :src="url+row.pic"></image>
 					</view>
 					<view class="info">
 						<view class="title">{{row.name}}</view>
-						<view class="spec">选择{{row.spec}} 数量:{{row.number}}</view>
+						<view class="spec">数量:{{row.num}}</view>
 						<view class="price-number">
-							<view class="price">￥{{row.price*row.number}}</view>
+							<view class="price">￥{{row.price}}</view>
 							<view class="number">
 								
 							</view>
@@ -43,7 +50,7 @@
 			</view>
 		</view>
 		<!-- 提示-备注 -->
-		<view class="order">
+		<!-- <view class="order">
 			<view class="row">
 				<view class="left">
 					积分 :
@@ -60,9 +67,9 @@
 					<input placeholder="选填,备注内容" v-model="note" />
 				</view>
 			</view>
-		</view>
+		</view> -->
 		<!-- 明细 -->
-		<view class="detail">
+		<!-- <view class="detail">
 			<view class="row">
 				<view class="nominal">
 					商品金额
@@ -87,7 +94,7 @@
 					￥-{{deduction|toFixed}}
 				</view>
 			</view>
-		</view>
+		</view> -->
 		<view class="blck">
 			
 		</view>
@@ -107,6 +114,8 @@
 	export default {
 		data() {
 			return {
+				id: '',
+				num: '',
 				buylist:[],		//订单列表
 				goodsPrice:0.0,	//商品合计价格
 				sumPrice:0.0,	//用户付款价格
@@ -114,50 +123,96 @@
 				note:'',		//备注
 				int:1200,		//抵扣积分
 				deduction:0,	//抵扣价格
-				recinfo:{id:1,name:"大黑哥",head:"大",tel:"18816881688",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:true}
-
+				recinfo: [],
+				url: '',
+				type: 0
 			};
 		},
 		components:{
 			uniNavBar
 		},
 		onLoad(opt) {
-			if(opt.goods!=undefined){
-				console.log(JSON.parse(opt.goods));
+			this.url = this.$http.url;
+			if(opt.id!=undefined){
+				this.id = opt.id;
 			}
-		},
-		onShow() {
-			//页面显示时，加载订单信息
-			uni.getStorage({
-				key:'buylist',
-				success: (ret) => {
-					this.buylist = ret.data;
-					this.goodsPrice=0;
-					//合计
+			if(opt.num!=undefined){
+				this.num = opt.num;
+			}
+			if(opt.type!=undefined){
+				this.type = opt.type;
+			}else{
+				this.type = 0;
+			}
+			uni.showLoading({
+				title: '加载中'
+			})
+			if(this.type == 0){
+				this.$http.buyNow({
+					gid: this.id,
+					num: this.num
+				}).then((data)=>{
+					let addr = data.data.address;
+					this.recinfo = addr;
+					if(uni.getStorageSync('selectAddress') != ''){
+						uni.getStorage({
+							key:'selectAddress',
+							success: (e) => {
+								console.log(e);
+								this.recinfo = e.data;
+								uni.removeStorage({
+									key:'selectAddress'
+								})
+							}
+						})
+					}
+					this.buylist = [data.data.product];
 					let len = this.buylist.length;
 					for(let i=0;i<len;i++){
-						this.goodsPrice = this.goodsPrice + (this.buylist[i].number*this.buylist[i].price);
+						this.sumPrice = this.goodsPrice + (this.buylist[i].num*this.buylist[i].price);
 					}
-					this.deduction = this.int/100;
-					this.sumPrice = this.goodsPrice-this.deduction+this.freight;
-				}
-			});
-			uni.getStorage({
-				key:'selectAddress',
-				success: (e) => {
-					this.recinfo = e.data;
-					uni.removeStorage({
-						key:'selectAddress'
-					})
-				}
-			})
+					uni.hideLoading();
+					console.log(this.recinfo);
+				})
+			}else{
+				this.$http.carOrder({
+					g_id: this.id
+				}).then((data)=>{
+					let addr = data.data.address;
+					this.recinfo = addr;
+					if(uni.getStorageSync('selectAddress') != ''){
+						uni.getStorage({
+							key:'selectAddress',
+							success: (e) => {
+								console.log(e);
+								this.recinfo = e.data;
+								uni.removeStorage({
+									key:'selectAddress'
+								})
+							}
+						})
+					}
+					this.buylist = data.data.list;
+					let len = this.buylist.length;
+					for(let i=0;i<len;i++){
+						this.sumPrice +=  (this.buylist[i].num*this.buylist[i].price);
+					}
+					uni.hideLoading();
+					console.log(this.recinfo);
+				})
+			}
+			console.log(this.id,this.num,this.type);
+		},
+		onShow() {
+			
 		},
 		onHide() {
-			
+			uni.hideLoading();
 		},
 		onBackPress() {
 			//页面后退时候，清除订单信息
 			this.clearOrder();
+			uni.hideLoading();
 		},
 		filters: {
 			toFixed:function(x) {
@@ -166,44 +221,76 @@
 		},
 		methods: {
 			clearOrder(){
-				uni.removeStorage({
-					key: 'buylist',
-					success: (res)=>{
-						this.buylist = [];
-						console.log('remove buylist success');
-					}
-				});
+				this.buylist = [];
 			},
 			toPay(){
+				if(this.recinfo == null || this.recinfo.length == 0){
+					this.$api.msg('请选择收货地址');
+					return;
+				}
 				//商品列表
-				let paymentOrder = [];
-				let goodsid=[];
-				let len = this.buylist.length;
-				for(let i=0;i<len;i++){
-					paymentOrder.push(this.buylist[i]);
-					goodsid.push(this.buylist[i].id);
-				}
-				if(paymentOrder.length==0){
-					uni.showToast({title:'订单信息有误，请重新购买',icon:'none'});
-					return ;
-				}
-				//本地模拟订单提交UI效果
 				uni.showLoading({
-					title:'正在提交订单...'
+					title:'正在提交订单...',
+					mask: true
 				})
-				setTimeout(()=>{
-					uni.setStorage({
-						key:'paymentOrder',
-						data:paymentOrder,
-						success: () => {
-							uni.hideLoading();
-							uni.redirectTo({
-								url:"../pay/payment/payment?amount="+this.sumPrice
+				if(this.type == 0){
+					this.$Debounce.canDoFunction({
+						key: "addOrder1",
+						time: 1500,
+						success:()=>{
+							this.$http.addOrder({
+								address_id: this.recinfo.address_id,
+								car_list: JSON.stringify(this.buylist),
+								car: 0
+							}).then((data)=>{
+								this.$api.msg(data.data.message);
+								uni.showToast({
+									title: data.data.message,
+									icon: 'success',
+									duration: 1500,
+									mask: true
+								})
+								uni.hideLoading();
+								if(data.data.status == 1){
+									console.log(data.data.result.order_id);
+									setTimeout(()=>{
+										uni.navigateTo({
+											url: '/pages/index/orderInfo?id='+data.data.result.order_id
+										})
+									},1500)
+								}
 							})
 						}
 					})
-				},1000)
-				
+				}else{
+					this.$Debounce.canDoFunction({
+						key: "addOrder2",
+						time: 1500,
+						success:()=>{
+							this.$http.addOrder({
+								address_id: this.recinfo.address_id,
+								car_list: JSON.stringify(this.buylist),
+								car: 1
+							}).then((data)=>{
+								this.$api.msg(data.data.message);
+								uni.showToast({
+									title: data.data.message,
+									icon: 'success',
+									duration: 1500,
+									mask: true
+								})
+								uni.hideLoading();
+								if(data.data.status == 1){
+									setTimeout(()=>{
+										uni.navigateTo({
+											url: '/pages/index/orderInfo?id='+data.data.result.order_id
+										})
+									},1500)
+								}
+							})
+						}
+					})
+				}
 			},
 			//选择收货地址
 			selectAddress(){

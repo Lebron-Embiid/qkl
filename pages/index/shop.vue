@@ -99,15 +99,7 @@
 					// { id: 7, name: '帮助中心', img: '/static/img/7.png' },
 					// { id: 8, name: '商城介绍', img: '/static/img/8.png' }
 				],
-				productList: [
-					// {
-					// 	goods_id: 0,
-					// 	img: '/static/img/p1.jpg',
-					// 	name: '商品名称商品名称商品名称商品名称商品名称',
-					// 	price: '￥168',
-					// 	slogan: '1235人付款'
-					// }
-				],
+				productList: [],
 				recommendList: [],
 				url: ''
 			}
@@ -115,6 +107,11 @@
 		components:{
 			uniNavBar,
 			uniLoadMore
+		},
+		onBackPress() {
+			uni.redirectTo({
+				url: '/pages/index/shop'
+			})
 		},
 		onLoad() {
 			this.url = this.$http.url;

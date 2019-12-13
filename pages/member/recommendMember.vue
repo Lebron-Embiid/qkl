@@ -48,6 +48,9 @@
 				}
 			})
 		},
+		onUnload() {
+			uni.hideLoading();
+		},
 		methods:{
 			copyLink(){
 				let that = this;

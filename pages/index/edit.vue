@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar left-icon="back" leftText="返回" title="编辑地址"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="添加地址"></uni-nav-bar>
 		
 		<view class="content">
 			<view class="row">
@@ -24,7 +24,7 @@
 					所在地区
 				</view>
 				<view class="input" @tap="chooseCity">
-					{{region.label}}
+					{{region.cityCode==""?region.label:region.cityCode}}
 				</view>
 				
 			</view>
@@ -55,19 +55,35 @@
 				保存地址
 			</view>
 		</view>
-		<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue" @onCancel="onCancel" @onConfirm="onConfirm"></mpvue-city-picker>
+		<!-- <simple-address 
+			ref="simpleAddress" 
+			:pickerValueDefault="pickerValueDefault" 
+			@onConfirm="onConfirm" 
+			themeColor='#099'
+		></simple-address> -->
+		<w-picker
+		    mode="linkage"
+		    :level="3"
+		    :defaultVal="['北京','北京市','东城区']"
+		    @confirm="onConfirm"
+		    ref="linkage"
+		    :linkList="linkList"
+		    themeColor="#099"
+		></w-picker>
 	</view>
 </template>
 
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
-	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
+	import wPicker from "@/components/w-picker/w-picker.vue";
+	// import simpleAddress from "@/components/simple-address/simple-address.nvue"
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default {
 		components: {
 			uniNavBar,
-			mpvueCityPicker
+			wPicker
+			// simpleAddress
 		},
 		data() {
 			return {
@@ -78,8 +94,13 @@
 				detailed:'',
 				isDefault:false,
 				cityPickerValue: [0, 0, 1],
+				pickerValueDefault: [0, 1, 0],
+				pickerText: '',
 				themeColor: '#007AFF',
-				region:{label:"请点击选择地址",value:[],cityCode:""}
+				region:{label:"请点击选择地址",value:[],cityCode:""},
+				linkList: [],
+				defaultVal: [],
+				level: 3
 			};
 		},
 		methods: {
@@ -87,11 +108,19 @@
 				console.log(e)
 			},
 			chooseCity() {
-				this.$refs.mpvueCityPicker.show()
+				// this.$refs.mpvueCityPicker.show()
+				this.$refs.linkage.show()
+			},
+			openAddres() {
+				this.$refs.simpleAddress.open();
 			},
 			onConfirm(e) {
-				this.region = e;
-				this.cityPickerValue = e.value;
+				// console.log(e);
+				this.pickerText = JSON.stringify(e)
+				this.region.value = e.checkValue;
+				this.region.cityCode = e.result;
+				console.log(this.region);
+				// this.cityPickerValue = e.value;
 			},
 			isDefaultChange(e){
 				this.isDefault = e.detail.value;
@@ -102,6 +131,9 @@
 					content: '你将删除这个收货地址',
 					success: (res)=>{
 						if (res.confirm) {
+							this.$http.delAddress({
+								id: this.id
+							})
 							uni.setStorage({
 								key:'delAddress',
 								data:{id:this.id},
@@ -114,50 +146,83 @@
 						}
 					}
 				});
-				
 			},
 			save(){
-				let data={"name":this.name,"head":this.name.substr(0,1),"tel":this.tel,"address":{"region":this.region,"detailed":this.detailed},"isDefault":this.isDefault}
-				if(this.editType=='edit'){
-					data.id = this.id
+				let is_default = '';
+				if(this.isDefault == true){
+					is_default = 1;
+				}else{
+					is_default = 0;
 				}
-				if(!data.name){
-					uni.showToast({title:'请输入收件人姓名',icon:'none'});
-					return ;
-				}
-				if(!data.tel){
-					uni.showToast({title:'请输入收件人电话号码',icon:'none'});
-					return ;
-				}
-				if(!data.address.detailed){
-					uni.showToast({title:'请输入收件人详细地址',icon:'none'});
-					return ;
-				}
-				if(data.address.region.value.length==0){
-					uni.showToast({title:'请选择收件地址',icon:'none'});
-					return ;
-				}
-				uni.showLoading({
-					title:'正在提交'
+				console.log(is_default);
+				this.$Debounce.canDoFunction({
+					key: "addAddress",
+					time: 1500,
+					success:()=>{
+						this.$http.addAddress({
+							real_name: this.name,
+							phone: this.tel,
+							province: this.region.value[0],
+							city: this.region.value[1],
+							district: this.region.value[2],
+							address: this.detailed,
+							is_default: is_default
+						}).then((data)=>{
+							this.$api.msg(data.data.message);
+							if(data.data.status == 1){
+								uni.navigateBack();
+							}
+						})
+					}
 				})
-				//实际应用中请提交ajax,模板定时器模拟提交效果
-				setTimeout(()=>{
-					uni.setStorage({
-						key:'saveAddress',
-						data:data,
-						success() {
-							uni.hideLoading();
-							uni.navigateBack();
-						}
-					})
-				},300)
+				
+				// let data={"name":this.name,"head":this.name.substr(0,1),"tel":this.tel,"address":{"region":this.region,"detailed":this.detailed},"isDefault":this.isDefault}
+				// if(this.editType=='edit'){
+				// 	data.id = this.id
+				// }
+				// if(!data.name){
+				// 	uni.showToast({title:'请输入收件人姓名',icon:'none'});
+				// 	return ;
+				// }
+				// if(!data.tel){
+				// 	uni.showToast({title:'请输入收件人电话号码',icon:'none'});
+				// 	return ;
+				// }
+				// if(!data.address.detailed){
+				// 	uni.showToast({title:'请输入收件人详细地址',icon:'none'});
+				// 	return ;
+				// }
+				// if(data.address.region.value.length==0){
+				// 	uni.showToast({title:'请选择收件地址',icon:'none'});
+				// 	return ;
+				// }
+				// uni.showLoading({
+				// 	title:'正在提交'
+				// })
+				// //实际应用中请提交ajax,模板定时器模拟提交效果
+				// setTimeout(()=>{
+				// 	uni.setStorage({
+				// 		key:'saveAddress',
+				// 		data:data,
+				// 		success() {
+				// 			uni.hideLoading();
+				// 			uni.navigateBack();
+				// 		}
+				// 	})
+				// },300)
 				
 				
 			}
 		},
 		onLoad(e) {
+			this.$http.getAddressArea().then((data)=>{
+				this.linkList = data.data;
+				uni.setStorageSync('address',data.data);
+				// this.linkList = uni.getStorageSync('address');
+				console.log(this.linkList);
+				// console.log(this.linkList,this.defaultVal);
+			})
 			//获取传递过来的参数
-			
 			this.editType = e.type;
 			if(e.type=='edit'){
 				uni.getStorage({
@@ -176,15 +241,17 @@
 			
 		},
 		onBackPress() {
-			if (this.$refs.mpvueCityPicker.showPicker) {
-				this.$refs.mpvueCityPicker.pickerCancel();
-				return true;
-			}
+			this.$refs.linkage.hide()
+			// if (this.$refs.mpvueCityPicker.showPicker) {
+			// 	this.$refs.mpvueCityPicker.pickerCancel();
+			// 	return true;
+			// }
 		},
 		onUnload() {
-			if (this.$refs.mpvueCityPicker.showPicker) {
-				this.$refs.mpvueCityPicker.pickerCancel()
-			}
+			this.$refs.linkage.hide()
+			// if (this.$refs.mpvueCityPicker.showPicker) {
+			// 	this.$refs.mpvueCityPicker.pickerCancel()
+			// }
 		}
 	};
 </script>

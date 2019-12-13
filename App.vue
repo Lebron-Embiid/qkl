@@ -7,18 +7,20 @@
 			app_name: 'SOLOMON MATRIX',
 			app_logo: '/static/logo1.png',
 			avatar: '',
-			and_ios: 0
+			and_ios: 0,
+			num: 0
 		},
 		onLaunch: function() {
 			console.log('App Launch');
+			let that = this;
 			switch(uni.getSystemInfoSync().platform){
 				case 'android':
 					console.log('运行Android上')
-					this.$options.globalData.and_ios = 0;
+					that.$options.globalData.and_ios = 0;
 					break;
 				case 'ios':
 					console.log('运行iOS上')
-					this.$options.globalData.and_ios = 1;
+					that.$options.globalData.and_ios = 1;
 					break;
 				default:
 					console.log('运行在开发者工具上')
@@ -69,26 +71,42 @@
 			// });
 			
 			console.log('App Show')
-			uni.setTabBarBadge({
-				index: 1,
-				text: '10',
-				success: function(){
-				  
-				}
-			})
-			uni.showTabBarRedDot({
-				index: 2,
-				success: function(){
+			// that.$http.getOrderList({
+			// 	page: 1,
+			// 	limit: 100,
+			// 	status: -1
+			// }).then((data)=>{
+			// 	that.$options.globalData.num = parseFloat(data.data.length);
+			// })
+			// that.$http.getOrderList({
+			// 	page: 1,
+			// 	limit: 100,
+			// 	status: 4
+			// }).then((data)=>{
+			// 	that.$options.globalData.num = that.$options.globalData.num-parseInt(data.data.length);
+			// 	console.log(that.$options.globalData.num);
+			// 	uni.setTabBarBadge({
+			// 		index: 1,
+			// 		text: ''+that.$options.globalData.num,
+			// 		success: function(){
+						
+			// 		}
+			// 	})
+			// })
+			
+			// uni.showTabBarRedDot({
+			// 	index: 2,
+			// 	success: function(){
 					
-				}
-			})
-			uni.setTabBarBadge({
-				index: 3,
-				text: 'new',
-				success: function(){
+			// 	}
+			// })
+			// uni.setTabBarBadge({
+			// 	index: 3,
+			// 	text: 'new',
+			// 	success: function(){
 					
-				}
-			})
+			// 	}
+			// })
 		},
 		onHide: function() {
 			console.log('App Hide')
@@ -436,6 +454,26 @@ uni-modal .uni-modal__btn_primary{
 			background: #099;
 			border-color: #099;
 			color: #fff;
+		}
+	}
+}
+.dividend_nav{
+	margin-top: 20rpx;
+	border: 1px solid #1ABC9C;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	view{
+		width: 50%;
+		padding: 20rpx 0;
+		box-sizing: border-box;
+		color: #099;
+		font-size: 28rpx;
+		text-align: center;
+		&.active{
+			color: #fff;
+			background: #1ABC9C;
 		}
 	}
 }

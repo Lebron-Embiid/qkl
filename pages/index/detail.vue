@@ -111,10 +111,11 @@
 						</view>
 					</view>
 				</view>
-				<view class="btn"><view class="button" @tap="hideSpec(btn)">完成</view></view>
+				<view class="btn"><view class="button" @tap="finishSpec(btn)">完成</view></view>
 			</view>
 		</view>
 		<!-- 商品主图轮播 -->
+		
 		<view class="swiper-box">
 			<swiper circular="true" autoplay="true" @change="swiperChange">
 				<swiper-item v-for="swiper in swiperList" :key="swiper.id">
@@ -200,12 +201,7 @@ export default {
 			showBack:true,
 			// #endif
 			//轮播主图数据
-			swiperList: [
-				{ id: 1, img: 'https://ae01.alicdn.com/kf/HTB1Mj7iTmzqK1RjSZFjq6zlCFXaP.jpg' },
-				{ id: 2, img: 'https://ae01.alicdn.com/kf/HTB1fbseTmzqK1RjSZFLq6An2XXaL.jpg' },
-				{ id: 3, img: 'https://ae01.alicdn.com/kf/HTB1dPUMThnaK1RjSZFtq6zC2VXa0.jpg' },
-				{ id: 4, img: 'https://ae01.alicdn.com/kf/HTB1OHZrTXzqK1RjSZFvq6AB7VXaw.jpg' }
-			],
+			swiperList: [],
 			//轮播图下标
 			currentSwiper: 0,
 			anchorlist:[],//导航条锚点
@@ -239,7 +235,7 @@ export default {
 			//商品描述html
 			content: '',
 			url: '',
-			btn: 0	//0:加入购物车  1:立即购买
+			btn: 0	,//0:加入购物车  1:立即购买
 		};
 	},
 	components:{
@@ -247,24 +243,21 @@ export default {
 	},
 	onLoad(option) {
 		this.url = this.$http.url;
+		console.log(option.cid);
 		if(option.name != undefined){
 			uni.setNavigationBarTitle({
 				title: option.name
 			});
 			this.goods_id = option.cid;
-			console.log(this.goods_id);
+			// console.log(this.goods_id);
 		}
-		// #ifdef MP
-		//小程序隐藏返回按钮
-		this.showBack = false;
-		// #endif
-		//option为object类型，会序列化上个页面传递的参数
-	},
-	onShow(){
+		uni.showLoading({
+			title: '加载中'
+		})
 		this.$http.getStoreDetails({
-			g_id: this.goods_id
+			g_id: option.cid
 		}).then((data)=>{
-			console.log(data.data);
+			// console.log(data.data);
 			let res = data.data;
 			this.goodsData.id = res.id;
 			this.goodsData.name = res.name;
@@ -273,7 +266,18 @@ export default {
 			this.goodsData.stock = res.stock;
 			this.swiperList = res.pic_list;
 			this.content = res.content==null?'':res.content;
+			uni.hideLoading();
 		})
+		// #ifdef MP
+		//小程序隐藏返回按钮
+		this.showBack = false;
+		// #endif
+		//option为object类型，会序列化上个页面传递的参数
+	},
+	onUnload() {
+		uni.hideLoading();
+	},
+	onShow(){
 		// this.calcAnchor();//计算锚点高度，页面数据是ajax加载时，请把此行放在数据渲染完成事件中执行以保证高度计算正确
 	},
 	// onPageScroll(e) {
@@ -410,6 +414,7 @@ export default {
 			this.serviceClass = 'hide';
 			setTimeout(() => {
 				this.serviceClass = 'none';
+				
 			}, 200);
 		},
 		//规格弹窗
@@ -421,32 +426,34 @@ export default {
 		specCallback(){
 			return;
 		},
+		finishSpec(){
+			this.specClass = 'hide';
+			if(this.btn == 0){
+				this.$http.addCar({
+					g_id: this.goodsData.id,
+					num: this.goodsData.number
+				}).then((data)=>{
+					if(data.data.status == 1){
+						uni.showToast({title: "已加入购物车"});
+					}else{
+						this.$api.msg(data.data.message);
+					}
+				})
+			}else{
+				uni.navigateTo({
+					url:'/pages/index/confirmation?id='+this.goodsData.id+'&num='+this.goodsData.number
+				})
+			}
+		},
 		//关闭规格弹窗
 		hideSpec() {
 			this.specClass = 'hide';
 			//回调
-				
+			
 			this.selectSpec&&this.specCallback&&this.specCallback();
 			this.specCallback = false;
 			setTimeout(() => {
 				this.specClass = 'none';
-				if(this.btn == 0){
-					this.$http.addCar({
-						g_id: this.goodsData.id,
-						num: this.goodsData.number
-					}).then((data)=>{
-						if(data.data.status == 1){
-							uni.showToast({title: "已加入购物车"});
-						}else{
-							this.$api.msg(data.data.message);
-						}
-					})
-					
-				}else{
-					uni.navigateTo({
-						url:'/pages/index/confirmation?goods='+JSON.stringify(this.goodsData)
-					})
-				}
 			}, 200);
 		},
 		discard() {
@@ -951,7 +958,7 @@ page {
 		}
 		.length{
 			margin-top: 30rpx;
-			border-top: solid 1rpx #aaa;
+			// border-top: solid 1rpx #aaa;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;

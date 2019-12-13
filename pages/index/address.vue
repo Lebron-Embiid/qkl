@@ -4,26 +4,29 @@
 		
 		<view class="content">
 			<view class="list">
+				<view class="no-txt" v-if="addressList.length == 0">
+					暂无收货地址
+				</view>
 				<view class="row" v-for="(row,index) in addressList" :key="index" @tap="select(row)">
 					<view class="left">
 						<view class="head">
-							{{row.head}}
+							{{row.name.substring(0,1)}}
 						</view>
 					</view>
 					<view class="center">
 						<view class="name-tel">
 							<view class="name">{{row.name}}</view>
-							<view class="tel">{{row.tel}}</view>
-							<view class="default" v-if="row.isDefault">
+							<view class="tel">{{row.telephone}}</view>
+							<view class="default" v-if="row.is_default == 1">
 								默认
 							</view>
 						</view>
 						<view class="address">
-							{{row.address.region.label}} {{row.address.detailed}}
+							{{row.province_id+'-'+row.city_id+'-'+row.country_id}} {{row.address}}
 						</view>
 					</view>
 					<view class="right">
-						<view class="icon bianji" @tap.stop="edit(row)">
+						<view class="icon shanchu" @tap.stop="del(row)">
 							
 						</view>
 					</view>
@@ -45,56 +48,15 @@
 		data() {
 			return {
 				isSelect:false,
-				addressList:[
-					{id:1,name:"大黑哥",head:"大",tel:"18816881688",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:true},
-					{id:2,name:"大黑哥",head:"大",tel:"15812341234",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深北小道2222号有名公寓502'},isDefault:false},
-					{id:3,name:"老大哥",head:"老",tel:"18155467897",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:false},
-					{id:4,name:"王小妹",head:"王",tel:"13425654895",address:{region:{"label":"广东省-深圳市-福田区","value":[18,2,1],"cityCode":"440304"},detailed:'深南大道1111号无名摩登大厦6楼A2'},isDefault:false},
-				]
+				addressList:[]
 			};
 		},
 		components:{
 			uniNavBar
 		},
 		onShow() {
-			uni.getStorage({
-				key:'delAddress',
-				success: (e) => {
-					let len = this.addressList.length;
-					if(e.data.hasOwnProperty('id')){
-						for(let i=0;i<len;i++){
-							if(this.addressList[i].id==e.data.id){
-								this.addressList.splice(i,1);
-								break;
-							}
-						}
-					}
-					uni.removeStorage({
-						key:'delAddress'
-					})
-				}
-			})
-			uni.getStorage({
-				key:'saveAddress',
-				success: (e) => {
-					let len = this.addressList.length;
-					if(e.data.hasOwnProperty('id')){
-						for(let i=0;i<len;i++){
-							if(this.addressList[i].id==e.data.id){
-								this.addressList.splice(i,1,e.data);
-								break;
-							}
-						}
-					}else{
-						let lastid = this.addressList[len-1];
-						lastid++;
-						e.data.id = lastid;
-						this.addressList.push(e.data);
-					}
-					uni.removeStorage({
-						key:'saveAddress'
-					})
-				}
+			this.$http.getAddressList().then((data)=>{
+				this.addressList = data.data;
 			})
 		},
 		onLoad(e) {
@@ -103,6 +65,27 @@
 			}
 		},
 		methods:{
+			del(row){
+				var that = this;
+				uni.showModal({
+					title: '删除提示',
+					content: '你将删除这个收货地址',
+					success: (res)=>{
+						if (res.confirm) {
+							that.$http.delAddress({
+								id: row.address_id
+							}).then((data)=>{
+								that.$api.msg(data.data.message);
+								if(data.data.status == 1){
+									that.$http.getAddressList().then((data)=>{
+										that.addressList = data.data;
+									})
+								}
+							})
+						} 
+					}
+				});
+			},
 			edit(row){
 				uni.setStorage({
 					key:'address',
@@ -138,6 +121,11 @@
 </script>
 
 <style scoped lang="scss">
+	.no-txt{
+		margin: 150rpx auto 0;
+		color: #999;
+		font-size: 30rpx;
+	}
 	.icon {
 		// &.bianji {
 		// 	&:before{content:"\e61b";}

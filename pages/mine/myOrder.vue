@@ -6,24 +6,44 @@
 			<view class="nav_item" :class="[index==current?'active':'']" @tap="changeNav(index)" v-for="(item,index) in orderNavs" :key="index">{{item}}</view>
 		</view>
 		<scroll-view scroll-y="true" class="order_content" @scrolltolower="scrollLower">
-			<view class="order_item" v-for="(item,index) in orderList" :key="index">
-				<view class="oi_top">{{item.status}}</view>
-				<view class="oi_center">
-					<image :src="item.src" mode="widthFix"></image>
-					<view class="oi_title">{{item.title}}</view>
+			<view class="order_item"  v-for="(item,index) in orderList" :key="index">
+				<view class="oi_top">{{item.status_name}}</view>
+				<view class="oi_center" v-for="(order,idx) in item.detail" :key="idx">
+					<image :src="url+order.com_img" mode="widthFix"></image>
+					<view class="oi_title">{{order.com_name}}</view>
 					<view class="oi_right">
-						<view class="oi_price">￥{{item.price}}</view>
-						<text>x{{item.num}}</text>
+						<view class="oi_price">￥{{order.com_price}}</view>
+						<text>x{{order.com_num}}</text>
 					</view>
 				</view>
-				<view class="oi_all">共计{{item.num}}件商品 <text>合计：￥{{parseInt(item.price)*item.num}}</text></view>
+				<!-- 共计{{item.com_num}}件商品 -->
+				<view class="oi_all"><text>合计：￥{{item.buy_price}}</text></view>
 				<view class="oi_bottom">
-					<button type="primary" @tap="toDetail(index)">查看详情</button>
-					<button type="primary" @tap="toPay(index)" class="pay_btn last">立即支付</button>
+					<!-- <block v-if="row.type=='unpaid'"><view class="default" @tap="cancelOrder(row)">取消订单</view><view class="pay" @tap="toPayment(row)">付款</view></block>
+					<block v-if="row.type=='back'"><view class="default" @tap="remindDeliver(row)">提醒发货</view></block>
+					<block v-if="row.type=='unreceived'"><view class="default" @tap="showLogistics(row)">查看物流</view><view class="pay">确认收货</view><view class="pay">我要退货</view></block>
+					<block v-if="row.type=='received'"><view class="default">评价</view><view class="default">再次购买</view></block>
+					<block v-if="row.type=='completed'"><view class="default">再次购买</view></block>
+					<block v-if="row.type=='refunds'"><view class="default">查看进度</view></block>
+					<block v-if="row.type=='cancelled'"><view class="default">已取消</view></block> -->
+					<button type="primary" @tap="toDetail(item.order_id)">查看详情</button>
+					<button type="primary" v-if="item.status == 0" @tap="toPay(item.order_id)" class="pay_btn last">立即支付</button>
+					<button type="primary" v-if="item.status == 2" @tap="toComplete(item.order_id)" class="pay_btn last">确认收货</button>
 				</view>
 			</view>
 			<uni-load-more :status="loadingType"></uni-load-more>
 		</scroll-view>
+		<uni-popup ref="popup" type="center">
+			<view class="popup_box">
+				<view class="popup_content">
+					<input type="password" v-model="pay_pwd" placeholder="请输入支付密码" />
+				</view>
+				<view class="popup_btn">
+					<view @tap="cancelBack">取消</view>
+					<view class="ok" @tap="okBack">确定</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -31,6 +51,7 @@
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default{
@@ -40,66 +61,47 @@
 				dot: true,
 				name: '',
 				avatar: '',
-				orderNavs: ["全部订单","待付款","待发货","待收货","已完成"],
+				orderNavs: ["全部订单","待付款","待发货","待收货","已完成","已取消"],
 				current: 0,
-				orderList: [
-					{
-						id: 1,
-						status: '未付款',
-						src: '',
-						title: '靓变奶茶',
-						price: '2980.00',
-						num: 2,
-						all: ''
-					},{
-						id: 1,
-						status: '未付款',
-						src: '',
-						title: '靓变奶茶',
-						price: '2980.00',
-						num: 2,
-						all: ''
-					},{
-						id: 1,
-						status: '未付款',
-						src: '',
-						title: '靓变奶茶',
-						price: '2980.00',
-						num: 2,
-						all: ''
-					},{
-						id: 1,
-						status: '未付款',
-						src: '',
-						title: '靓变奶茶',
-						price: '2980.00',
-						num: 2,
-						all: ''
-					},{
-						id: 1,
-						status: '未付款',
-						src: '',
-						title: '靓变奶茶',
-						price: '2980.00',
-						num: 2,
-						all: ''
-					},{
-						id: 1,
-						status: '未付款',
-						src: '',
-						title: '靓变奶茶',
-						price: '2980.00',
-						num: 2,
-						all: ''
-					}
-				],
-				loadingType: 'more'
+				orderList: [],
+				loadingType: 'more',
+				page: 1,
+				url: '',
+				pay_pwd: '',
+				id: '',
+				type: 0
+			}
+		},
+		onBackPress() {
+			if(this.type != 1){
+				uni.switchTab({
+					url: '/pages/trade/index'
+				})
+			}else{
+				uni.navigateBack({
+					delta: 1
+				})
 			}
 		},
 		onLoad(opt) {
+			this.url = this.$http.url;
+			if(opt.type != undefined){
+				this.type = opt.type;
+			}
 			if(opt.index != undefined){
 				this.current = opt.index;
 			}
+			console.log(this.current);
+			this.$http.getOrderList({
+				page: 1,
+				limit: 10,
+				status: this.current-1
+			}).then((data)=>{
+				this.orderList = data.data;
+				if(this.orderList.length<10){
+					this.loadingType = 'noMore';
+				}
+			})
 		},
 		onShow(){
 			this.avatar = getApp().globalData.avatar;
@@ -113,26 +115,93 @@
 		components:{
 			uniNavBar,
 			commonAvatar,
-			uniLoadMore
+			uniLoadMore,
+			uniPopup
 		},
 		methods:{
 			changeNav(idx){
+				this.page = 1;
 				this.current = idx;
-			},
-			toDetail(idx){
-				uni.navigateTo({
-					url: '/pages/index/detail?id=' + idx
+				this.$http.getOrderList({
+					page: this.page,
+					limit: 10,
+					status: this.current-1
+				}).then((data)=>{
+					if(this.orderList.length<10){
+						this.loadingType = 'noMore';
+					}
+					this.orderList = data.data;
 				})
 			},
-			toPay(idx){
+			toDetail(id){
 				uni.navigateTo({
-					url: '/pages/index/confirmation'
+					url: '/pages/index/orderInfo?id=' + id
+				})
+			},
+			toPay(id){
+				this.$refs.popup.open();
+				this.id = id;
+			},
+			cancelBack(){
+				this.$refs.popup.close();
+				this.pay_pwd = '';
+			},
+			okBack(){
+				this.$Debounce.canDoFunction({
+					key: "payOrder",
+					time: 1500,
+					success:()=>{
+						this.$http.payOrder({
+							id: this.id,
+							sec_password: this.pay_pwd
+						}).then((data)=>{
+							this.$api.msg(data.data.message);
+							if(data.data.status == 1){
+								setTimeout(()=>{
+									uni.redirectTo({
+										url: '/pages/mine/myOrder?index=2'
+									})
+								},1500)
+							}
+						})
+					}
+				})
+			},
+			toComplete(id){
+				this.$Debounce.canDoFunction({
+					key: "completeOrder",
+					time: 1500,
+					success:()=>{
+						this.$http.completeOrder({
+							id: id
+						}).then((data)=>{
+							this.$api.msg(data.data.message);
+							if(data.data.status == 1){
+								setTimeout(()=>{
+									uni.redirectTo({
+										url: '/pages/mine/myOrder?index=4'
+									})
+								},1500)
+							}
+						})
+					}
 				})
 			},
 			// 滑动到底部加载更多
 			scrollLower(){
-				this.loadingType = 'loading';
-				this.loadingType = 'noMore';
+				this.page++;
+				this.$http.getOrderList({
+					page: this.page,
+					limit: 10,
+					status: this.current-1
+				}).then((data)=>{
+					this.loadingType = 'loading';
+					if(data.data.length == 0){
+						this.loadingType = 'noMore';
+						return;
+					}
+					this.orderList = this.orderList.concat(data.data);
+				})
 			}
 		}
 	}
@@ -177,11 +246,17 @@
 				image{
 					display: block;
 					width: 120rpx;
-					height: 120rpx;
-					background: #ccc;
+					height: 120rpx !important;
 				}
 				.oi_title{
 					width: 60%;
+					overflow : hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 3;
+					-webkit-box-orient: vertical;
+					word-wrap: break-word;
+					word-break: break-all;
 				}
 				.oi_right{
 					text-align: right;

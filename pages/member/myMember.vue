@@ -13,7 +13,7 @@
 			<view class="my_member_item" @tap="toDividend">
 				<image src="/static/member_icon3.png" mode="widthFix"></image>
 				<view class="right_area">
-					<view class="member_txt">团队分红：</view>
+					<view class="member_txt">我的分红：</view>
 					<view class="member_money">$ {{dividend}}</view>
 				</view>
 			</view>
@@ -98,7 +98,7 @@
 				member_name: '',
 				avatar: '',
 				person_num: 0,
-				dividend: 800000,
+				dividend: 0,
 				price: '',
 				pay_pwd: '',
 				memberList: [
@@ -172,6 +172,7 @@
 			})
 		},
 		onShow() {			
+			this.dividend = uni.getStorageSync('dividend');
 			this.avatar = getApp().globalData.avatar;
 			if(uni.getStorageSync('token') == ''){
 				this.$api.msg('请登录');

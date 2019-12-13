@@ -24,9 +24,12 @@
 </template>
 
 <script>
-import provinceData from './city-data/province.js';
-import cityData from './city-data/city.js';
-import areaData from './city-data/area.js';
+// import provinceData from './city-data/province.js';
+// import cityData from './city-data/city.js';
+// import areaData from './city-data/area.js';
+var provinceData = [];
+var cityData = [];
+var areaData = [];
 export default {
   data() {
     return {
@@ -58,20 +61,22 @@ export default {
 		}
 	},
   methods: {
-		init() {
-			this.handPickValueDefault(); // 对 pickerValueDefault 做兼容处理
-			this.provinceDataList = provinceData;
-			this.cityDataList = cityData[this.pickerValueDefault[0]];
-			this.areaDataList = areaData[this.pickerValueDefault[0]][this.pickerValueDefault[1]];
-			this.pickerValue = this.pickerValueDefault;
-		},
+	init() {
+		this.handPickValueDefault(); // 对 pickerValueDefault 做兼容处理
+		this.provinceDataList = provinceData;
+		this.cityDataList = cityData[this.pickerValueDefault[0]];
+		this.areaDataList = areaData[this.pickerValueDefault[0]][this.pickerValueDefault[1]];
+		
+		this.pickerValue = this.pickerValueDefault;
+		
+	},
     show() {
-      setTimeout(() => {
-        this.showPicker = true;
-      }, 0);
+		setTimeout(() => {
+			this.showPicker = true;
+		}, 0);
     },
     maskClick() {
-      this.pickerCancel();
+		this.pickerCancel();
     },
     pickerCancel() {
       this.showPicker = false;

@@ -127,10 +127,10 @@
 			uniPopup
 		},
 		onLoad() {
-			this.$http.getInvestment().then((data)=>{
+			this.$http.getUserBonus().then((data)=>{
 				let res = data.data;
-				this.memberList[0].value = res.bonus.bonus1;
-				this.memberList[1].value = res.bonus.bonus0;
+				this.memberList[0].value = res[0].money;
+				this.memberList[1].value = res[1].money;
 			})
 		},
 		onShow(){
@@ -139,14 +139,6 @@
 				this.name = data.data.username;
 				if(data.data.username == ''){
 					this.name = data.data.mobile;
-				}
-			})
-			this.$http.userBankList({limit: 1}).then((data)=>{
-				// console.log(data.data);
-				if(data.data.length != 0){
-					this.bank_name = data.data[0].hold_name;
-					this.bank_type = data.data[0].banq_genre;
-					this.bank_account = data.data[0].card_number;
 				}
 			})
 		},
@@ -247,7 +239,12 @@
 				})
 			},
 			lookAccount(){
-				this.$refs.popup.open();
+				this.$http.getBankCard().then((data)=>{
+					this.bank_name = data.data.real_name;
+					this.bank_type = data.data.bank_name;
+					this.bank_account = data.data.bank_account;
+					this.$refs.popup.open();
+				})
 			},
 			cancelPopup(){
 				this.$refs.popup.close();

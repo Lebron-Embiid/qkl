@@ -7,21 +7,43 @@
 			<view class="add_btn" @tap="toIncrease">加额</view>
 		</view>
 		<common-wallet :list="walletNavs" @updateMoney="updateMoney" :over_money="over_money" :isApp="true"></common-wallet>
-		<view class="invest_box">
+		<view class="dividend_nav">
+			<view :class="[current == index?'active':'']" @tap="changeNav(index)" v-for="(item,index) in navs" :key="index">{{item}}</view>
+		</view>
+		<view class="invest_box" v-if="current == 0">
 			<view class="invest_top">
 				<view class="it_left">流水单号</view>
 				<view class="it_right">转入/转出</view>
 			</view>
 			<view class="invest_item" v-for="(item,index) in investList" :key="index">
 				<view class="invest_center">
-					<view class="ic_left">{{item.name}}</view>
-					<view class="ic_right">{{item.price}}</view>
+					<view class="ic_left">{{item.order_sn}}</view>
+					<view class="ic_right">{{item.money}}</view>
 				</view>
 				<view class="invest_bottom">
 					<view>
-						投资于 {{item.time}}
+						投资于 {{item.add_time}}
 					</view>
-					<view>{{item.from}}</view>
+					<view>{{item.type_name}}</view>
+				</view>
+			</view>
+			<uni-load-more :status="loadingType"></uni-load-more>
+		</view>
+		<view class="invest_box" v-if="current == 1">
+			<view class="invest_top">
+				<view class="it_left">流水单号</view>
+				<view class="it_right">转入/转出</view>
+			</view>
+			<view class="invest_item" v-for="(item,index) in transferList" :key="index">
+				<view class="invest_center">
+					<view class="ic_left">{{item.order_sn}}</view>
+					<view class="ic_right">{{item.money}}</view>
+				</view>
+				<view class="invest_bottom">
+					<view>
+						投资于 {{item.add_time}}
+					</view>
+					<view>{{item.bonus}} 转入 {{item.to_bonus}}</view>
 				</view>
 			</view>
 			<uni-load-more :status="loadingType"></uni-load-more>
@@ -44,26 +66,13 @@
 				name: '',
 				avatar: '',
 				over_money: '',
+				current: 0,
+				navs: ['全部明细','转入转出明细'],
 				walletNavs: [{title:'转入',name:'first'},{title:'转出',name:'active'},{title:'提现',name:''}],
-				investList: [
-					{
-						name: 'SLM20191125A001',
-						price: '+20000',
-						time: '2019/11/25  09：00',
-						from: '投资钱包转入'
-					},{
-						name: 'SLM20191125A001',
-						price: '-20000',
-						time: '2019/11/25  09：00',
-						from: '提现'
-					},{
-						name: 'SLM20191125A001',
-						price: '-10000',
-						time: '2019/11/25  09：00',
-						from: '转出到投资钱包'
-					}
-				],
-				loadingType: 'more'
+				investList: [],
+				transferList: [],
+				loadingType: 'more',
+				page: 1
 			}
 		},
 		components:{
@@ -73,6 +82,26 @@
 			uniLoadMore
 		},
 		methods:{
+			changeNav(idx){
+				this.page = 1;
+				this.current = idx;
+				if(this.current == 0){
+					this.$http.getBonusIndex({
+						page: 1,
+						limit: 10,
+						type: 0
+					}).then((data)=>{
+						this.investList = data.data;
+					})
+				}else{
+					this.$http.getTransferOutIndex({
+						page: this.page,
+						limit: 10
+					}).then((data)=>{
+						this.transferList = data.data;
+					})
+				}
+			},
 			toIncrease(){
 				uni.navigateTo({
 					url: '/pages/member/increase'
@@ -81,13 +110,47 @@
 			updateMoney(){
 				this.$http.getInvestment().then((data)=>{
 					let res = data.data;
-					// this.investList = res.list;
 					this.over_money = res.bonus.bonus0;
+				})
+				this.$http.getBonusIndex({
+					page: 1,
+					limit: 10,
+					type: 0
+				}).then((data)=>{
+					this.investList = data.data;
+				})
+				this.$http.getTransferOutIndex({
+					page: 1,
+					limit: 10
+				}).then((data)=>{
+					this.transferList = data.data;
 				})
 			}
 		},
 		onShow(){
 			this.avatar = getApp().globalData.avatar;
+			if(this.current == 0){
+				this.$http.getBonusIndex({
+					page: 1,
+					limit: 10,
+					type: 0
+				}).then((data)=>{
+					if(data.data.length < 10){
+						this.loadingType = 'noMore';
+					}
+					this.investList = data.data;
+				})
+			}else{
+				this.$http.getTransferOutIndex({
+					page: 1,
+					limit: 10
+				}).then((data)=>{
+					if(data.data.length < 10){
+						this.loadingType = 'noMore';
+					}
+					this.transferList = data.data;
+				})
+			}
 		},
 		onLoad(opt) {
 			this.$http.getUserInfo().then((data)=>{
@@ -98,9 +161,35 @@
 			})
 			this.$http.getInvestment().then((data)=>{
 				let res = data.data;
-				// this.investList = res.list;
 				this.over_money = res.bonus.bonus0;
 			})
+		},
+		onReachBottom() {
+			this.page++;
+			if(this.current == 0){
+				this.$http.getBonusIndex({
+					page: this.page,
+					limit: 10,
+					type: 0
+				}).then((data)=>{
+					this.loadingType = "loading";
+					if(data.data.length == 0){
+						this.loadingType = 'noMore';
+					}
+					this.investList = this.investList.concat(data.data);
+				})
+			}else{
+				this.$http.getTransferOutIndex({
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					this.loadingType = 'loading';
+					if(data.data.length == 0){
+						this.loadingType = 'noMore';
+					}
+					this.transferList = this.transferList.concat(data.data);
+				})
+			}
 		}
 	}
 </script>

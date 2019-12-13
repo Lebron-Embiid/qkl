@@ -25,7 +25,7 @@
 				<view :class="title.length ? 'uni-navbar__header-btns-right' : ''" @tap="onClickRight" class="uni-navbar__header-btns uni-navbar__content_view">
 					<view class="uni-navbar__content_view" v-if="rightIcon.length">
 						<!-- <uni-icons :color="color" :type="rightIcon" size="24" /> -->
-						<view :class="[rightDot == true?'dot':'']"><image :src="rightIcon" mode="widthFix"></image></view>
+						<!-- <view :class="[rightDot == true?'dot':'']"><image :src="rightIcon" mode="widthFix"></image></view> -->
 					</view>
 					<!-- 优先显示图标 -->
 					<view class="uni-navbar-btn-text uni-navbar__content_view" v-if="rightText.length && !rightIcon.length">
