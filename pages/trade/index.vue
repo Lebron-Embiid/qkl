@@ -65,7 +65,7 @@
 					{
 						icon: '/static/nav_icon2.svg',
 						title: '收货地址',
-						text: '添加/修改',
+						text: '',
 						url: '/pages/index/address'
 					},{
 						icon: '/static/nav_icon3.svg',

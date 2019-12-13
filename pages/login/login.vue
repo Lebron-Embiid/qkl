@@ -45,8 +45,8 @@
 			return{
 				logoSrc: '',
 				app_name: '',
-				phone: '15858585858',
-				password: '666666',
+				phone: '',
+				password: '',
 				input_type: '',
 				is_success: false
 			}

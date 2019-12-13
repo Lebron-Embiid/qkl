@@ -240,13 +240,6 @@
 			}
 			
 		},
-		onBackPress() {
-			this.$refs.linkage.hide()
-			// if (this.$refs.mpvueCityPicker.showPicker) {
-			// 	this.$refs.mpvueCityPicker.pickerCancel();
-			// 	return true;
-			// }
-		},
 		onUnload() {
 			this.$refs.linkage.hide()
 			// if (this.$refs.mpvueCityPicker.showPicker) {

@@ -63,7 +63,7 @@
 						icon: '/static/member_icon3.png',
 						title: '分红总额',
 						url: '/pages/mine/dividend',
-						value: '0'
+						value: 0
 					},{
 						icon: '/static/member_icon4.png',
 						title: '会员人数',
@@ -107,7 +107,11 @@
 					let res = data.data;
 					this.memberList[0].value = res[0].money;
 					this.memberList[1].value = res[1].money;
-					this.memberList[2].value = uni.getStorageSync('dividend');
+				})
+				this.$http.getShareBonus().then((data)=>{
+					if(data.data.total != null){
+						this.memberList[2].value = data.data.total;
+					}
 				})
 				this.$http.getUserInfo().then((data)=>{
 					this.name = data.data.username;

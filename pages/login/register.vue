@@ -58,6 +58,14 @@
 						</view>
 					</view>
 				</view>
+				<view class="form_item nopad">
+					<view class="right_box">
+						<view class="ipt_box">
+							<input type="text" placeholder="请输入验证码" v-model="v_code" />
+						</view>
+						<valid-code :value.sync="validCode" @update:value="getCode"></valid-code>
+					</view>
+				</view>
 				<view class="agree_txt">
 					<view v-if="is_agree == false" @tap="changeAgree"><image src="/static/radio.svg" mode="widthFix"></image></view>
 					<view v-else @tap="changeAgree"><image src="/static/radio_on.svg" mode="widthFix"></image></view>
@@ -78,6 +86,7 @@
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
     import switchc from '@/components/zz-switchc/zz-switchc.vue'
+	import validCode from '@/components/validCode.vue'
 	import util from '@/common/util.js'
 	import {Model} from '@/common/model.js'
 	let model = new Model()
@@ -97,6 +106,8 @@
 				email: '',
 				country: [],
 				areaCode: [],
+				v_code: '',
+				validCode: '',
 				index: null,
 				items: [{
 					value: '0',
@@ -107,7 +118,8 @@
 		},
 		components: {
 			uniNavBar,
-			switchc
+			switchc,
+			validCode
 		},
 		onShow() {
 			this.app_name = getApp().globalData.app_name;
@@ -121,6 +133,10 @@
 			})
 		},
 		methods:{
+			getCode(value){
+			  // console.log(value);
+			  this.validCode = value.toLowerCase();
+			},
 			bindPickerChange(e) {
 				this.index = e.target.value;
 				this.internation_number = this.areaCode[e.detail.value];
@@ -158,7 +174,14 @@
 							this.$api.msg("请阅读并同意用户协议");
 							return;
 						}
-						
+						if(this.v_code == ''){
+							this.$api.msg('请输入验证码');
+							return;
+						}
+						if(this.v_code != this.validCode){
+							this.$api.msg('请输入正确的验证码');
+							return;
+						}
 						let all_phone = this.internation_number+this.phone;
 						// console.log(all_phone);
 						for(let i in util.phoneList){
@@ -237,6 +260,9 @@
 
 <style scoped lang="scss">
 	.form_item{
+		&.nopad{
+			padding: 10rpx 0;
+		}
 		.right_box{
 			.ipt_box{
 				&.internation{
@@ -264,7 +290,7 @@
 		}
 	}
 	.register_box{
-		padding: 0 80rpx 20rpx;
+		padding: 0 80rpx 50rpx;
 		box-sizing: border-box;
 		.agree_txt{
 			color: #999;

@@ -29,46 +29,48 @@
 		},
 		onShow: function() {
 			let that = this;
-			// plus.runtime.getProperty(plus.runtime.appid,function(inf){  
-			// 	wgtVer = inf.version;  
-			// 	console.log("当前应用版本："+wgtVer); 
-			// 	uni.request({
-			// 	    url: that.$api+'default/edition', //仅为示例，并非真实接口地址。
-			// 	    data: {number:wgtVer,type:that.$options.globalData.and_ios},
-			// 		method: 'POST',
-			// 		dataType:'json',
-			// 		header: {
-			// 			'content-type': 'application/x-www-form-urlencoded'
-			// 		},
-			// 	    success: (res) => {
-			// 			if(res.data.code == 0){ 
-			// 				wgtUrl = res.data.data;
-			// 				uni.showModal({
-			// 					content: res.data.msg,
-			// 					confirmText:"升级APP",
-			// 					showCancel:false,
-			// 					success:function(){		
-			// 						console.log(uni.getSystemInfoSync().platform)
-			// 						plus.runtime.openURL(wgtUrl);
-			// 						switch(uni.getSystemInfoSync().platform){
-			// 							case 'android':
-			// 								console.log('运行Android上')
-			// 								plus.runtime.openURL(wgtUrl);
-			// 								break;
-			// 							case 'ios':
-			// 								console.log('运行iOS上')
-			// 								plus.runtime.install(wgtUrl);
-			// 								break;
-			// 							default:
-			// 								console.log('运行在开发者工具上')
-			// 								break;
-			// 						}
-			// 					}
-			// 				})							 
-			// 			}
-			// 	    }
-			// 	});
-			// });
+			// #ifdef APP-PLUS
+			plus.runtime.getProperty(plus.runtime.appid,function(inf){  
+				wgtVer = inf.version;  
+				console.log("当前应用版本："+wgtVer);
+				that.$http.updateVersion({
+					// version: wgtVer,
+					type: that.$options.globalData.and_ios
+				}).then((data)=>{
+					// console.log(data.data);
+					var res = data.data.message.data;
+					if(res.is_update == 1){
+						if(res.version != wgtVer){
+							uni.showModal({
+								title: res.name,
+								content: res.memo,
+								confirmText:"升级APP",
+								showCancel: false,
+								success:function(){
+									// console.log(uni.getSystemInfoSync().platform)
+									// plus.runtime.openURL(wgtUrl);
+									switch(uni.getSystemInfoSync().platform){
+										case 'android':
+											console.log('运行Android上')
+											plus.runtime.openURL(res.downLink);
+											break;
+										case 'ios':
+											console.log('运行iOS上')
+											plus.runtime.install(res.ios_downLink);
+											break;
+										default:
+											console.log('运行在开发者工具上')
+											break;
+									}
+								}
+							})
+						}else{
+							console.log('已是最新版本');
+						}
+					}
+				})
+			});
+			// #endif
 			
 			console.log('App Show')
 			// that.$http.getOrderList({

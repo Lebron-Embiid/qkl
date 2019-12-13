@@ -15,7 +15,9 @@
 		</view>
 		<view class="increase_apply">
 			<text>转款操作</text>
+			<!-- #ifndef H5 -->
 			<image src="/static/scan.svg" @tap="scanCode" mode="widthFix"></image>
+			<!-- #endif -->
 		</view>
 		<view class="increase_before" v-if="is_apply == 1">
 			<image src="/static/success.svg" mode="widthFix"></image>

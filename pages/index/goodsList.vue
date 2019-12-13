@@ -77,10 +77,10 @@
 					page: this.page,
 					limit: 10
 				}).then((data)=>{
-					this.goodsList = data.data.list;
 					if(this.goodsList.length < 10){
 						this.loadingType = 'noMore';
 					}
+					this.goodsList = data.data.list;
 				})
 			}
 			// 推荐商品
@@ -91,10 +91,10 @@
 					page: this.page,
 					limit: 10
 				}).then((data)=>{
-					this.goodsList = data.data.list;
 					if(this.goodsList.length < 10){
 						this.loadingType = 'noMore';
 					}
+					this.goodsList = data.data.list;
 				})
 			}
 			// 分类商品
@@ -106,10 +106,10 @@
 					page: this.page,
 					limit: 10
 				}).then((data)=>{
-					this.goodsList = data.data.list;
 					if(this.goodsList.length < 10){
 						this.loadingType = 'noMore';
 					}
+					this.goodsList = data.data.list;
 				})
 			}
 			// uni.setNavigationBarTitle({

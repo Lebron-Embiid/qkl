@@ -1097,6 +1097,35 @@ export const getShareBonus = (data) => {
         data
     })
 }
+// 团队分红
+export const getTeamBonusList = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'ShareBonus/teamList',
+        method: 'POST', 
+        data
+    })
+}
+
+// APP版本更新
+export const updateVersion = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Base/androidVersion',
+        method: 'POST', 
+        data
+    })
+}
 
 // if(data.data.status == 40001){
 // 	this.$api.msg('请登录');
@@ -1190,5 +1219,7 @@ export default {
 	cancelOrder,
 	payOrder,
 	completeOrder,
-	getShareBonus
+	getShareBonus,
+	getTeamBonusList,
+	updateVersion
 }

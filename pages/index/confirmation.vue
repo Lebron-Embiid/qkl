@@ -144,6 +144,8 @@
 			}else{
 				this.type = 0;
 			}
+		},
+		onShow() {
 			uni.showLoading({
 				title: '加载中'
 			})
@@ -203,17 +205,14 @@
 			}
 			console.log(this.id,this.num,this.type);
 		},
-		onShow() {
-			
-		},
 		onHide() {
 			uni.hideLoading();
 		},
-		onBackPress() {
-			//页面后退时候，清除订单信息
-			this.clearOrder();
-			uni.hideLoading();
-		},
+		// onBackPress() {
+		// 	//页面后退时候，清除订单信息
+		// 	this.clearOrder();
+		// 	uni.hideLoading();
+		// },
 		filters: {
 			toFixed:function(x) {
 				return parseFloat(x).toFixed(2);

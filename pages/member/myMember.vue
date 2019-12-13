@@ -13,7 +13,7 @@
 			<view class="my_member_item" @tap="toDividend">
 				<image src="/static/member_icon3.png" mode="widthFix"></image>
 				<view class="right_area">
-					<view class="member_txt">我的分红：</view>
+					<view class="member_txt">分红总额：</view>
 					<view class="member_money">$ {{dividend}}</view>
 				</view>
 			</view>
@@ -46,19 +46,19 @@
 				<view class="leaf-node first" @tap="transferMoney(index)">
 					<image :src="url+'Public/home/wap/heads/default_avatar.svg'" mode="widthFix"></image>
 					<view>昵称：{{one.name}}</view>
-					<text class="active">投资：{{one.price}}</text>
+					<text class="active">投资：{{one.team_total==null?0:one.team_total}}</text>
 				</view>
 				<view class="tree" v-for="(two,idx) in one.children" v-if="one.children.length != 0" :key="idx">
 					<view class="leaf-node middle" @tap="transferMoney(index,idx)">
 						<image :src="url+'Public/home/wap/heads/default_avatar.svg'" mode="widthFix"></image>
 						<view>昵称：{{two.name}}</view>
-						<text class="active">投资：{{two.price}}</text>
+						<text class="active">投资：{{two.team_total==null?0:two.team_total}}</text>
 					</view>
 					<view class="tree" v-for="(three,ix) in two.children" v-if="two.children.length != 0" :key="ix">
 						<view class="leaf-node last" @tap="transferMoney(index,idx,ix)">
 							<image :src="url+'Public/home/wap/heads/default_avatar.svg'" mode="widthFix"></image>
 							<view>昵称：{{three.name}}</view>
-							<text>投资：{{three.price}}</text>
+							<text>投资：{{three.team_total==null?0:three.team_total}}</text>
 						</view>
 					</view>
 				</view>
@@ -172,7 +172,6 @@
 			})
 		},
 		onShow() {			
-			this.dividend = uni.getStorageSync('dividend');
 			this.avatar = getApp().globalData.avatar;
 			if(uni.getStorageSync('token') == ''){
 				this.$api.msg('请登录');
@@ -186,6 +185,11 @@
 					this.name = data.data.username;
 					if(data.data.username == ''){
 						this.name = data.data.mobile;
+					}
+				})
+				this.$http.getShareBonus().then((data)=>{
+					if(data.data.total != null){
+						this.dividend = data.data.total;
 					}
 				})
 				this.$http.getNetList().then((data)=>{
@@ -233,7 +237,7 @@
 			},
 			toDividend(){
 				uni.navigateTo({
-					url: '/pages/mine/dividend?index=1'
+					url: '/pages/mine/dividend'
 				})
 			}
 		},

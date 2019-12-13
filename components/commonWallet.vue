@@ -182,6 +182,10 @@
 						}
 						// 投资
 						if(this.current == 2 && this.isApp == false){
+							if(this.price % 1 !== 0){
+								this.$api.msg('请输入整数');
+								return;
+							}
 							this.$http.changeInvestment({
 								sec_password: this.pay_pwd,
 								money: this.price

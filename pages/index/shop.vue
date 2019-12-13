@@ -108,11 +108,11 @@
 			uniNavBar,
 			uniLoadMore
 		},
-		onBackPress() {
-			uni.redirectTo({
-				url: '/pages/index/shop'
-			})
-		},
+		// onBackPress() {
+		// 	uni.redirectTo({
+		// 		url: '/pages/index/shop'
+		// 	})
+		// },
 		onLoad() {
 			this.url = this.$http.url;
 		},

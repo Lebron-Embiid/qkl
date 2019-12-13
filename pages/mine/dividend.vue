@@ -3,6 +3,13 @@
 		<uni-nav-bar left-icon="back" leftText="返回" title="我的分红" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="dividend_box">
+			<view class="dividend_left first" @tap="toTeam">
+				<image src="/static/member_icon4.png" mode="widthFix"></image>
+				<view class="right_area">
+					<view class="member_txt">会员人数：</view>
+					<view class="member_money">{{person_num}}</view>
+				</view>
+			</view>
 			<view class="dividend_left">
 				<image src="/static/member_icon3.png" mode="widthFix"></image>
 				<view class="right_area">
@@ -10,7 +17,7 @@
 					<view class="member_money">$ {{dividend}}</view>
 				</view>
 			</view>
-			<view class="dividend_right" @tap="openOut">转出</view>
+			<!-- <view class="dividend_right" @tap="openOut">转出</view> -->
 		</view>
 		<view class="dividend_nav">
 			<view :class="[current == index?'active':'']" @tap="changeNav(index)" v-for="(item,index) in navs" :key="index">{{item}}</view>
@@ -45,13 +52,13 @@
 				</view>
 				<view class="dividend_item" v-for="(item,index) in dividendTeamList" :key="index">
 					<view class="dividend_center" v-for="(list,idx) in item.list" :key="idx">
-						<view class="dc_left">{{list.name}}</view>
-						<view class="dc_center">{{list.level}}</view>
-						<view class="dc_right">{{list.income}}</view>
+						<view class="dc_left">{{list.username}}</view>
+						<view class="dc_center">{{list.dept}}</view>
+						<view class="dc_right">{{list.bonus}}</view>
 					</view>
 					<view class="dividend_bottom">
 						<view></view>
-						<view class="last">结算于 {{item.end_time}}</view>
+						<view class="last">结算于 {{item.add_time}}</view>
 					</view>
 				</view>
 				<uni-load-more :status="loadingType"></uni-load-more>
@@ -91,30 +98,12 @@
 				show1: false,
 				name: '',
 				avatar: '',
+				person_num: 0,
 				dividend: 0,
 				navs: ['个人分红','团队分红'],
 				current: 0,
 				dividendList: [],
-				dividendTeamList: [
-					{
-						list: [
-							{
-								name: 'LUCY',
-								level: '1',
-								income: '40'
-							},{
-								name: 'BECKY',
-								level: '2',
-								income: '10'
-							},{
-								name: 'MERRY',
-								level: '3',
-								income: '10'
-							}
-						],
-						end_time: '2019/11/25  09：00'
-					}
-				],
+				dividendTeamList: [],
 				price: '',
 				pay_pwd: '',
 				loadingType: 'more',
@@ -129,6 +118,11 @@
 			uniLoadMore
 		},
 		methods:{
+			toTeam(){
+				uni.switchTab({
+					url: '/pages/member/myMember'
+				})
+			},
 			changeNav(idx){
 				this.current = idx;
 				this.page = 1;
@@ -141,9 +135,32 @@
 							this.loadingType = 'noMore';
 						}
 						this.dividendList = data.data.list;
+						if(data.data.total != null){
+							this.dividend = data.data.total;
+						}
 					})
 				}else{
-					
+					this.$http.getTeamBonusList({
+						page: 1,
+						limit: 10
+					}).then((data)=>{
+						if(data.data.length < 10){
+							this.loadingType = 'noMore';
+						}
+						this.dividendTeamList = data.data;
+						// let list = [];
+						// for(let i in data.data){
+						// 	list[i] = data.data[i][0];
+						// }
+						// for(let i in data.data){
+						// 	this.dividendTeamList.push({
+						// 		list: [list[i]],
+						// 		add_time: data.data[i].add_time
+						// 	})
+						// }
+						
+						// console.log(this.dividendTeamList);
+					})
 				}
 			},
 			openOut(){
@@ -155,11 +172,25 @@
 				this.pay_pwd = '';
 			},
 			okPopup(){
-				this.$refs.popup.close();
+				this.$http.changeInvestmentinto({
+					sec_password: this.pay_pwd,
+					money: this.price,
+					type: 1
+				}).then((data)=>{
+					this.$api.msg(data.data.message);
+					if(data.data.status == 1){
+						this.$refs.popup.close();
+						this.pay_pwd = '';
+						this.price = '';
+					}
+				})
 			}
 		},
 		onShow(){
 			this.avatar = getApp().globalData.avatar;
+			this.$http.getNetList().then((data)=>{
+				this.person_num = data.data.title[1].charAt(data.data.title[1].length-1);
+			})
 			if(this.current == 0){
 				this.$http.getShareBonus({
 					page: 1,
@@ -169,13 +200,20 @@
 						this.loadingType = 'noMore';
 					}
 					this.dividendList = data.data.list;
-					for(let i in data.data.list){
-						this.dividend += parseInt(data.data.list[i].bonus);
+					if(data.data.total != null){
+						this.dividend = data.data.total;
 					}
-					uni.setStorageSync('dividend',this.dividend);
 				})
 			}else{
-				
+				this.$http.getTeamBonusList({
+					page: 1,
+					limit: 10
+				}).then((data)=>{
+					if(data.data.length < 10){
+						this.loadingType = 'noMore';
+					}
+					this.dividendTeamList = data.data;
+				})
 			}
 		},
 		onLoad(opt) {
@@ -186,6 +224,11 @@
 				this.name = data.data.username;
 				if(data.data.username == ''){
 					this.name = data.data.mobile;
+				}
+			})
+			this.$http.getShareBonus().then((data)=>{
+				if(data.data.total != null){
+					this.dividend = data.data.total;
 				}
 			})
 		},
@@ -203,9 +246,17 @@
 					this.dividendList = this.dividendList.concat(data.data.list);
 				})
 			}else{
-				
+				this.$http.getTeamBonusList({
+					page: this.page,
+					limit: 10
+				}).then((data)=>{
+					this.loadingType = "loading";
+					if(data.data.length == 0){
+						this.loadingType = 'noMore';
+					}
+					this.dividendTeamList = this.dividendTeamList.concat(data.data);
+				})
 			}
-			
 		}
 	}
 </script>
@@ -229,6 +280,9 @@
 			box-sizing: border-box;
 			color: #fff;
 			font-size: 28rpx;
+			&.first{
+				background: #333;
+			}
 			image{
 				display: block;
 				width: 78rpx;

@@ -72,17 +72,17 @@
 				type: 0
 			}
 		},
-		onBackPress() {
-			if(this.type != 1){
-				uni.switchTab({
-					url: '/pages/trade/index'
-				})
-			}else{
-				uni.navigateBack({
-					delta: 1
-				})
-			}
-		},
+		// onBackPress() {
+		// 	if(this.type != 1){
+		// 		uni.switchTab({
+		// 			url: '/pages/trade/index'
+		// 		})
+		// 	}else{
+		// 		uni.navigateBack({
+		// 			delta: 1
+		// 		})
+		// 	}
+		// },
 		onLoad(opt) {
 			this.url = this.$http.url;
 			if(opt.type != undefined){
