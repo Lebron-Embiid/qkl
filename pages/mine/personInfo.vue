@@ -70,9 +70,10 @@
 			<view class="basic_title">银行账户<text @tap="toBankList">查看全部</text></view>
 			<view class="bank_info" v-for="(item,index) in bankList" :key="index">
 				<view class="bank_left">
-					<image :src="url+item.banq_img" mode="widthFix"></image>
+					<!-- <image :src="url+item.banq_img" mode="widthFix"></image> -->
 					<view class="bank_txt">
-						<view class="bank_name">{{item.banq_genre}}</view>
+						<!-- <view class="bank_name">{{item.banq_genre}}</view> -->
+						<view class="bank_name"><!-- {{item.country}} - -->{{item.card_name}}</view>
 						<text>{{item.card_number}}</text>
 					</view>
 				</view>

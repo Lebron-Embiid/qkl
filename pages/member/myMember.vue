@@ -194,7 +194,7 @@
 				})
 				this.$http.getNetList().then((data)=>{
 					// console.log(data.data);
-					this.person_num = data.data.title[1].charAt(data.data.title[1].length-1);
+					this.person_num = data.data.title[1].replace(/[^0-9]/ig,"");
 					this.treeList = [data.data];
 				})
 			}

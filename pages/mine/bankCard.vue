@@ -10,10 +10,13 @@
 			</view>
 			<view class="bank_item">
 				<text>开户银行</text>
-				<view class="">
-					<picker @change="bindPickerChange" range-key="banq_genre" :range="array">
-						<view class="uni-input">{{bank_type}}</view>
-					</picker>
+				<view class="bank_box">
+					<input type="text" class="area" placeholder="请输入国家" v-model="bank_county">
+					-
+					<input type="text" class="val" placeholder="请输入开户银行" v-model="bank_type">
+					<!-- <picker @change="bindPickerChange" range-key="banq_genre" :range="array">
+						<view class="uni-input">{{bank_txt}}</view>
+					</picker> -->
 				</view>
 			</view>
 			<view class="bank_item">
@@ -42,11 +45,13 @@
 				name: '',
 				avatar: '',
 				array: [],
-				bank_type: '请选择开户银行',
+				bank_type: '',
+				bank_txt: '请输入开户银行',
 				card_name: '',
 				bank_id: '',
 				card_number: '',
-				card_bank: ''
+				card_bank: '',
+				bank_county: ''
 			}
 		},
 		components:{
@@ -71,7 +76,7 @@
 		methods:{
 			bindPickerChange(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
-				this.bank_type = this.array[e.target.value].banq_genre;
+				this.bank_txt = this.array[e.target.value].banq_genre;
 				this.bank_id = this.array[e.target.value].q_id;
 			},
 			addCard(){
@@ -81,18 +86,20 @@
 					success:()=>{
 						this.$http.addBank({
 							real_name: this.card_name,
-							bank_id: this.bank_id,
+							bank_id: this.bank_type,
 							bank_account: this.card_number,
 							open_card: this.card_bank,
-							is_default: 1
+							is_default: 1,
+							country: this.bank_county
 						}).then((data)=>{
 							this.$api.msg(data.data.message);
 							if(data.data.status == 1){
 								this.card_name = '';
 								this.bank_id = '';
-								this.bank_type = '请选择开户银行';
-								this.card_number = '',
-								this.card_bank = ''
+								this.bank_type = '';
+								this.card_number = '';
+								this.card_bank = '';
+								this.bank_county = ''
 							}
 						})
 					}
@@ -119,8 +126,21 @@
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
+			.bank_box{
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				width: 65%;
+				.area{
+					width: 30%;
+					margin-right: 10rpx;
+				}
+				.val{
+					margin-left: 10rpx;
+				}
+			}
 			text{
-				display: block;
+				display: block !important;
 				width: 25%;
 			}
 			input{

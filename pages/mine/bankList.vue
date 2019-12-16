@@ -3,9 +3,9 @@
 		<uni-nav-bar left-icon="back" leftText="返回" title="我的银行卡"></uni-nav-bar>
 		<view class="bank_info" v-for="(item,index) in bankList" :key="index">
 			<view class="bank_left">
-				<image :src="url+item.banq_img" mode="widthFix"></image>
+				<!-- <image :src="url+item.banq_img" mode="widthFix"></image> -->
 				<view class="bank_txt">
-					<view class="bank_name">{{item.banq_genre}}</view>
+					<view class="bank_name"><!-- {{item.country}} - -->{{item.card_name}}</view>
 					<text>{{item.card_number}}</text>
 				</view>
 			</view>

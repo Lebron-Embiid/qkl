@@ -48,6 +48,9 @@
 						<view class="ipt_box">
 							<input type="text" placeholder="请输入邀请码" v-model="invite_code" />
 						</view>
+						<!-- #ifndef H5 -->
+						<image src="/static/scan1.svg" @tap="scanInvite" mode="widthFix"></image>
+						<!-- #endif -->
 					</view>
 				</view>
 				<view class="form_item">
@@ -121,6 +124,17 @@
 			switchc,
 			validCode
 		},
+		onLoad(opt) {
+			console.log(opt);
+			// #ifdef H5
+			setTimeout(()=>{
+			uni.$emit('update',{msg:'页面更新'});
+			},1000)
+			uni.$on('update',function(data){
+				console.log('监听到事件来自 update ，携带参数 msg 为：' + data.msg);
+			})
+			// #endif
+		},
 		onShow() {
 			this.app_name = getApp().globalData.app_name;
 			this.logoSrc = getApp().globalData.app_logo;
@@ -133,6 +147,18 @@
 			})
 		},
 		methods:{
+			scanInvite(){
+				let that = this;
+				// #ifndef H5
+				uni.scanCode({
+				    success: function (res) {
+				        console.log('条码类型：' + res.scanType);
+				        console.log('条码内容：' + res.result);
+						that.invite_code = res.result;
+				    }
+				})
+				// #endif
+			},
 			getCode(value){
 			  // console.log(value);
 			  this.validCode = value.toLowerCase();
@@ -286,6 +312,12 @@
 						}
 					}
 				}
+			}
+			image{
+				display: block;
+				width: 40rpx;
+				height: 40rpx !important;
+				margin-right: 10rpx;
 			}
 		}
 	}

@@ -120,7 +120,7 @@
 					}
 				})
 				this.$http.getNetList().then((data)=>{
-					this.memberList[3].value = data.data.title[1].charAt(data.data.title[1].length-1);
+					this.memberList[3].value = data.data.title[1].replace(/[^0-9]/ig,"");
 				})
 			}
 			// console.log(getApp().globalData.is_login);

@@ -243,6 +243,7 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: flex-start;
+				border-bottom: 1px solid #ccc;
 				image{
 					display: block;
 					width: 120rpx;

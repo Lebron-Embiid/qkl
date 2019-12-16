@@ -3,7 +3,6 @@ import App from './App'
 import api from '@/common/vmeitime-http/'
 import Debounce from '@/common/debounce.js'
 import './js_sdk/ican-clipBoard/ican-clipBoard.js'
-
 Vue.config.productionTip = false
 
 App.mpType = 'app'

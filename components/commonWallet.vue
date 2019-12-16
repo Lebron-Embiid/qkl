@@ -7,11 +7,17 @@
 			<view class="popup_box">
 				<view class="popup_content">
 					<view class="popup_title">
-						<block v-if="current == 0">
+						<block v-if="current == 0 && isApp == false">
 						从APP钱包转入
 						</block>
-						<block v-if="current == 1">
+						<block v-if="current == 0 && isApp == true">
+						从投资钱包转入
+						</block>
+						<block v-if="current == 1 && isApp == false">
 						转出到APP钱包
+						</block>
+						<block v-if="current == 1 && isApp == true">
+						转出到投资钱包
 						</block>
 						<block v-if="current == 2 && isApp == false">
 						钱包投资
@@ -25,7 +31,7 @@
 						您将从APP钱包转入到投资钱包上
 						</block>
 						<block v-if="current == 0 && isApp == true">
-						您将把APP钱包资金转入到投资钱包
+						您将把投资钱包资金转入到APP钱包
 						</block>
 						<block v-if="current == 1 && isApp == false">
 						您将把投资钱包资金转入到APP钱包
@@ -41,7 +47,11 @@
 						</block>
 					</view>
 					
-					<block v-if="current == 0">
+					<block v-if="current == 0 && isApp == false">
+						<view class="over_price">当前投资钱包余额</view>
+						<view class="over_price_val">$ {{over_money}}</view>
+					</block>
+					<block v-if="current == 0 && isApp == true">
 						<view class="over_price">当前APP钱包余额</view>
 						<view class="over_price_val">$ {{over_money}}</view>
 					</block>
@@ -132,6 +142,7 @@
 									this.$refs.popup.close();
 									this.pay_pwd = '';
 									this.price = '';
+									this.$emit('updateMoney');
 								}
 							})
 						}
@@ -147,6 +158,7 @@
 									this.$refs.popup.close();
 									this.pay_pwd = '';
 									this.price = '';
+									this.$emit('updateMoney');
 								}
 							})
 						}
@@ -162,6 +174,7 @@
 									this.$refs.popup.close();
 									this.pay_pwd = '';
 									this.price = '';
+									this.$emit('updateMoney');
 								}
 							})
 						}
@@ -177,6 +190,7 @@
 									this.$refs.popup.close();
 									this.pay_pwd = '';
 									this.price = '';
+									this.$emit('updateMoney');
 								}
 							})
 						}
@@ -195,6 +209,7 @@
 									this.$refs.popup.close();
 									this.pay_pwd = '';
 									this.price = '';
+									this.$emit('updateMoney');
 								}
 							})
 						}
@@ -202,7 +217,6 @@
 						if(this.current == 2 && this.isApp == true){
 							
 						}
-						this.$emit('updateMoney');
 					}
 				})
 			}

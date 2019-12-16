@@ -3,13 +3,13 @@
 		<uni-nav-bar left-icon="back" leftText="返回" title="我的分红" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="dividend_box">
-			<view class="dividend_left first" @tap="toTeam">
+			<!-- <view class="dividend_left first" @tap="toTeam">
 				<image src="/static/member_icon4.png" mode="widthFix"></image>
 				<view class="right_area">
 					<view class="member_txt">会员人数：</view>
 					<view class="member_money">{{person_num}}</view>
 				</view>
-			</view>
+			</view> -->
 			<view class="dividend_left">
 				<image src="/static/member_icon3.png" mode="widthFix"></image>
 				<view class="right_area">
@@ -17,7 +17,7 @@
 					<view class="member_money">$ {{dividend}}</view>
 				</view>
 			</view>
-			<!-- <view class="dividend_right" @tap="openOut">转出</view> -->
+			<view class="dividend_right" @tap="openOut">转出</view>
 		</view>
 		<view class="dividend_nav">
 			<view :class="[current == index?'active':'']" @tap="changeNav(index)" v-for="(item,index) in navs" :key="index">{{item}}</view>
@@ -64,11 +64,30 @@
 				<uni-load-more :status="loadingType"></uni-load-more>
 			<!-- </uni-transition> -->
 		</view>
+		<view class="invest_box" v-if="current == 2">
+			<view class="invest_top">
+				<view class="it_left">流水单号</view>
+				<view class="it_right">收益</view>
+			</view>
+			<view class="invest_item" v-for="(item,index) in dividendBills" :key="index">
+				<view class="invest_center">
+					<view class="ic_left">{{item.order_sn}}</view>
+					<view class="ic_right">{{item.money}}</view>
+				</view>
+				<view class="invest_bottom">
+					<view>
+						{{item.add_time}}
+					</view>
+					<view>{{item.type_name}}</view>
+				</view>
+			</view>
+			<uni-load-more :status="loadingType"></uni-load-more>
+		</view>
 		<uni-popup ref="popup" :maskClick="false" type="center">
 			<view class="popup_box">
 				<view class="popup_content">
-					<view class="popup_title">转出到APP钱包</view>
-					<view class="popup_info">您将把分红资金转入到APP钱包</view>
+					<view class="popup_title">转出到投资钱包</view>
+					<view class="popup_info">您将把分红资金转入到投资钱包</view>
 					<input type="text" v-model="price" placeholder="请输入转出金额" />
 					<input type="password" v-model="pay_pwd" placeholder="请输入支付密码" />
 				</view>
@@ -100,9 +119,10 @@
 				avatar: '',
 				person_num: 0,
 				dividend: 0,
-				navs: ['个人分红','团队分红'],
+				navs: ['个人分红','团队分红','分红明细'],
 				current: 0,
 				dividendList: [],
+				dividendBills: [],
 				dividendTeamList: [],
 				price: '',
 				pay_pwd: '',
@@ -139,7 +159,7 @@
 							this.dividend = data.data.total;
 						}
 					})
-				}else{
+				}else if(this.current == 1){
 					this.$http.getTeamBonusList({
 						page: 1,
 						limit: 10
@@ -161,6 +181,17 @@
 						
 						// console.log(this.dividendTeamList);
 					})
+				}else{
+					this.$http.getBonusIndex({
+						page: 1,
+						limit: 10,
+						type: 2
+					}).then((data)=>{
+						if(data.data.length < 10){
+							this.loadingType = 'noMore';
+						}
+						this.dividendBills = data.data;
+					})
 				}
 			},
 			openOut(){
@@ -175,13 +206,40 @@
 				this.$http.changeInvestmentinto({
 					sec_password: this.pay_pwd,
 					money: this.price,
-					type: 1
+					type: 3
 				}).then((data)=>{
 					this.$api.msg(data.data.message);
 					if(data.data.status == 1){
 						this.$refs.popup.close();
 						this.pay_pwd = '';
 						this.price = '';
+						this.$http.getShareBonus({
+							page: 1,
+							limit: 1
+						}).then((data)=>{
+							if(data.data.total != null){
+								this.dividend = data.data.total;
+							}
+						})
+						this.$http.getTeamBonusList({
+							page: 1,
+							limit: 10
+						}).then((data)=>{
+							if(data.data.length < 10){
+								this.loadingType = 'noMore';
+							}
+							this.dividendTeamList = data.data;
+						})
+						this.$http.getBonusIndex({
+							page: 1,
+							limit: 10,
+							type: 2
+						}).then((data)=>{
+							if(data.data.length < 10){
+								this.loadingType = 'noMore';
+							}
+							this.dividendBills = data.data;
+						})
 					}
 				})
 			}
@@ -189,32 +247,20 @@
 		onShow(){
 			this.avatar = getApp().globalData.avatar;
 			this.$http.getNetList().then((data)=>{
-				this.person_num = data.data.title[1].charAt(data.data.title[1].length-1);
+				this.person_num = data.data.title[1].replace(/[^0-9]/ig,"");
 			})
-			if(this.current == 0){
-				this.$http.getShareBonus({
-					page: 1,
-					limit: 10
-				}).then((data)=>{
-					if(data.data.list.length < 10){
-						this.loadingType = 'noMore';
-					}
-					this.dividendList = data.data.list;
-					if(data.data.total != null){
-						this.dividend = data.data.total;
-					}
-				})
-			}else{
-				this.$http.getTeamBonusList({
-					page: 1,
-					limit: 10
-				}).then((data)=>{
-					if(data.data.length < 10){
-						this.loadingType = 'noMore';
-					}
-					this.dividendTeamList = data.data;
-				})
-			}
+			this.$http.getShareBonus({
+				page: 1,
+				limit: 10
+			}).then((data)=>{
+				if(data.data.list.length < 10){
+					this.loadingType = 'noMore';
+				}
+				this.dividendList = data.data.list;
+				if(data.data.total != null){
+					this.dividend = data.data.total;
+				}
+			})
 		},
 		onLoad(opt) {
 			if(opt.index != undefined){
@@ -245,7 +291,7 @@
 					}
 					this.dividendList = this.dividendList.concat(data.data.list);
 				})
-			}else{
+			}else if(this.current == 1){
 				this.$http.getTeamBonusList({
 					page: this.page,
 					limit: 10
@@ -255,6 +301,18 @@
 						this.loadingType = 'noMore';
 					}
 					this.dividendTeamList = this.dividendTeamList.concat(data.data);
+				})
+			}else{
+				this.$http.getBonusIndex({
+					page: this.page,
+					limit: 10,
+					type: 2
+				}).then((data)=>{
+					this.loadingType = "loading";
+					if(data.data.length == 0){
+						this.loadingType = 'noMore';
+					}
+					this.dividendBills = this.dividendBills.concat(data.data);
 				})
 			}
 		}

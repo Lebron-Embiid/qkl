@@ -45,7 +45,7 @@
 					<view>
 						投资于 {{item.add_time}}
 					</view>
-					<view>{{item.bonus}} 转入 {{item.to_bonus}}</view>
+					<view>{{item.type_name}}</view>
 				</view>
 			</view>
 			<uni-load-more :status="loadingType"></uni-load-more>
@@ -86,7 +86,7 @@
 				id: '',
 				pay_pwd: '',
 				current: 0,
-				navs: ['投资记录','转入转出明细'],
+				navs: ['投资记录','全部明细'],
 				walletNavs: [{title:'转入',name:'first'},{title:'转出',name:'active'},{title:'投资',name:''}],
 				investList: [],
 				transferList: [],
@@ -103,14 +103,6 @@
 		},
 		onShow(){
 			this.avatar = getApp().globalData.avatar;
-		},
-		onLoad() {
-			this.$http.getUserInfo().then((data)=>{
-				this.name = data.data.username;
-				if(data.data.username == ''){
-					this.name = data.data.mobile;
-				}
-			})
 			this.$http.getInvestment({
 				page: this.page,
 				limit: 10
@@ -122,6 +114,14 @@
 				this.investList = res.list;
 				this.over_money = res.bonus.bonus1;
 				this.invest_money = res.total;
+			})
+		},
+		onLoad() {
+			this.$http.getUserInfo().then((data)=>{
+				this.name = data.data.username;
+				if(data.data.username == ''){
+					this.name = data.data.mobile;
+				}
 			})
 		},
 		methods:{
@@ -142,9 +142,10 @@
 						this.invest_money = res.total;
 					})
 				}else{
-					this.$http.getTransferOutIndex({
+					this.$http.getBonusIndex({
 						page: 1,
-						limit: 10
+						limit: 10,
+						type: 1
 					}).then((data)=>{
 						if(data.data.length < 10){
 							this.loadingType = 'noMore';
@@ -178,8 +179,8 @@
 								}).then((data)=>{
 									let res = data.data;
 									this.investList = res.list;
-									this.over_money = res.bonus.bonus0;
-									this.invest_money = res.bonus.bonus1;
+									this.over_money = res.bonus.bonus1;
+									this.invest_money = res.total;
 									this.$refs.popup_back.close();
 									this.id = '';
 									this.pay_pwd = '';
@@ -199,9 +200,10 @@
 					this.over_money = res.bonus.bonus1;
 					this.invest_money = res.total;
 				})
-				this.$http.getTransferOutIndex({
+				this.$http.getBonusIndex({
 					page: 1,
-					limit: 10
+					limit: 10,
+					type: 1
 				}).then((data)=>{
 					this.transferList = data.data;
 				})
@@ -222,9 +224,10 @@
 					this.investList = this.investList.concat(res.list);
 				})
 			}else{
-				this.$http.getTransferOutIndex({
+				this.$http.getBonusIndex({
 					page: this.page,
-					limit: 10
+					limit: 10,
+					type: 1
 				}).then((data)=>{
 					this.loadingType = 'loading';
 					if(data.data.length == 0){

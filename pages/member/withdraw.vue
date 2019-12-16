@@ -26,9 +26,10 @@
 		</view>
 		<view class="increase_after" v-if="is_apply == 0">
 			<view class="form_item">
-				<picker @change="bindPickerChange" range-key="banq_genre" :range="bankList">
+				<picker @change="bindPickerChange" v-if="bankList.length != 0" range-key="card_name" :range="bankList">
 					<view class="uni-input">{{bank_type}}</view>
 				</picker>
+				<view @tap="noBank" class="nobank" v-else>{{bank_type}}</view>
 			</view>
 			<view class="form_item">
 				<view class="icon no"><image src="/static/add.png" mode="widthFix"></image></view>
@@ -117,9 +118,12 @@
 		methods:{
 			bindPickerChange(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value);
-				this.bank_type = this.bankList[e.target.value].banq_genre;
+				this.bank_type = this.bankList[e.target.value].card_name;
 				this.bank_id = this.bankList[e.target.value].id;
 				console.log(this.bank_id);
+			},
+			noBank(){
+				this.$api.msg('暂无提款账号，快去设置吧！');
 			},
 			toListLink(idx){
 				uni.navigateTo({
@@ -175,7 +179,7 @@
 
 <style scoped lang="scss">
 	.form_item{
-		picker{
+		picker,.nobank{
 			color: #999;
 			font-size: 28rpx;
 		}

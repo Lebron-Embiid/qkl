@@ -32,7 +32,7 @@ http.delete('user/1').then((res)=>{
 export default {
 	config: {
 		// 线上地址
-		// baseUrl: "http://qkl.longbasz.com/",
+		// baseUrl: "http://api.malai.longbasz.com/",
 		// 本地地址
 		baseUrl: "http://192.168.1.126/www.qkl.com/",
 		header: {
