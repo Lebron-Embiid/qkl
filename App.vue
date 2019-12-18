@@ -34,25 +34,26 @@
 				wgtVer = inf.version;  
 				console.log("当前应用版本："+wgtVer);
 				that.$http.updateVersion({
-					// version: wgtVer,
+					version: wgtVer,
 					type: that.$options.globalData.and_ios
 				}).then((data)=>{
 					// console.log(data.data);
 					var res = data.data.message.data;
 					if(res.is_update == 1){
-						if(res.version != wgtVer){
+						// if(res.version != wgtVer){
 							uni.showModal({
 								title: res.name,
 								content: res.memo,
 								confirmText:"升级APP",
 								showCancel: false,
 								success:function(){
-									// console.log(uni.getSystemInfoSync().platform)
-									// plus.runtime.openURL(wgtUrl);
+									console.log(uni.getSystemInfoSync().platform);
+									console.log(that.$http.url+res.apk);
+									// plus.runtime.openURL(that.$http.url+res.apk);
 									switch(uni.getSystemInfoSync().platform){
 										case 'android':
 											console.log('运行Android上')
-											plus.runtime.openURL(res.downLink);
+											plus.runtime.openURL(that.$http.url+res.apk);
 											break;
 										case 'ios':
 											console.log('运行iOS上')
@@ -64,9 +65,9 @@
 									}
 								}
 							})
-						}else{
-							console.log('已是最新版本');
-						}
+						// }else{
+						// 	console.log('已是最新版本');
+						// }
 					}
 				})
 			});

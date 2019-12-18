@@ -146,9 +146,9 @@
 			}
 		},
 		onShow() {
-			uni.showLoading({
-				title: '加载中'
-			})
+			// uni.showLoading({
+			// 	title: '加载中'
+			// })
 			if(this.type == 0){
 				this.$http.buyNow({
 					gid: this.id,
@@ -173,8 +173,8 @@
 					for(let i=0;i<len;i++){
 						this.sumPrice = this.goodsPrice + (this.buylist[i].num*this.buylist[i].price);
 					}
-					uni.hideLoading();
-					console.log(this.recinfo);
+					// uni.hideLoading();
+					// console.log(this.recinfo);
 				})
 			}else{
 				this.$http.carOrder({
@@ -199,14 +199,14 @@
 					for(let i=0;i<len;i++){
 						this.sumPrice +=  (this.buylist[i].num*this.buylist[i].price);
 					}
-					uni.hideLoading();
-					console.log(this.recinfo);
+					// uni.hideLoading();
+					// console.log(this.recinfo);
 				})
 			}
 			console.log(this.id,this.num,this.type);
 		},
 		onHide() {
-			uni.hideLoading();
+			// uni.hideLoading();
 		},
 		// onBackPress() {
 		// 	//页面后退时候，清除订单信息

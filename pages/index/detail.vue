@@ -86,7 +86,7 @@
 			</view>
 		</view>
 		<!-- 规格-模态层弹窗 -->
-		<view class="popup spec" :class="specClass" @touchmove.stop.prevent="discard" @tap="hideSpec">
+		<view class="popup spec" :class="specClass" @tap="hideSpec">
 			<!-- 遮罩层 -->
 			<view class="mask"></view>
 			<view class="layer" @tap.stop="discard">
@@ -251,9 +251,9 @@ export default {
 			this.goods_id = option.cid;
 			// console.log(this.goods_id);
 		}
-		uni.showLoading({
-			title: '加载中'
-		})
+		// uni.showLoading({
+		// 	title: '加载中'
+		// })
 		this.$http.getStoreDetails({
 			g_id: option.cid
 		}).then((data)=>{
@@ -266,7 +266,7 @@ export default {
 			this.goodsData.stock = res.stock;
 			this.swiperList = res.pic_list;
 			this.content = res.content==null?'':res.content;
-			uni.hideLoading();
+			// uni.hideLoading();
 		})
 		// #ifdef MP
 		//小程序隐藏返回按钮
@@ -274,9 +274,9 @@ export default {
 		// #endif
 		//option为object类型，会序列化上个页面传递的参数
 	},
-	onUnload() {
-		uni.hideLoading();
-	},
+	// onUnload() {
+	// 	uni.hideLoading();
+	// },
 	onShow(){
 		// this.calcAnchor();//计算锚点高度，页面数据是ajax加载时，请把此行放在数据渲染完成事件中执行以保证高度计算正确
 	},
@@ -424,7 +424,7 @@ export default {
 			this.specCallback = fun;
 		},
 		specCallback(){
-			return;
+			// return;
 		},
 		finishSpec(){
 			this.specClass = 'hide';
@@ -450,8 +450,8 @@ export default {
 			this.specClass = 'hide';
 			//回调
 			
-			this.selectSpec&&this.specCallback&&this.specCallback();
-			this.specCallback = false;
+			// this.selectSpec&&this.specCallback&&this.specCallback();
+			// this.specCallback = false;
 			setTimeout(() => {
 				this.specClass = 'none';
 			}, 200);
