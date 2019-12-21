@@ -30,7 +30,7 @@
 				<view class="icon no"><image src="/static/account.png" mode="widthFix"></image></view>
 				<view class="right_box all">
 					<view class="ipt_box">
-						<input type="text" placeholder="请输入会员ID或钱包地址" v-model="id_link" />
+						<input type="text" placeholder="请输入钱包地址" v-model="id_link" />
 					</view>
 				</view>
 			</view>
@@ -62,7 +62,6 @@
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
     import switchc from '@/components/zz-switchc/zz-switchc.vue'
-	import wx from 'weixin-js-sdk';
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default{
@@ -146,8 +145,16 @@
 							this.$api.msg(data.data.message);
 							if(data.data.status == 1){
 								setTimeout(()=>{
+									this.$http.getUserBonus().then((data)=>{
+										let res = data.data;
+										this.memberList[0].value = res[0].money;
+										this.memberList[1].value = res[1].money;
+									})
 									this.is_apply = 1;
 									this.transfer_name = data.data.to_user;
+									this.id_link = '';
+									this.price = '';
+									this.password = '';
 								},1500)
 							}
 						})
@@ -155,7 +162,6 @@
 				})
 			},
 			scanCode(){
-				
 				let that = this;
 				// #ifndef H5
 				uni.scanCode({

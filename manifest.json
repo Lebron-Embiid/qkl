@@ -3,7 +3,7 @@
     "appid" : "__UNI__F2937C5",
     "description" : "",
     "versionName" : "1.0.0",
-    "versionCode" : "100",
+    "versionCode" : 100,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -119,11 +119,11 @@
         "usingComponents" : true
     },
     "h5" : {
-        "title" : "qkl",
-        "domain" : "http://xm.longbasz.com/",
+        "title" : "区块链",
+        "domain" : "http://api.solomon8.com/",
         "router" : {
             "mode" : "hash",
-            "base" : "/mod/mlxy_h5/"
+            "base" : "/h5/"
         }
     }
 }

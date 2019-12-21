@@ -37,7 +37,7 @@
 			<view class="invest_item" v-for="(item,index) in transferList" :key="index">
 				<view class="invest_center">
 					<view class="ic_left">{{item.order_sn}}</view>
-					<view class="ic_right">{{item.money}}</view>
+					<view class="ic_right"><block v-if="item.bonus == 'APP钱包'">-</block>{{item.money}}</view>
 				</view>
 				<view class="invest_bottom">
 					<view>

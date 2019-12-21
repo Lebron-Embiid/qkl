@@ -1,19 +1,12 @@
 <template>
 	<view class="recommendMember">
-		<uni-nav-bar left-icon="back" leftText="返回" title="推荐会员" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="扫码注册" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="recommend_box">
 			<text class="collect_txt">推荐人邀请码：{{link}}</text>
 			<button type="primary" @tap="copyLink">复制推荐地址</button>
-			<block v-if="is_app == 0">
-				<image :src="code_img" mode="widthFix"></image>
-				<text>APP内注册时，扫码获取邀请码</text>
-			</block>
-			<block v-else>
-				<image :src="code_img" mode="widthFix"></image>
-				<text>未下载APP时，邀请好友扫码去web端注册</text>
-			</block>
-			<view class="change_btn" @tap="changeCode">点击切换二维码</view>
+			<image :src="code_img" mode="widthFix"></image>
+			<text>邀请好友扫码注册</text>
 			<button type="primary" class="save_btn" @tap="savaCode">保存二维码</button>
 		</view>
 	</view>
@@ -22,9 +15,7 @@
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	import commonAvatar from "@/components/commonAvatar.vue"
-	import {Model} from '@/common/model.js'
 	import downloader from '@/js_sdk/img-downloader/img-downloader.js'
-	let model = new Model()
 	export default{
 		data(){
 			return{
@@ -33,8 +24,7 @@
 				name: '',
 				avatar: '',
 				link: '',
-				code_img: '',
-				is_app: 0
+				code_img: ''
 			}
 		},
 		components:{
@@ -60,19 +50,6 @@
 			uni.hideLoading();
 		},
 		methods:{
-			changeCode(){
-				if(this.is_app == 0){
-					this.is_app = 1;
-					this.$http.regCode().then((data)=>{
-						this.code_img = this.$http.url+data.data.img_url;
-					})
-				}else{
-					this.is_app = 0;
-					this.$http.shareCode().then((data)=>{
-						this.code_img = this.$http.url+data.data.img_url;
-					})
-				}
-			},
 			copyLink(){
 				let that = this;
 				// #ifndef H5
@@ -117,7 +94,7 @@
 				promise.then(([err, res])=>{
 				    console.log(err, res);			// err 和 res 只会有一个存在，另一个为null
 					if(res.statusCode == 200){
-						// that.$api.msg('保存成功');
+						that.$api.msg('保存成功');
 					}
 				});
 				// #endif
@@ -154,11 +131,6 @@
 		text-align: center;
 		.collect_txt{
 			color: #099;
-		}
-		.change_btn{
-			color: #00BFFF;
-			font-size: 28rpx;
-			margin-top: 30rpx;
 		}
 		button{
 			width: 80%;

@@ -1,6 +1,9 @@
 <template>
 	<view class="register">
+		<!-- #ifndef H5 -->
 		<uni-nav-bar left-icon="back" backgroundColor="#fff" :border="false"></uni-nav-bar>
+		<!-- #endif -->
+		
 		<view class="white_logo_box">
 			<image :src="logoSrc" mode="widthFix"></image>
 			<text>{{app_name}}</text>
@@ -83,17 +86,25 @@
 				<button class="submit_btn" form-type="submit">确认</button>
 			</form>
 		</view>
+		<!-- #ifdef H5 -->
+		<uni-popup ref="till" :maskClick="false" type="center">
+			<view class="till_reg_box">
+				<view class="trb_title">恭喜您注册成为平台会员。</view>
+				<view>请点击确认到APP分发平台下载安装客户端到手机使用，谢谢！</view>
+				<button @tap="toDownPage" type="primary" size="mini">确认</button>
+			</view>
+		</uni-popup>
+		<!-- #endif -->
 	</view>
 </template>
 
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
     import switchc from '@/components/zz-switchc/zz-switchc.vue'
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import validCode from '@/components/validCode.vue'
 	import util from '@/common/util.js'
-	import {Model} from '@/common/model.js'
-	let model = new Model()
-
+	
 	export default {
 	    data(){
 			return{
@@ -122,17 +133,15 @@
 		components: {
 			uniNavBar,
 			switchc,
+			uniPopup,
 			validCode
 		},
 		onLoad(opt) {
 			console.log(opt);
 			// #ifdef H5
-			setTimeout(()=>{
-			uni.$emit('update',{msg:'页面更新'});
-			},1000)
-			uni.$on('update',function(data){
-				console.log('监听到事件来自 update ，携带参数 msg 为：' + data.msg);
-			})
+			if(opt.code != undefined){
+				this.invite_code = opt.code;
+			}
 			// #endif
 		},
 		onShow() {
@@ -147,6 +156,11 @@
 			})
 		},
 		methods:{
+			toDownPage(){
+				uni.redirectTo({
+					url: '/pages/member/webpage'
+				})
+			},
 			scanInvite(){
 				let that = this;
 				// #ifndef H5
@@ -204,7 +218,7 @@
 							this.$api.msg('请输入验证码');
 							return;
 						}
-						if(this.v_code != this.validCode){
+						if(this.v_code.toLowerCase() != this.validCode){
 							this.$api.msg('请输入正确的验证码');
 							return;
 						}
@@ -227,13 +241,23 @@
 							area_code: this.internation_number
 						}).then((data)=>{
 							this.$api.msg(data.data.message);
+							// #ifndef H5
 							if(data.data.status == 1){
-								setTimeout(function(){
+								setTimeout(()=>{
 									uni.redirectTo({
 										url: '/pages/login/login'
 									})
 								},1500)
 							}
+							// #endif
+							// #ifdef H5
+							if(data.data.status == 1){
+								setTimeout(()=>{
+									this.$refs.till.open();
+								},1500)
+							}
+							// #endif
+							
 						}).catch((err)=>{
 							// console.log('request fail', err);
 							// this.$api.msg(err);
@@ -285,6 +309,37 @@
 </script>
 
 <style scoped lang="scss">
+	.till_reg_box{
+		background: #fff;
+		padding: 40rpx 30rpx;
+		box-sizing: border-box;
+		width: 80vw;
+		font-size: 32rpx;
+		border-radius: 10rpx;
+		color: #666;
+		view{
+			text-align: center;
+		}
+		.trb_title{
+			color: #f00;
+			font-weight: bold;
+			font-size: 30rpx;
+			font-size: 34rpx;
+			margin-bottom: 20rpx;
+		}
+		button{
+			margin: 30rpx auto 0;
+			display: block;
+			color: #fff;
+			background: #1ABC9C;
+			&:active{
+				
+			}
+			&:after{
+				border: 0;
+			}
+		}
+	}
 	.form_item{
 		&.nopad{
 			padding: 10rpx 0;
@@ -321,6 +376,11 @@
 			}
 		}
 	}
+	/* #ifdef H5 */
+	.white_logo_box{
+		padding-top: 50rpx;
+	}
+	/* #endif */
 	.register_box{
 		padding: 0 80rpx 50rpx;
 		box-sizing: border-box;

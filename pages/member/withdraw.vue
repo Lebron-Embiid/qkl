@@ -160,7 +160,16 @@
 					this.$api.msg(data.data.message);
 					if(data.data.status == 1){
 						setTimeout(()=>{
+							this.$http.getUserBonus().then((data)=>{
+								let res = data.data;
+								this.memberList[0].value = res[0].money;
+								this.memberList[1].value = res[1].money;
+							})
 							this.is_apply = 1;
+							this.bank_type = '请选择开户银行';
+							this.bank_id = '';
+							this.price = '';
+							this.password = '';
 						},1500)
 					}
 				})

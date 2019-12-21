@@ -46,15 +46,13 @@
 				current: 0,
 				avatarList: [
 					[
-						this.$http.url+'Public/home/wap/heads/avatar_m1.svg',
-						this.$http.url+'Public/home/wap/heads/avatar_m2.svg',
-						this.$http.url+'Public/home/wap/heads/avatar_m3.svg',
-						this.$http.url+'Public/home/wap/heads/avatar_m4.svg'
+						this.$http.url+'Public/home/wap/heads/man1.png',
+						this.$http.url+'Public/home/wap/heads/man2.png',
+						this.$http.url+'Public/home/wap/heads/man3.png'
 					],[
-						this.$http.url+'Public/home/wap/heads/avatar_w1.svg',
-						this.$http.url+'Public/home/wap/heads/avatar_w2.svg',
-						this.$http.url+'Public/home/wap/heads/avatar_w3.svg',
-						this.$http.url+'Public/home/wap/heads/avatar_w4.svg'
+						this.$http.url+'Public/home/wap/heads/women1.png',
+						this.$http.url+'Public/home/wap/heads/women2.png',
+						this.$http.url+'Public/home/wap/heads/women3.png'
 					]
 				],
 				select: null
@@ -117,8 +115,6 @@
 						let base64 = wx.arrayBufferToBase64(ress.data); //把arraybuffer转成base64 
 						base64 = 'data:image/jpeg;base64,' + base64 //不加上这串字符，在页面无法显示的哦
 						console.log(base64);
-						
-						
 					}
 				})
 			},
@@ -131,19 +127,39 @@
 				}
 				console.log(this.current);
 				if(this.select != null){
-					this.user_avatar = this.avatarList[this.current][this.select];					
+					this.$api.msg('修改成功');
+					this.$Debounce.canDoFunction({
+						key: "updateimgUps1",
+						time: 1500,
+						success:()=>{
+							this.$http.updateimgUps({
+								dataflow: this.avatarList[this.current][this.select]
+							}).then((data)=>{
+								this.user_avatar = data.data.img_url;
+								getApp().globalData.avatar = data.data.img_url;
+							})
+						}
+					})
+					// this.user_avatar = this.avatarList[this.current][this.select];					
 				}
 			},
 			selectAvatar(index,idx){
 				this.select = idx;
-				// this.user_avatar = this.avatarList[index][idx];
-				this.$http.updateimgUps({
-					dataflow: this.avatarList[index][idx]
-				}).then((data)=>{
-					this.user_avatar = data.data.img_url;
-					getApp().globalData.avatar = data.data.img_url;
-					// uni.setStorageSync('avatar',data.data.img_url);
-					// this.$api.msg(data.data.message);
+				this.$api.msg('修改成功');
+				this.$Debounce.canDoFunction({
+					key: "updateimgUps",
+					time: 1500,
+					success:()=>{
+						this.$http.updateimgUps({
+							dataflow: this.avatarList[index][idx]
+						}).then((data)=>{
+							// this.user_avatar = this.avatarList[index][idx];
+							this.user_avatar = data.data.img_url;
+							getApp().globalData.avatar = data.data.img_url;
+							// uni.setStorageSync('avatar',data.data.img_url);
+							// this.$api.msg(data.data.message);
+						})
+					}
 				})
 			}
 		}
@@ -170,7 +186,7 @@
 			width: 138rpx !important;
 			height: 138rpx !important;
 			margin: 0 auto 20rpx;
-			border-radius: 50%;
+			border-radius: 50% !important;
 		}
 		.bg{
 			position: absolute;
@@ -224,8 +240,8 @@
 			flex-wrap: wrap;
 			margin-top: 50rpx;
 			.img{
-				width: 124rpx;
-				height: 124rpx;
+				width: 124rpx !important;
+				height: 124rpx !important;
 				border: 2rpx solid #ccc;
 				box-sizing: border-box;
 				border-radius: 50%;

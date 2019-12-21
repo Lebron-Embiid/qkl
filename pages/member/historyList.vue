@@ -41,7 +41,7 @@
 			<view class="invest_item" v-for="(item,index) in transferList" :key="index">
 				<view class="invest_center">
 					<view class="ic_left">{{item.order_sn}}</view>
-					<view class="ic_right">{{item.money}}</view>
+					<view class="ic_right"><block v-if="item.from_user_name == mobile">-</block> {{item.money}}</view>
 				</view>
 				<view class="invest_bottom">
 					<view>
@@ -111,6 +111,7 @@
 				photo: [],
 				util: util,
 				page: 1,
+				mobile: '',
 				loadingType: 'more'
 			}
 		},
@@ -120,6 +121,9 @@
 			uniLoadMore
 		},
 		onLoad(opt) {
+			this.$http.getUserInfo().then((data)=>{
+				this.mobile = data.data.mobile;
+			})
 			this.$http.getUserBonus().then((data)=>{
 				let res = data.data;
 				this.memberList[0].value = res[0].money;

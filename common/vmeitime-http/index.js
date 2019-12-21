@@ -523,7 +523,20 @@ export const shareCode = (data) => {
         data
     })
 }
-
+//注册二维码
+export const regCode = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'User/regCode',
+        method: 'POST', 
+        data
+    })
+}
 
 
 // 转款钱包二维码 
@@ -1191,6 +1204,7 @@ export default {
 	getTransferOutIndex,
 	updateimgUps,
 	shareCode,
+	regCode,
 	transferWalletCode,
 	submitTransferMoney,
 	getTransferList,

@@ -61,15 +61,21 @@
 			<button class="submit_btn" form-type="submit" @tap="applyConfirm">申请确认</button>
 			<button class="submit_btn history_btn" @tap="toHistory">历史充值</button>
 		</view>
-		<uni-popup ref="popup" type="center">
+		<uni-popup ref="popup" type="center" :maskClick="false">
 			<view class="popup_box">
 				<view class="popup_content">
 					<view class="popup_title">平台汇款账号</view>
 					<view class="popup_info">请您先往以下账号汇款，然后向平台上传汇款单以此凭证，平台将会在24小时内审核。</view>
 					<view class="look_info_box">
-						<view>户名：{{bank_name}}</view>
-						<view>开户行：{{bank_type}}</view>
-						<view>银行账号：{{bank_account}}</view>
+						<swiper :autoplay="false" style="height: 280rpx;" @change="changeBankSwiper" :duration="500">
+							<swiper-item class="look_info_item" v-for="(item,index) in plat_bank" :key="index">
+								<view>户名：{{item.real_name}}</view>
+								<view>开户行：{{item.open_card}}</view>
+								<view>银行名称：{{item.bank_name}}</view>
+								<view>银行账号：{{item.bank_account}}</view>
+								<view>汇率：{{item.lv}}</view>
+							</swiper-item>
+						</swiper>
 						<button type="primary" @tap="copyAccount">复制账号</button>
 					</view>
 				</view>
@@ -115,9 +121,8 @@
 				password: '',
 				input_type: '',
 				photo: '',
-				bank_name: '',
-				bank_type: '',
-				bank_account: ''
+				plat_bank: [],
+				bank_index: 0
 			}
 		},
 		components:{
@@ -192,13 +197,14 @@
 			},
 			copyAccount(){
 				let that = this;
-				if(that.bank_account == ""){
-					that.$api.msg('暂无银行卡账户，请先去添加');
-					return;
-				}
+				// if(that.plat_bank.length == 0){
+				// 	that.$api.msg('暂无银行卡账户，请先去添加');
+				// 	return;
+				// }
+				console.log(that.plat_bank[that.bank_index].bank_account);
 				// #ifndef H5
 				uni.setClipboardData({
-				    data: that.bank_account,
+				    data: that.plat_bank[that.bank_index].bank_account,
 				    success: function () {
 				        console.log('success');
 						that.$api.msg('复制成功，快去粘贴吧！');
@@ -212,7 +218,7 @@
 				// #endif
 				
 				// #ifdef H5
-				uni.setClipboardData({ data:that.bank_account, success:function(data){
+				uni.setClipboardData({ data:that.plat_bank[that.bank_index].bank_account, success:function(data){
 						that.$api.msg('复制成功，快去粘贴吧！');
 					}
 				})
@@ -231,7 +237,15 @@
 							this.$api.msg(data.data.message);
 							if(data.data.status == 1){
 								setTimeout(()=>{
+									this.$http.getUserBonus().then((data)=>{
+										let res = data.data;
+										this.memberList[0].value = res[0].money;
+										this.memberList[1].value = res[1].money;
+									})
 									this.is_apply = 1;
+									this.price = '';
+									this.photo = '';
+									this.password = '';
 								},1500)
 							}
 						})
@@ -240,17 +254,24 @@
 			},
 			lookAccount(){
 				this.$http.getBankCard().then((data)=>{
-					this.bank_name = data.data.real_name;
-					this.bank_type = data.data.bank_name;
-					this.bank_account = data.data.bank_account;
+					this.plat_bank = data.data;
+					// this.bank_name = data.data.real_name;
+					// this.bank_type = data.data.open_card;
+					// this.bank_account = data.data.bank_account;
 					this.$refs.popup.open();
 				})
 			},
+			changeBankSwiper(e){
+				// console.log(e.detail.current);
+				this.bank_index = e.detail.current;
+			},
 			cancelPopup(){
 				this.$refs.popup.close();
+				this.bank_index = 0;
 			},
 			okPopup(){
 				this.$refs.popup.close();
+				this.bank_index = 0;
 			},
 			toHistory(){
 				uni.navigateTo({
@@ -425,7 +446,7 @@
 			line-height: 80rpx;
 			background: #099;
 			font-size: 28rpx;
-			margin: 50rpx auto;
+			margin: 20rpx auto 50rpx;
 			color: #fff;
 			transition: all .5s ease;
 			&:active{

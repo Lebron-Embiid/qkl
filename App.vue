@@ -8,7 +8,8 @@
 			app_logo: '/static/logo1.png',
 			avatar: '',
 			and_ios: 0,
-			num: 0
+			num: 0,
+			is_app: 0
 		},
 		onLaunch: function() {
 			console.log('App Launch');
@@ -17,13 +18,16 @@
 				case 'android':
 					console.log('运行Android上')
 					that.$options.globalData.and_ios = 0;
+					that.$options.globalData.is_app = 1;
 					break;
 				case 'ios':
 					console.log('运行iOS上')
 					that.$options.globalData.and_ios = 1;
+					that.$options.globalData.is_app = 1;
 					break;
 				default:
-					console.log('运行在开发者工具上')
+					console.log('运行在开发者工具上');
+					that.$options.globalData.is_app = 1;
 					break;
 			}
 		},
@@ -53,7 +57,7 @@
 									switch(uni.getSystemInfoSync().platform){
 										case 'android':
 											console.log('运行Android上')
-											plus.runtime.openURL(that.$http.url+res.apk);
+											plus.runtime.openURL(res.downLink);
 											break;
 										case 'ios':
 											console.log('运行iOS上')

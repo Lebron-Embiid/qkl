@@ -261,6 +261,24 @@
 			}
 		},
 		{
+			"path": "pages/member/recommendCode",
+			"style": {
+				"navigationBarTitleText": "推荐二维码",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/member/webpage",
+			"style": {
+				"navigationBarTitleText": "下载",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
 			"path": "pages/mine/wallet",
 			"style": {
 				"navigationBarTitleText": "APP钱包",
