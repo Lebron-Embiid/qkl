@@ -100,7 +100,7 @@
 			clickLink(idx){
 				// if(idx == 3){
 				// 	uni.showActionSheet({
-				// 	    itemList: ['APP钱包', '投资钱包'],
+				// 	    itemList: ['现金钱包', '投资钱包'],
 				// 	    success: function (res) {
 				// 			if(res.tapIndex == 0){
 				// 				uni.navigateTo({

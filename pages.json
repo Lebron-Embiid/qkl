@@ -281,7 +281,7 @@
 		{
 			"path": "pages/mine/wallet",
 			"style": {
-				"navigationBarTitleText": "APP钱包",
+				"navigationBarTitleText": "现金钱包",
 				"app-plus": {
 					"titleNView": false
 				}

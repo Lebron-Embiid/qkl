@@ -26,7 +26,7 @@
 							<view class="title">{{row.name}}</view>
 							<!-- <view class="spec">{{row.spec}}</view> -->
 							<view class="price-number">
-								<view class="price">￥{{row.price}}</view>
+								<view class="price">${{row.price}}</view>
 								<view class="number">
 									<view class="sub" @tap.stop="sub(index)">
 										<view class="icon jian"></view>
@@ -54,7 +54,7 @@
 			</view>
 			<view class="delBtn" @tap="deleteList" v-if="selectedList.length>0">删除</view>
 			<view class="settlement">
-				<view class="sum">合计:<view class="money">￥{{sumPrice}}</view></view>
+				<view class="sum">合计:<view class="money">${{sumPrice}}</view></view>
 				<view class="btn" @tap="toConfirmation">结算({{selectedList.length}})</view>
 			</view>
 		</view>

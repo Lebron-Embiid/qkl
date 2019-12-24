@@ -126,7 +126,7 @@
 		</view>
 		<!-- 标题 价格 -->
 		<view class="info-box goods-info">
-			<view class="price">￥{{goodsData.price}} <text v-if="goodsData.old_price != null">￥{{goodsData.old_price}}</text></view>
+			<view class="price">${{goodsData.price}} <text v-if="goodsData.old_price != null">${{goodsData.old_price}}</text></view>
 			<view class="stock">库存：{{goodsData.stock}}</view>
 			<view class="title">
 				{{goodsData.name}}

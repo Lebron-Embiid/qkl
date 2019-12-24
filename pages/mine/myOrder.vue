@@ -12,12 +12,12 @@
 					<image :src="url+order.com_img" mode="widthFix"></image>
 					<view class="oi_title">{{order.com_name}}</view>
 					<view class="oi_right">
-						<view class="oi_price">￥{{order.com_price}}</view>
+						<view class="oi_price">${{order.com_price}}</view>
 						<text>x{{order.com_num}}</text>
 					</view>
 				</view>
 				<!-- 共计{{item.com_num}}件商品 -->
-				<view class="oi_all"><text>合计：￥{{item.buy_price}}</text></view>
+				<view class="oi_all"><text>合计：${{item.buy_price}}</text></view>
 				<view class="oi_bottom">
 					<!-- <block v-if="row.type=='unpaid'"><view class="default" @tap="cancelOrder(row)">取消订单</view><view class="pay" @tap="toPayment(row)">付款</view></block>
 					<block v-if="row.type=='back'"><view class="default" @tap="remindDeliver(row)">提醒发货</view></block>

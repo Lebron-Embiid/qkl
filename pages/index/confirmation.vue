@@ -24,7 +24,7 @@
 					</view>
 				</view>
 				<view class="addres">
-					{{recinfo.province_id+'-'+recinfo.city_id+'-'+recinfo.country_id}}
+					<!-- {{recinfo.province_id+'-'+recinfo.city_id+'-'+recinfo.country_id}} -->
 					{{recinfo.address}}
 				</view>
 			</view>
@@ -40,7 +40,7 @@
 						<view class="title">{{row.name}}</view>
 						<view class="spec">数量:{{row.num}}</view>
 						<view class="price-number">
-							<view class="price">￥{{row.price}}</view>
+							<view class="price">${{row.price}}</view>
 							<view class="number">
 								
 							</view>
@@ -75,7 +75,7 @@
 					商品金额
 				</view>
 				<view class="content">
-					￥{{goodsPrice|toFixed}}
+					${{goodsPrice|toFixed}}
 				</view>
 			</view>
 			<view class="row">
@@ -83,7 +83,7 @@
 					运费
 				</view>
 				<view class="content">
-					￥+{{freight|toFixed}}
+					$+{{freight|toFixed}}
 				</view>
 			</view>
 			<view class="row">
@@ -91,7 +91,7 @@
 					积分抵扣
 				</view>
 				<view class="content">
-					￥-{{deduction|toFixed}}
+					$-{{deduction|toFixed}}
 				</view>
 			</view>
 		</view> -->
@@ -100,7 +100,7 @@
 		</view>
 		<view class="footer">
 			<view class="settlement">
-				<view class="sum">合计:<view class="money">￥{{sumPrice|toFixed}}</view></view>
+				<view class="sum">合计:<view class="money">${{sumPrice|toFixed}}</view></view>
 				<view class="btn" @tap="toPay">提交订单</view>
 			</view>
 		</view>

@@ -67,8 +67,8 @@
 		<uni-popup ref="popup" type="center">
 			<view class="popup_box">
 				<view class="popup_content">
-					<view class="popup_title">转款到对方APP钱包</view>
-					<view class="popup_info">您将把资金转入到会员 {{member_name}} APP钱包</view>
+					<view class="popup_title">转款到对方现金钱包</view>
+					<view class="popup_info">您将把资金转入到会员 {{member_name}} 现金钱包</view>
 					<input type="text" v-model="price" placeholder="请输入转款金额" />
 					<input type="password" v-model="pay_pwd" placeholder="请输入支付密码" />
 				</view>

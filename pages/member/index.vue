@@ -6,9 +6,12 @@
 		</view>  
 		<!-- #endif -->  
 		<view class="member_top">
-			<view>
+			<view class="left">
 				<image :src="logoSrc" mode="widthFix"></image>
-				<text>{{app_name}}</text>
+				<view>
+					<text>索罗门金融矩阵</text>
+					<text>{{app_name}}</text>
+				</view>
 			</view>
 			<button type="primary" @tap="toShop">商城</button>
 		</view>
@@ -56,7 +59,7 @@
 						value: ''
 					},{
 						icon: '/static/member_icon2.png',
-						title: 'APP钱包',
+						title: '现金钱包',
 						url: '/pages/mine/wallet',
 						value: ''
 					},{
@@ -174,23 +177,33 @@
 	.member_top{
 		display: flex;
 		justify-content: space-between;
-		align-items: flex-end;
+		align-items: center;
 		padding: 10rpx 20rpx 10rpx 30rpx;
 		box-sizing: border-box;
-		view{
+		.left{
 			display: flex;
 			justify-content: flex-start;
-			align-items: flex-end;
+			align-items: center;
 			image{
 				display: block;
-				width: 70rpx;
-				height: 70rpx;
+				width: 82rpx !important;
+				height: 82rpx;
 				margin-right: 20rpx;
 			}
 			text{
 				color: #099;
 				font-size: 28rpx;
-				font-weight: bold;;
+				font-weight: bold;
+			}
+			view{
+				display: flex;
+				justify-content: flex-start;
+				align-items: flex-start;
+				flex-wrap: wrap;
+				text{
+					display: block;
+					width: 100%;
+				}
 			}
 		}
 		button{

@@ -38,26 +38,26 @@
 				currentSwiper: 0,
 				guideList: [
 					{
-						title: '引导页标题文案',
-						two_title: '引导页二级文案内容',
+						title: '欢迎加入索罗门金融矩阵',
+						two_title: 'Welcome to Solomon Matrix',
 						logo: '/static/logo1.png',
 						info: 'SOLOMON MATRIX',
 						is_last: 0
 					},{
-						title: '引导页标题文案',
-						two_title: '引导页二级文案内容',
+						title: '引爆全球的稳定获利模式',
+						two_title: 'Exclusive and stable profit model',
 						logo: '/static/logo1.png',
 						info: 'SOLOMON MATRIX',
 						is_last: 0
 					},{
-						title: '引导页标题文案',
-						two_title: '引导页二级文案内容',
+						title: '透由集体的力量形成矩阵稳定大家的投资与获利',
+						two_title: 'Stabilizes everyone’s profit through collective investment',
 						logo: '/static/logo1.png',
 						info: 'SOLOMON MATRIX',
 						is_last: 0
 					},{
-						title: '引导页标题文案',
-						two_title: '引导页二级文案内容',
+						title: '您准备好迎来轻易富足的人生了吗？',
+						two_title: 'Are you ready to enjoy the life of leisure and wealth?',
 						logo: '/static/logo1.png',
 						info: 'SOLOMON MATRIX',
 						is_last: 1
@@ -102,7 +102,8 @@
 		height: 100%;
 		text-align: center;
 		position: relative;
-		padding: 20vh 0 0;
+		padding: 18vh 20rpx 0;
+		box-sizing: border-box;
 		image{
 			display: block;
 			width: 190rpx;
@@ -134,7 +135,7 @@
 			font-size: 32rpx;
 			background: rgba(0, 153, 153, 1);
 			border-radius: 6rpx;
-			margin-top: 200rpx;
+			margin-top: 120rpx;
 			transition: background .5s ease;
 			&:after{
 				border: 0;

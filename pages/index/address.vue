@@ -22,7 +22,7 @@
 							</view>
 						</view>
 						<view class="address">
-							{{row.province_id+'-'+row.city_id+'-'+row.country_id}} {{row.address}}
+							<!-- {{row.province_id+'-'+row.city_id+'-'+row.country_id}} -->{{row.address}}
 						</view>
 					</view>
 					<view class="right">

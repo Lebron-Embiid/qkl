@@ -30,7 +30,7 @@
 						<view class="title">{{row.com_name}}</view>
 						<view class="spec">数量:{{row.com_num}}</view>
 						<view class="price-number">
-							<view class="price">￥{{row.com_price}}</view>
+							<view class="price">${{row.com_price}}</view>
 							<view class="number">
 								
 							</view>
@@ -67,7 +67,7 @@
 		</view>
 		<view class="footer">
 			<view class="settlement">
-				<view class="sum">合计:<view class="money">￥{{price|toFixed}}</view></view>
+				<view class="sum">合计:<view class="money">${{price|toFixed}}</view></view>
 				<view class="btn cancel" @tap="toCancel">取消订单</view>
 				<view class="btn" @tap="toPay">支付</view>
 			</view>

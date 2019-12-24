@@ -8,13 +8,13 @@
 				<view class="popup_content">
 					<view class="popup_title">
 						<block v-if="current == 0 && isApp == false">
-						从APP钱包转入
+						从现金钱包转入
 						</block>
 						<block v-if="current == 0 && isApp == true">
 						从投资钱包转入
 						</block>
 						<block v-if="current == 1 && isApp == false">
-						转出到APP钱包
+						转出到现金钱包
 						</block>
 						<block v-if="current == 1 && isApp == true">
 						转出到投资钱包
@@ -28,22 +28,22 @@
 					</view>
 					<view class="popup_info">
 						<block v-if="current == 0 && isApp == false">
-						您将从APP钱包转入到投资钱包上
+						您将从现金钱包转入到投资钱包上
 						</block>
 						<block v-if="current == 0 && isApp == true">
-						您将把投资钱包资金转入到APP钱包
+						您将把投资钱包资金转入到现金钱包
 						</block>
 						<block v-if="current == 1 && isApp == false">
-						您将把投资钱包资金转入到APP钱包
+						您将把投资钱包资金转入到现金钱包
 						</block>
 						<block v-if="current == 1 && isApp == true">
-						您将把APP钱包资金转入到投资钱包
+						您将把现金钱包资金转入到投资钱包
 						</block>
 						<block v-if="current == 2 && isApp == false">
 						您将对投资钱包资金进行投资
 						</block>
 						<block v-if="current == 2 && isApp == true">
-						您将对APP钱包资金进行提现申请
+						您将对现金钱包资金进行提现申请
 						</block>
 					</view>
 					
@@ -52,7 +52,7 @@
 						<view class="over_price_val">$ {{over_money}}</view>
 					</block>
 					<block v-if="current == 0 && isApp == true">
-						<view class="over_price">当前APP钱包余额</view>
+						<view class="over_price">当前现金钱包余额</view>
 						<view class="over_price_val">$ {{over_money}}</view>
 					</block>
 					
@@ -85,7 +85,7 @@
 				type: String,
 				default: ''
 			},
-			// 是否是APP钱包页面
+			// 是否是现金钱包页面
 			isApp:{
 				type: Boolean,
 				default: false
@@ -162,7 +162,7 @@
 								}
 							})
 						}
-						// APP钱包转入
+						// 现金钱包转入
 						if(this.current == 0 && this.isApp == true){
 							this.$http.changeInvestmentinto({
 								sec_password: this.pay_pwd,
@@ -178,7 +178,7 @@
 								}
 							})
 						}
-						// APP钱包转出
+						// 现金钱包转出
 						if(this.current == 1 && this.isApp == true){
 							this.$http.changeInvestmentinto({
 								sec_password: this.pay_pwd,

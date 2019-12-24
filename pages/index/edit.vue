@@ -19,7 +19,7 @@
 					<input placeholder="请输入收件人电话号码" type="text" v-model="tel" />
 				</view>
 			</view>
-			<view class="row">
+			<!-- <view class="row">
 				<view class="nominal">
 					所在地区
 				</view>
@@ -27,7 +27,7 @@
 					{{region.cityCode==""?region.label:region.cityCode}}
 				</view>
 				
-			</view>
+			</view> -->
 			<view class="row">
 				<view class="nominal">
 					详细地址
@@ -162,15 +162,17 @@
 						this.$http.addAddress({
 							real_name: this.name,
 							phone: this.tel,
-							province: this.region.value[0],
-							city: this.region.value[1],
-							district: this.region.value[2],
+							// province: this.region.value[0],
+							// city: this.region.value[1],
+							// district: this.region.value[2],
 							address: this.detailed,
 							is_default: is_default
 						}).then((data)=>{
 							this.$api.msg(data.data.message);
 							if(data.data.status == 1){
-								uni.navigateBack();
+								setTimeout(()=>{
+									uni.navigateBack();
+								},1500)
 							}
 						})
 					}

@@ -76,7 +76,7 @@
 						value: ''
 					},{
 						icon: '/static/member_icon2.png',
-						title: 'APP钱包',
+						title: '现金钱包',
 						url: '/pages/mine/wallet',
 						value: ''
 					}

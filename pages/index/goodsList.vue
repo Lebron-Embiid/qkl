@@ -17,7 +17,7 @@
 					<image mode="widthFix" :src="url+goods.pic"></image>
 					<view class="name">{{goods.name}}</view>
 					<view class="info">
-						<view class="price">￥{{goods.price}}<text>￥{{goods.old_price}}</text></view>
+						<view class="price">${{goods.price}}<text>${{goods.old_price}}</text></view>
 						<!-- <view class="slogan">{{goods.slogan}}</view> -->
 					</view>
 				</view>

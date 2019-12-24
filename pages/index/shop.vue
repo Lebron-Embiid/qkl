@@ -47,7 +47,7 @@
 					<image mode="widthFix" :src="url+product.pic"></image>
 					<view class="name">{{ product.name }}</view>
 					<view class="info">
-						<view class="price">￥{{ product.price }}</view>
+						<view class="price">${{ product.price }}</view>
 						<!-- <view class="slogan">{{ product.slogan }}</view> -->
 					</view>
 				</view>
@@ -68,7 +68,7 @@
 					<image mode="widthFix" :src="url+recommend.pic"></image>
 					<view class="name">{{ recommend.name }}</view>
 					<view class="info">
-						<view class="price">￥{{ recommend.price }}</view>
+						<view class="price">${{ recommend.price }}</view>
 						<!-- <view class="slogan">{{ recommend.slogan }}</view> -->
 					</view>
 				</view>

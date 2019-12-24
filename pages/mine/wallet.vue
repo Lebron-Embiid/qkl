@@ -1,6 +1,6 @@
 <template>
 	<view class="wallet">
-		<uni-nav-bar left-icon="back" leftText="返回" title="APP钱包" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="现金钱包" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<common-avatar :name="name" :avatar="avatar"></common-avatar>
 		<view class="common_top_black">
 			<view class="common_price">$ <text>{{over_money}}</text></view>
@@ -37,7 +37,7 @@
 			<view class="invest_item" v-for="(item,index) in transferList" :key="index">
 				<view class="invest_center">
 					<view class="ic_left">{{item.order_sn}}</view>
-					<view class="ic_right"><block v-if="item.bonus == 'APP钱包'">-</block>{{item.money}}</view>
+					<view class="ic_right"><block v-if="item.bonus == '现金钱包'">-</block>{{item.money}}</view>
 				</view>
 				<view class="invest_bottom">
 					<view>
