@@ -1,7 +1,7 @@
 <template>
 	<view class="messageDetail">
 		 <!-- :rightDot="dot" :rightIcon="rightIcon" -->
-		<uni-nav-bar left-icon="back" leftText="返回" :title="title"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" leftText="返回" title="讯息详情"></uni-nav-bar>
 		<view class="message_detail_box">
 			<!-- <image src="" mode=""></image> -->
 			<view class="content_box">
@@ -9,7 +9,8 @@
 				  :loading="loading"
 				  :showAvatar="false"
 				>
-				<view class="message_title">发表于 {{time}}</view>
+				<view class="message_title">{{title}}</view>
+				<view class="message_time">发表于 {{time}}</view>
 				<view class="message_content">
 					<block v-if="content!=''">
 						<u-parse :content="content"></u-parse>
@@ -88,6 +89,12 @@
 			color: #666;
 			font-size: 26rpx;
 			.message_title{
+				color: #333;
+				font-size: 32rpx;
+				font-weight: bold;
+				margin-bottom: 20rpx;
+			}
+			.message_time{
 				color: #999;
 				margin-bottom: 10rpx;
 			}

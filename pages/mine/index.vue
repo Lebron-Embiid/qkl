@@ -124,10 +124,23 @@
 						url: this.mineList[idx].url
 					})
 					return;
+				}else if(idx == 8){
+					this.$http.getSite({
+						name: 'shop'
+					}).then((data)=>{
+						if(data.data.message.value == 0){
+							this.$api.msg(data.data.message.tip);
+						}else{
+							uni.navigateTo({
+								url: this.mineList[idx].url
+							})
+						}
+					})
+				}else{
+					uni.navigateTo({
+						url: this.mineList[idx].url
+					})
 				}
-				uni.navigateTo({
-					url: this.mineList[idx].url
-				})
 			}
 		}
 	}

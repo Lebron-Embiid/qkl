@@ -33,6 +33,7 @@
 		},
 		onShow: function() {
 			let that = this;
+			
 			// #ifdef APP-PLUS
 			plus.runtime.getProperty(plus.runtime.appid,function(inf){  
 				wgtVer = inf.version;  
@@ -52,8 +53,8 @@
 								showCancel: false,
 								success:function(){
 									console.log(uni.getSystemInfoSync().platform);
-									console.log(that.$http.url+res.apk);
-									// plus.runtime.openURL(that.$http.url+res.apk);
+									// console.log(that.$http.url+res.apk);
+									// plus.runtime.openURL(res.downLink);
 									switch(uni.getSystemInfoSync().platform){
 										case 'android':
 											console.log('运行Android上')

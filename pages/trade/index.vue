@@ -94,14 +94,36 @@
 		methods:{
 			toOrderPage(idx){
 				let index = idx+1;
-				uni.navigateTo({
-					url: '/pages/mine/myOrder?index=' + index
+				this.$http.getSite({
+					name: 'shop'
+				}).then((data)=>{
+					if(data.data.message.value == 0){
+						this.$api.msg(data.data.message.tip);
+					}else{
+						uni.navigateTo({
+							url: '/pages/mine/myOrder?index=' + index
+						})
+					}
 				})
 			},
 			toTapNav(idx){
-				uni.navigateTo({
-					url: this.navList[idx].url
-				})
+				if(idx == 0){
+					uni.navigateTo({
+						url: this.navList[idx].url
+					})
+				}else{
+					this.$http.getSite({
+						name: 'shop'
+					}).then((data)=>{
+						if(data.data.message.value == 0){
+							this.$api.msg(data.data.message.tip);
+						}else{
+							uni.navigateTo({
+								url: this.navList[idx].url
+							})
+						}
+					})
+				}
 			},
 			logout(){
 				let that = this;
@@ -124,8 +146,16 @@
 				})
 			},
 			lookMore(){
-				uni.navigateTo({
-					url: '/pages/mine/myOrder'
+				this.$http.getSite({
+					name: 'shop'
+				}).then((data)=>{
+					if(data.data.message.value == 0){
+						this.$api.msg(data.data.message.tip);
+					}else{
+						uni.navigateTo({
+							url: '/pages/mine/myOrder'
+						})
+					}
 				})
 			}
 		},

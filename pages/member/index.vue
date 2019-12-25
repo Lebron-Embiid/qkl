@@ -30,7 +30,12 @@
 		</view>
 		<view class="ad_box">
 			<view class="ad_title">平台公告：</view>
-			<view class="ad_content">欢迎使用 <text>{{app_name}}</text> ，平台将在近期推出全新理财产品，敬请期待！谢谢。</view>
+			<view class="ad_content">
+				<block v-if="ad_content!=''">
+					<u-parse :content="ad_content"></u-parse>
+				</block>
+				<!-- 欢迎使用 <text>{{app_name}}</text> ，平台将在近期推出全新理财产品，敬请期待！谢谢。 -->
+			</view>
 		</view>
 		<view class="other_box">
 			<view class="other_item" v-for="(item,index) in otherList" @tap="toOtherLink(index)" :key="index">
@@ -42,6 +47,7 @@
 </template>
 
 <script>
+	import uParse from '@/components/u-parse/u-parse.vue'
 	import {Model} from '@/common/model.js'
 	let model = new Model()
 	export default{
@@ -51,6 +57,7 @@
 				app_name: '',
 				name: '',
 				avatar: '',
+				ad_content: '',
 				memberList: [
 					{
 						icon: '/static/member_icon1.png',
@@ -91,6 +98,9 @@
 				]
 			}
 		},
+		components:{
+			uParse
+		},
 		onLoad() {
 			
 		},
@@ -106,6 +116,11 @@
 					})
 				},1500)
 			}else{
+				this.$http.getSite({
+					name: 'desc'
+				}).then((data)=>{
+					this.ad_content = data.data.message.tip;
+				})
 				this.$http.getUserBonus().then((data)=>{
 					let res = data.data;
 					this.memberList[0].value = res[0].money;
@@ -165,8 +180,16 @@
 				}
 			},
 			toShop(){
-				uni.navigateTo({
-					url: '/pages/index/shop'
+				this.$http.getSite({
+					name: 'shop'
+				}).then((data)=>{
+					if(data.data.message.value == 0){
+						this.$api.msg(data.data.message.tip);
+					}else{
+						uni.navigateTo({
+							url: '/pages/index/shop'
+						})
+					}
 				})
 			}
 		}
@@ -178,7 +201,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 10rpx 20rpx 10rpx 30rpx;
+		padding: 10rpx 20rpx;
 		box-sizing: border-box;
 		.left{
 			display: flex;

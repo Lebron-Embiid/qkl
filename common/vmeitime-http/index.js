@@ -1139,6 +1139,20 @@ export const updateVersion = (data) => {
         data
     })
 }
+// 获取网站信息
+export const getSite = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Base/getSite',
+        method: 'POST', 
+        data
+    })
+}
 
 // if(data.data.status == 40001){
 // 	this.$api.msg('请登录');
@@ -1235,5 +1249,6 @@ export default {
 	completeOrder,
 	getShareBonus,
 	getTeamBonusList,
-	updateVersion
+	updateVersion,
+	getSite
 }
