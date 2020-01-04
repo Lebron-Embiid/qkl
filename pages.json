@@ -30,6 +30,15 @@
 			}
 		},
 		{
+			"path": "pages/login/agreement",
+			"style": {
+				"navigationBarTitleText": "用户协议",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
 			"path": "pages/index/goodsList",
 			"style": {
 				"navigationBarTitleText": "商品列表",

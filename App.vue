@@ -57,15 +57,15 @@
 									// plus.runtime.openURL(res.downLink);
 									switch(uni.getSystemInfoSync().platform){
 										case 'android':
-											console.log('运行Android上')
+											// console.log('运行Android上')
 											plus.runtime.openURL(res.downLink);
 											break;
 										case 'ios':
-											console.log('运行iOS上')
+											// console.log('运行iOS上')
 											plus.runtime.install(res.ios_downLink);
 											break;
 										default:
-											console.log('运行在开发者工具上')
+											// console.log('运行在开发者工具上')
 											break;
 									}
 								}

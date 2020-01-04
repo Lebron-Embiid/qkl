@@ -75,7 +75,7 @@
 				<view class="agree_txt">
 					<view v-if="is_agree == false" @tap="changeAgree"><image src="/static/radio.svg" mode="widthFix"></image></view>
 					<view v-else @tap="changeAgree"><image src="/static/radio_on.svg" mode="widthFix"></image></view>
-					已阅读并同意《<text>用户服务协议</text>》
+					已阅读并同意《<text @tap="toAgreement">用户服务协议</text>》
 					<!-- <checkbox-group @change="changeAgree">
 						<label class="checkbox" v-for="item in items" :key="item.value">
 							<checkbox color="#fff" :value="item.value" :checked="item.checked" />
@@ -156,6 +156,11 @@
 			})
 		},
 		methods:{
+			toAgreement(){
+				uni.navigateTo({
+					url: '/pages/login/agreement'
+				})
+			},
 			toDownPage(){
 				uni.redirectTo({
 					url: '/pages/member/webpage'

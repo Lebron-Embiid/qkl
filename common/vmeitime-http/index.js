@@ -109,6 +109,20 @@ export const getAreaCode = (data) => {
         data
     })
 }
+// 用户注册协议
+export const regText = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'Login/regText',
+        method: 'POST', 
+        data
+    })
+}
 
 // 充值列表
 export const userRecharge = (data) => {
@@ -1196,6 +1210,7 @@ export default {
 	forgetPassword,
 	sendEmailCode,
 	getAreaCode,
+	regText,
 	userRecharge,
 	uploadFiles,
 	addRecharge,
