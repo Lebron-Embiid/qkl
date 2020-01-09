@@ -170,6 +170,14 @@
 			})
 		},
 		onShow() {
+			this.$http.getRead().then((data)=>{
+				if(data.data.is_read != 1){
+					uni.showTabBarRedDot({
+						index: 2
+					})
+				}
+			})
+			
 			this.$http.getOrderList({
 				page: 1,
 				limit: 100,

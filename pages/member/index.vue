@@ -105,6 +105,14 @@
 			
 		},
 		onShow() {
+			this.$http.getRead().then((data)=>{
+				if(data.data.is_read != 1){
+					uni.showTabBarRedDot({
+						index: 2
+					})
+				}
+			})
+			
 			this.avatar = getApp().globalData.avatar;
 			this.app_name = getApp().globalData.app_name;
 			this.logoSrc = getApp().globalData.app_logo;

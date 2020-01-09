@@ -122,32 +122,6 @@
 					// 			time: '2019/11/23  09：00'
 					// 		}
 					// 	]
-					// },{
-					// 	title: '二级会员',
-					// 	current: false,
-					// 	list: [
-					// 		{
-					// 			avatar: '/static/avatar.png',
-					// 			member_id: 'SLM00001',
-					// 			name: 'Peter',
-					// 			superior: 'Nick',
-					// 			price: 30000,
-					// 			time: '2019/11/23  09：00'
-					// 		}
-					// 	]
-					// },{
-					// 	title: '三级会员',
-					// 	current: false,
-					// 	list: [
-					// 		{
-					// 			avatar: '/static/avatar.png',
-					// 			member_id: 'SLM00001',
-					// 			name: 'Peter',
-					// 			superior: 'Nick',
-					// 			price: 30000,
-					// 			time: '2019/11/23  09：00'
-					// 		}
-					// 	]
 					// }
 				],
 				treeList: [],
@@ -171,7 +145,15 @@
 				}
 			})
 		},
-		onShow() {			
+		onShow() {
+			this.$http.getRead().then((data)=>{
+				if(data.data.is_read != 1){
+					uni.showTabBarRedDot({
+						index: 2
+					})
+				}
+			})
+			
 			this.avatar = getApp().globalData.avatar;
 			if(uni.getStorageSync('token') == ''){
 				this.$api.msg('请登录');

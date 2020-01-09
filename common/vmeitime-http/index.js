@@ -1167,6 +1167,20 @@ export const getSite = (data) => {
         data
     })
 }
+// 获取未读信息信号
+export const getRead = (data) => {
+	http.interceptor.request = (config) => {
+		config.header = {
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+			'AUTHORIZATION': uni.getStorageSync('token')
+		}
+	}
+    return http.request({
+        url: 'News/getRead',
+        method: 'POST', 
+        data
+    })
+}
 
 // if(data.data.status == 40001){
 // 	this.$api.msg('请登录');
@@ -1265,5 +1279,6 @@ export default {
 	getShareBonus,
 	getTeamBonusList,
 	updateVersion,
-	getSite
+	getSite,
+	getRead
 }

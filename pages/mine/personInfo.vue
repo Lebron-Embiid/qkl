@@ -14,6 +14,14 @@
 					</view>
 				</view>
 				<view class="form_item">
+					<view class="icon no"><image src="/static/name.png" mode="widthFix"></image></view>
+					<view class="right_box">
+						<view class="ipt_box">
+							<input type="text" placeholder="请输入账号" v-model="account" />
+						</view>
+					</view>
+				</view>
+				<view class="form_item">
 					<view class="icon no"><image src="/static/phone.svg" mode="widthFix"></image></view>
 					<view class="right_box">
 						<view class="ipt_box">
@@ -99,6 +107,7 @@
 				name: '',
 				username: '',
 				avatar: '',
+				account: '',
 				phone: '',
 				password: '',
 				trade_pwd: '',
@@ -129,6 +138,7 @@
 					// this.name = data.data.mobile;
 					this.username = data.data.mobile;
 				}
+				this.account = data.data.account2;
 				this.phone = data.data.mobile;
 				this.email = data.data.email;
 				this.invite_code = data.data.parent_name;
@@ -201,6 +211,7 @@
 					success:()=>{
 						this.$http.editUserInfo({
 							username: this.name,
+							account2: this.account,
 							login_pwd: this.password,
 							safety_pwd: this.trade_pwd,
 							email: this.email

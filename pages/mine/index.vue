@@ -79,6 +79,14 @@
 			})
 		},
 		onShow() {
+			this.$http.getRead().then((data)=>{
+				if(data.data.is_read != 1){
+					uni.showTabBarRedDot({
+						index: 2
+					})
+				}
+			})
+			
 			this.avatar = getApp().globalData.avatar;
 			if(uni.getStorageSync('token') == ''){
 				this.$api.msg('请登录');

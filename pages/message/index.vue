@@ -2,7 +2,7 @@
 	<view class="message">
 		<uni-nav-bar title="讯息" :rightDot="dot" :rightIcon="rightIcon"></uni-nav-bar>
 		<view class="message_box">
-			<view class="message_item" v-for="(item,index) in messageList" :key="index">
+			<view class="message_item" :class="[item.is_read == 1?'':'dot']" v-for="(item,index) in messageList" :key="index">
 				<view class="message_top">{{item.title}}</view>
 				<view class="message_center">
 					{{item.desc}}
@@ -47,12 +47,6 @@
 		},
 		onLoad() {
 			console.log(uni.getStorageSync('token'));
-			this.$http.getNewsList().then((data)=>{
-				this.messageList = data.data;
-				if(this.messageList.length < 10){
-					this.loadingType = 'noMore';
-				}
-			})
 		},
 		onShow() {
 			if(uni.getStorageSync('token') == ''){
@@ -63,8 +57,18 @@
 					})
 				},1500)
 			}
-			uni.hideTabBarRedDot({
-				index: 2
+			this.$http.getNewsList().then((data)=>{
+				this.messageList = data.data;
+				if(this.messageList.length < 10){
+					this.loadingType = 'noMore';
+				}
+			})
+			this.$http.getRead().then((data)=>{
+				if(data.data.is_read == 1){
+					uni.hideTabBarRedDot({
+						index: 2
+					})
+				}
 			})
 		},
 		onPullDownRefresh() {
@@ -91,13 +95,25 @@
 
 <style scoped lang="scss">
 	.message_box{
-		padding: 20rpx 40rpx;
+		padding: 40rpx;
 		.message_item{
 			border: 1px solid #f2f2f2;
 			box-sizing: border-box;
 			color: #333;
 			font-size: 26rpx;
-			margin-bottom: 20rpx;
+			margin-bottom: 30rpx;
+			position: relative;
+			&.dot:after{
+				content: "";
+				width: 20rpx;
+				height: 20rpx;
+				border-radius: 50%;
+				background-color: #f00;
+				position: absolute;
+				right: -10rpx;
+				top: -10rpx;
+				z-index: 1;
+			}
 			.message_top{
 				border-bottom: 1px solid #f2f2f2;
 				padding: 20rpx 30rpx;
